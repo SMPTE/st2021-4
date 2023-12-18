@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391E1" messageType="Request" dateTime="2006-08-16T20:44:43.16" origin="Automation System" originType="Automation" destination="Content Transfer" userName="Content Transfer System User" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391E1" messageType="Request" dateTime="2006-08-16T20:44:43.16" origin="Automation System" originType="Automation" destination="Content Transfer" userName="Content Transfer System User" xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2017/BXF BxfSchema.xsd">
 <BxfQueryResponse>
 	 <ContentTranfer></ContentTranfer>
 	  <ContentTranfer></ContentTranfer>

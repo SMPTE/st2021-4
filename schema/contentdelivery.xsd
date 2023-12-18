@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+	<xs:include schemaLocation="bxfcontentid.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="qualitycontrol.xsd"/>
+	<xs:include schemaLocation="bxfcaptions.xsd"/>
+	<xs:include schemaLocation="video.xsd"/>
+	<xs:include schemaLocation="audio.xsd"/>
+	<xs:complexType name="ContentDelivery">
+		<xs:annotation>
+			<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. (v5.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="AirReadyMaster">
+				<xs:annotation>
+					<xs:documentation>Used to specify requirements for delivery of Air Ready Masters.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FilePackage" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Used to describe the types of files that are reuired or optional in the delivery package to the broadcaster.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence maxOccurs="unbounded">
+									<xs:element name="FileDescription">
+										<xs:annotation>
+											<xs:documentation>Each package can consist of one or multiple files of different type, each having a specific purpose and specialized content.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="FileType">
+													<xs:annotation>
+														<xs:documentation>Select the appropriate file type and its matching extension(s).</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="Video/Audio-Converted"/>
+															<xs:enumeration value="Video/Audio-Original"/>
+															<xs:enumeration value="Closed Captioning"/>
+															<xs:enumeration value="Metadata File"/>
+															<xs:enumeration value="Gallery"/>
+															<xs:enumeration value="Still Images"/>
+															<xs:enumeration value="Custom"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="FileExtensions" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>The extension or extensions allowed for this type of file.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value=".MXF"/>
+															<xs:enumeration value=".MOV"/>
+															<xs:enumeration value=".SCC"/>
+															<xs:enumeration value=".XML"/>
+															<xs:enumeration value="_Gallery.JPEG"/>
+															<xs:enumeration value="_Still_#.JPEG (1-4)"/>
+															<xs:enumeration value="Custom"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attribute name="requiredFlag" type="xs:boolean">
+												<xs:annotation>
+													<xs:documentation>Indicate  by True that item is required and False if it is not required or optional.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="descriptiveText" type="xs:string">
+												<xs:annotation>
+													<xs:documentation>Describe the type of file required and any special cases.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="fileReferenceID" type="xs:positiveInteger">
+												<xs:annotation>
+													<xs:documentation>Positive unique integer for each file type used to link to other specifications values and designate ordination in package.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="maxFileNameLength" type="xs:positiveInteger">
+												<xs:annotation>
+													<xs:documentation>Maximum length of any file name.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attributeGroup ref="Action-ErrorGroup"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="CustomFileExtensions" minOccurs="0" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>If a custom extension is required, delineate the extension value and its purpose.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="CustomExtensionValue">
+													<xs:annotation>
+														<xs:documentation>Customized or non-standard file xtensions added to the file name in order to properly identify it as of being a specific file type.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="ExtensionPurpose" type="BxfText">
+													<xs:annotation>
+														<xs:documentation>A brief description of the purpose of the file type and its contents.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="DeliveryOptions">
+							<xs:annotation>
+								<xs:documentation>Video specification options - either MPEG-2 or AVC for HD content or AVC for UHD content.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="MPEG2HDDeliverySpecification">
+										<xs:annotation>
+											<xs:documentation>NABA DPP MPEG-2 Delivery Specification  (http://www.nabanet.com/nabaweb/news/articles/67_files/NABA_DPP_Technical_Specification_MPEG2_v1.0.pdf)</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="MPEG2HDVideoAudioEncoding">
+													<xs:annotation>
+														<xs:documentation>Select between Option 1a, 1b, 2a or 2b.  See the specification for a full description of these options.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="Option 1a"/>
+															<xs:enumeration value="Option 1b"/>
+															<xs:enumeration value="Option 2a"/>
+															<xs:enumeration value="Option 2b"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AVCHDDeliverySpecification">
+										<xs:annotation>
+											<xs:documentation>NABA DPP AVC Delivery Specification  (http://www.nabanet.com/nabaweb/news/articles/67_files/NABA_DPP_Technical_Specification_AVC_v1.0.pdf)</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AVCHDVideoAudioEncoding">
+													<xs:annotation>
+														<xs:documentation>Note that PCM Audio is the only option for the audio encoding.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="VideoFormat">
+																<xs:annotation>
+																	<xs:documentation>720p or 1080i only</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="720p/59.94"/>
+																		<xs:enumeration value="1080i/29.97"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="GoP" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>(eg M=X N=Y B=Z)</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="BitRate" type="xs:integer">
+																<xs:annotation>
+																	<xs:documentation>Mbits/s</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="BitDepth">
+																<xs:annotation>
+																	<xs:documentation>Normally 10 bit, but legacy 8 bit for 1080i only.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:integer">
+																		<xs:enumeration value="8"/>
+																		<xs:enumeration value="10"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="ColorSubsampling">
+																<xs:annotation>
+																	<xs:documentation>Choose between 4:2:0 or 4:2:2</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="4:2:0"/>
+																		<xs:enumeration value="4:2:2"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="AudioFormat" default="PCM">
+																<xs:annotation>
+																	<xs:documentation>PCM Audio is Required</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="PCM"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TimeCode">
+							<xs:annotation>
+								<xs:documentation>Start and End Timecode for the media being delivered</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="StartTimeCode" type="BxfSmpteTime"/>
+									<xs:element name="EndTimeCode" type="BxfSmpteTime"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ProgramSegmentation">
+							<xs:annotation>
+								<xs:documentation>Indicates whether or not the media content is contained within a single file or within multiple files and whether it has a single/soft, hard or multi-parted structure.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Single Part or Soft Parted Program (Single File)"/>
+									<xs:enumeration value="Hard Parted Program (Single File)"/>
+									<xs:enumeration value="Multi-part Program Delivered on Multiple Files"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="SafeArea">
+							<xs:annotation>
+								<xs:documentation>Areas within the media frame which are considered to be safe for placement of overlaid content or captioning.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SafeAreas" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Select one or more options designating the safe areas supported by the media.  Note that a custom option is also available and should be described completely in the description element below.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Action Safe (720p)"/>
+												<xs:enumeration value="Caption Safe (16:9 - 720p)"/>
+												<xs:enumeration value="Caption Safe (4:3 - 720p)"/>
+												<xs:enumeration value="Action Safe (1080i)"/>
+												<xs:enumeration value="Caption Safe (16:9 - 1080i)"/>
+												<xs:enumeration value="Caption Safe (4:3 - 1080i)"/>
+												<xs:enumeration value="Custom"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="CustomSafeDescription" type="BxfText" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>If the "Custom" option is selected in the SafeAreas element, a complete description of this design should be included here.  Note that only one "Custom SafeArea" should be designated with a single description.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="FileTimings" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Used to indicate the timecode of each element of content that makes up the complete media.  This includes designated start time of the file, the location of each leader element, and start of the program content.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FileStart" type="BxfSmpteTime">
+										<xs:annotation>
+											<xs:documentation>First timecode encountered in the file.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="LineUp" type="BxfSmpteTime" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>100% with BLITS on surround services and GLITS on Stereo.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="LeaderRequirements" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicates the existance of various attributes of the leader prior to the program content.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence maxOccurs="unbounded">
+												<xs:element name="LeaderStartTime" type="BxfSmpteTime">
+													<xs:annotation>
+														<xs:documentation>The start time of the leader section.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:choice minOccurs="0">
+													<xs:element name="SlateLength" type="BxfSmpteTime" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Timecode of the location of the slate in the media section of the file.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="BlackAndSilenceLength" type="BxfSmpteTime" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Duration of black and silence provided as a leader to the program content.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ColorBarsLength" type="BxfSmpteTime" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Duration of the Color Bars as specified in SMPTE RP219:2002</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:choice>
+												<xs:choice minOccurs="0">
+													<xs:element name="AudioToneLength" type="BxfSmpteTime" minOccurs="0"/>
+													<xs:element name="SyncPopLength" type="BxfSmpteTime" minOccurs="0"/>
+													<xs:element name="VocalTrackIDorPinkNoiseLength" type="BxfSmpteTime" minOccurs="0"/>
+												</xs:choice>
+											</xs:sequence>
+											<xs:attribute name="colorBars" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>If required, also include the start time.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="tones" type="xs:boolean" use="required">
+												<xs:annotation>
+													<xs:documentation>If required, assumed to start and end with the colorbars.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="blackAndSilence" type="xs:boolean" use="required"/>
+											<xs:attribute name="syncPop" type="xs:boolean" use="required"/>
+											<xs:attributeGroup ref="Action-ErrorGroup"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="StartOfProgram" type="BxfSmpteTime">
+										<xs:annotation>
+											<xs:documentation>The timecode in tthe file where the actual program content starts.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ClosedCaptioning" type="xs:boolean" default="0" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Program identifier for 3 seconds prior to program start. First caption may not appear before StartOfProgram.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="BetweenProgramSegments" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Length of time to put black and silence between program segments.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="BlackAndSilence" type="BxfSmpteTime" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Duration of black and silence provided as separation between program segments.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PostProgram" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>After the program content, including credits and all audio, has ended, a requirement to include additional content or black.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:choice>
+												<xs:element name="PostProgramHold" type="xs:boolean" default="0" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Hold or freeze for 5 seconds after end of program</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="PostProgramBlack" default="0" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Length of time that black should be added to the end of a program in seconds.  Valid from 0 to 120.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:nonNegativeInteger">
+															<xs:maxInclusive value="120"/>
+															<xs:minInclusive value="0"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:choice>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="StaticItems" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>There are many parameters or setting values for both video and audio which have only one allowed value.  These can be listed in pairs to be informative to the system.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence maxOccurs="unbounded">
+									<xs:element name="ParameterName" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>Designated parameter related to the delivery of a file which has only one allowed value.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ParameterRequiredValue" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>The single value allowed for the matching parameter</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="requiredFlag" type="xs:boolean">
+									<xs:annotation>
+										<xs:documentation>Indicate  by True that the parameter is required and False if it is not required or optional.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ClosedCaptioning">
+							<xs:annotation>
+								<xs:documentation>Describe the method of delivery of captioned content and if a separate file is required or not (CBC Requirement)</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="MXFEmbeddedCaptions" type="BxfCaptions">
+										<xs:annotation>
+											<xs:documentation>Designate which captioning formats are embedded in the MXF file structure.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="CaptionFileName" type="xs:string" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>If a caption file is required, provide the name of the file if it is known.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="captionFileRequired" type="xs:boolean">
+									<xs:annotation>
+										<xs:documentation>Indicates whether or not closed captioning text must be provided as a separate and descreet file along with the embedded MXF captioning data.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ContentSlate">
+							<xs:annotation>
+								<xs:documentation>The information included on the slate for the program content.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="FullProgramTitle" type="BxfText"/>
+									<xs:element name="ProductionNumber" type="xs:string" minOccurs="0"/>
+									<xs:element name="SeasonName" type="BxfText" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Include year when applicable.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="SeasonNumber" type="BxfText" minOccurs="0"/>
+									<xs:element name="EpisodeIdentifier" type="BxfText" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Include title name and/or number</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="SafeAreaCompliant" type="xs:boolean" default="1" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicates whether the content used on the slate is sized appropriately to be safe area compliant (CBC Requirement)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="AFDData" type="AFDData" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>For the conversion of historical programs, indicates the method of conversion from 4:3 format or others to a 16:9 format (CBC Requirement)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ProductionCompany" type="BxfText"/>
+									<xs:element name="PostProductionCompany" type="BxfText"/>
+									<xs:element name="AudioTrackAllocation" type="BxfText" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Use SMPTE Notation for describe definitions</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="IntegratedLoudness" type="xs:integer" minOccurs="0"/>
+									<xs:element name="ProgramLength" type="BxfDuration">
+										<xs:annotation>
+											<xs:documentation>Duration of the program</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="QualityControl">
+							<xs:annotation>
+								<xs:documentation>Media often must be checked for its quality each time it is copied or moved to another location.  Multiple checks are typical to confirm that the audio, video and other attributes meet the standards of the intended usage.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="QualityControl">
+										<xs:sequence>
+											<xs:element name="FileCompliant" type="xs:boolean">
+												<xs:annotation>
+													<xs:documentation>Confirms that the file meets compliance levles of the requesting entity.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="MXFEmbeddedXML" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>A copy of the "programmes descriptive metadata" XML document that is embedded in the MXF file described by this BXF message.  The authoritative source is always the MXF file.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:any/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="CreditDisplay" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Describe the method of displaying Credits (CBC Requirement)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="OriginalContentRequired" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If characteristics of the original content are useful, details of its Video and Audio format or Film attributes may be specified here.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="VideoAudioFormat" type="Video"/>
+									<xs:element name="FilmMaterial" type="xs:anyType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AudioMapping" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Mapping of audio channels (CBC Requirement)</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AudioChannels" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="Audio">
+													<xs:sequence minOccurs="0" maxOccurs="unbounded">
+														<xs:element name="TrackNumber">
+															<xs:simpleType>
+																<xs:restriction base="xs:integer">
+																	<xs:minInclusive value="1"/>
+																	<xs:maxInclusive value="16"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+														<xs:element name="MainProgram">
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:enumeration value="RightMain"/>
+																	<xs:enumeration value="LeftMain"/>
+																	<xs:enumeration value="Unused"/>
+																	<xs:enumeration value="RRear"/>
+																	<xs:enumeration value="LRear"/>
+																	<xs:enumeration value="LFE"/>
+																	<xs:enumeration value="DV"/>
+																	<xs:enumeration value="LO"/>
+																	<xs:enumeration value="RO"/>
+																	<xs:enumeration value="Center"/>
+																	<xs:enumeration value="Custom"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="audioChannelName" type="xs:string">
+														<xs:annotation>
+															<xs:documentation>Used to describe what is in each audio channel in a textual form,</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+												</xs:extension>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SubjectiveQuality" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Subjective aspects (both audio and video) of the quality of the material may be noted here, following ITU recommendations on general methods for subjective assessment of sound and television picture quality.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AudioQuality">
+										<xs:annotation>
+											<xs:documentation>ITU-R BS.1284-1</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="1"/>
+												<xs:maxInclusive value="5"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="VideoQuality">
+										<xs:annotation>
+											<xs:documentation>ITU-R BT500-13</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:integer">
+												<xs:minInclusive value="1"/>
+												<xs:maxInclusive value="5"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

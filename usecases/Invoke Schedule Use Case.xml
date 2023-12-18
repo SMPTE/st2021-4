@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391E1" dateTime="2006-08-02T13:27:48.80" messageType="Request" origin="Traffic System" originType="Traffic" userName="Traffic System User" destination="Automation" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391E1" dateTime="2006-08-02T13:27:48.80" messageType="Request" origin="Traffic System" originType="Traffic" userName="Traffic System User" destination="Automation" xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2017/BXF BxfSchema.xsd">
 	<BxfData action="add">
 		<Schedule type="Primary" scheduleId="urn:uuid:00000000-0000-0000-0000-0038338391E0" invokeSchedule="true"/>
 	</BxfData>

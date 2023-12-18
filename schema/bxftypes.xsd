@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2015 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2015/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2015/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.000">
-	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
+<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="c:\pmcp\pmcp31.xsd"/>
 	<xs:complexType name="BxfAddress">
 		<xs:annotation>
 			<xs:documentation>Address details</xs:documentation>
@@ -316,7 +316,7 @@
 	</xs:complexType>
 	<xs:complexType name="BxfSmpteTime">
 		<xs:annotation>
-			<xs:documentation>Used for time duration or offset</xs:documentation>
+			<xs:documentation>Used for time duration or offset (V5.0 added support for 60 fps)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="SmpteTimeCode" type="Smpte258MTimeCode">
@@ -515,6 +515,108 @@
 		<xs:attribute name="errorDescription" type="xs:string" use="optional"/>
 		<xs:anyAttribute namespace="##any" processContents="lax"/>
 	</xs:attributeGroup>
+	<xs:attributeGroup name="QCTypeUnitRep">
+		<xs:annotation>
+			<xs:documentation>Used to set the allowed Types, Units and Representations for QC test items as of December 2016.  Expected to change with future technologies. (v5.0)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="valueType">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="boolean"/>
+					<xs:enumeration value="date"/>
+					<xs:enumeration value="dateTime"/>
+					<xs:enumeration value="enumeration"/>
+					<xs:enumeration value="enumeration list"/>
+					<xs:enumeration value="integer"/>
+					<xs:enumeration value="integer list"/>
+					<xs:enumeration value="language"/>
+					<xs:enumeration value="real number"/>
+					<xs:enumeration value="real number list"/>
+					<xs:enumeration value="segment"/>
+					<xs:enumeration value="string"/>
+					<xs:enumeration value="string list"/>
+					<xs:enumeration value="time"/>
+					<xs:enumeration value="timecode"/>
+					<xs:enumeration value="universal label"/>
+					<xs:enumeration value="universal label list"/>
+					<xs:enumeration value="other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="measurementUnit">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="bit/s"/>
+					<xs:enumeration value="bits"/>
+					<xs:enumeration value="byte/s"/>
+					<xs:enumeration value="bytes"/>
+					<xs:enumeration value="dB"/>
+					<xs:enumeration value="dBFS"/>
+					<xs:enumeration value="dBTP"/>
+					<xs:enumeration value="field/s"/>
+					<xs:enumeration value="fields"/>
+					<xs:enumeration value="frame/s"/>
+					<xs:enumeration value="frames"/>
+					<xs:enumeration value="hh:mm:ss:ff"/>
+					<xs:enumeration value="hours"/>
+					<xs:enumeration value="Hz"/>
+					<xs:enumeration value="kB"/>
+					<xs:enumeration value="kB/s"/>
+					<xs:enumeration value="kbit/s"/>
+					<xs:enumeration value="kbits"/>
+					<xs:enumeration value="kHz"/>
+					<xs:enumeration value="lines"/>
+					<xs:enumeration value="LU"/>
+					<xs:enumeration value="LUFS"/>
+					<xs:enumeration value="MB"/>
+					<xs:enumeration value="MB/s"/>
+					<xs:enumeration value="Mbit/s"/>
+					<xs:enumeration value="Mbits"/>
+					<xs:enumeration value="MHz"/>
+					<xs:enumeration value="ms"/>
+					<xs:enumeration value="ns"/>
+					<xs:enumeration value="pixels"/>
+					<xs:enumeration value="sample/s"/>
+					<xs:enumeration value="samples"/>
+					<xs:enumeration value="seconds"/>
+					<xs:enumeration value="other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="representation">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="1 digit for second fraction"/>
+					<xs:enumeration value="2 digits for second fraction"/>
+					<xs:enumeration value="3 digits for second fraction"/>
+					<xs:enumeration value="binary"/>
+					<xs:enumeration value="binary left padded with zeros to length 2"/>
+					<xs:enumeration value="binary left padded with zeros to length 3"/>
+					<xs:enumeration value="binary left padded with zeros to length 4"/>
+					<xs:enumeration value="binary left padded with zeros to length 5"/>
+					<xs:enumeration value="binary left padded with zeros to length x"/>
+					<xs:enumeration value="decimal"/>
+					<xs:enumeration value="decimal with 1 fractional digit"/>
+					<xs:enumeration value="decimal with 2 fractional digits"/>
+					<xs:enumeration value="decimal with 3 fractional digits"/>
+					<xs:enumeration value="decimal with x fractional digits"/>
+					<xs:enumeration value="fraction"/>
+					<xs:enumeration value="hexadecimal"/>
+					<xs:enumeration value="hh:mm:ss:ff"/>
+					<xs:enumeration value="hh:mm:ss;ff"/>
+					<xs:enumeration value="percentage"/>
+					<xs:enumeration value="percentage with 1 fractional digit"/>
+					<xs:enumeration value="percentage with 2 fractional digits"/>
+					<xs:enumeration value="percentage with 3 fractional digits"/>
+					<xs:enumeration value="percentage with x fractional digits"/>
+					<xs:enumeration value="x digits for second fractions"/>
+					<xs:enumeration value="{a,b,...}"/>
+					<xs:enumeration value="{true,false}"/>
+					<xs:enumeration value="other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
 	<xs:simpleType name="AsRunStatusType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Aired Without Discrepancy"/>
@@ -669,7 +771,7 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Primary"/>
 			<xs:enumeration value="NonPrimary"/>
-			<xs:enumeration value="Auxillary"/>
+			<xs:enumeration value="Auxiliary"/>
 			<xs:enumeration value="Comment"/>
 			<xs:enumeration value="ProgramHeader"/>
 			<xs:enumeration value="BreakHeader"/>
@@ -688,10 +790,11 @@
 	</xs:simpleType>
 	<xs:simpleType name="Smpte258MTimeCode">
 		<xs:annotation>
-			<xs:documentation>Reference SMPTE 258M, section 8</xs:documentation>
+			<xs:documentation>Reference SMPTE 258M, section 8 that supports 60 frames per second (v5.0)
+			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:pattern value="(([0-1][0-9])|([2][0-3])):[0-5][0-9]:[0-5][0-9](([.,])|([:;]))[0-2][0-9]"/>
+			<xs:pattern value="(([0-1][0-9])|([2][0-3])):[0-5][0-9]:[0-5][0-9](([.,])|([:;]))[0-5][0-9]"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="StartModeType">

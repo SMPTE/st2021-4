@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2015 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2015/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2015/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.000">
+<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:include schemaLocation="bxfcaptions.xsd"/>
 	<xs:include schemaLocation="bxfcontentid.xsd"/>
@@ -9,6 +9,8 @@
 	<xs:include schemaLocation="video.xsd"/>
 	<xs:include schemaLocation="macro.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="qualitycontrol.xsd"/>
+	<xs:include schemaLocation="contentdelivery.xsd"/>
 	<xs:complexType name="AlternateAudioContent">
 		<xs:annotation>
 			<xs:documentation>Used to provide alternate audio only media information</xs:documentation>
@@ -106,6 +108,11 @@
 						<xs:documentation>Used to describe a macro event in place of normal audio/video.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="ContentDelivery" type="ContentDelivery">
+					<xs:annotation>
+						<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. (v5.0)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 			</xs:choice>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
@@ -168,6 +175,171 @@
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="ContentDetail">
+		<xs:annotation>
+			<xs:documentation>Description of people, events, sports results, and word tags to search for things that represent this media (v5.0).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContentTags" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Associated descriptive metadata concerning the specific action or event captured on the media for a designated period of time, and optionally its location.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="KeywordTag" type="BxfText" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Actual item, person, event, or other occurance that is found in the media that can be tagged with a specific searchable word.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Category" type="BxfText" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>User defined organizational tool to categorize the specific tagged area.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Description" type="BxfText" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Additional descriptive text of the tagged event or section of the media.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LocationOnMedia" type="BxfDuration" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The specific start location and length of time that the tag refers to on the media.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EventDateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Used to describe the date and time of the tagged event.  Particularly useful where a media contains multiple events, as in a compilation.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="BxfDateTime"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SportsDetail" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>When tagged events happen to also be sports related, this allows the additional details associated with most sporting events,</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="EventType" type="BxfText">
+										<xs:annotation>
+											<xs:documentation>What sport or activity that is represented during the tagged period.  (eg football, tennis, golf, etc.)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EventName" type="BxfText" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>The specific name of the event or part of an event that is tagged. (eg. World Cup Finals)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EventParticipants" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>The individuals or teams associated with the tagged sports event.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="Name" type="BxfContact">
+													<xs:annotation>
+														<xs:documentation>The name of the person associated with the credit, though additional information is available through full use of full contact details.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="Role" type="BxfText">
+													<xs:annotation>
+														<xs:documentation>The position or role performed for the tagged media in the sporting event.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="Grouping" type="BxfText" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>If part of a team or other group that is competing, the name of that group.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="History" type="BxfText" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Historical details associated with the particular event that is tagged.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Results" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Details concerning the results of the competition such as score, finish position (ranking), time or other statistics, extended description and additional results tagging.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence maxOccurs="unbounded">
+												<xs:element name="EventResult" type="BxfText"/>
+												<xs:element name="Ranking" type="BxfText" minOccurs="0"/>
+												<xs:element name="RankName" type="BxfText" minOccurs="0"/>
+												<xs:element name="StatReference" minOccurs="0">
+													<xs:complexType>
+														<xs:sequence maxOccurs="unbounded">
+															<xs:element name="Stat" type="BxfText" minOccurs="0"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="EventResultsDescription" type="BxfText" minOccurs="0"/>
+												<xs:element name="LocationOnMedia" type="BxfSmpteDateTime" minOccurs="0"/>
+												<xs:element name="ResultTags" type="BxfText" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Credits" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Credits associated with the media or specific tagged location.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Name" type="BxfContact">
+										<xs:annotation>
+											<xs:documentation>The name of the person associated with the credit, though additional information is available through full use of full contact details.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Role" type="BxfText">
+										<xs:annotation>
+											<xs:documentation>The role played for the tagged media</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Accreditation" type="BxfText" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>If appropriate, the accreditation of the named player in the tagged media.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LocationDetails" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>For each tag, a speciific location in space using generic textual description of specific GPS coordinates.  This data is often captured as part of the filming from camera data.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Location" type="BxfText" minOccurs="0"/>
+									<xs:element name="GPSData" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Needs to be defined based on camera capture details</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="Latitude" type="xs:decimal"/>
+												<xs:element name="Longitude" type="xs:decimal"/>
+												<xs:element name="Elevation" type="xs:decimal" minOccurs="0"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="ContentMetaData">
 		<xs:annotation>
 			<xs:documentation>Used to describe all the metadata for a single instance of content. (Note that this element name might be expected to be “ContentMetadata”, but was left unchanged from previous versions in order to preserve backward compatibility.  This is a documented exception as of v3.0)</xs:documentation>
@@ -194,6 +366,39 @@
 					<xs:documentation>Used to add an unlimited amount of descriptive metadata for the content. (v3.0)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="Synopses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Allow the addition of one or more synopses of various lengths and for different purposes in multiple languages (v5.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Synopsis" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="BxfText">
+										<xs:attribute name="synopsisName" type="xs:string"/>
+										<xs:attribute name="synopsisMaxLength" type="xs:integer">
+											<xs:annotation>
+												<xs:documentation>Indicates the maximum number of characters expected in the element. If set to -1 then the field is unlimited.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="synopsisPurpose" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Optional way to flag a specific type of synopsis (eg TVGuide, Nielsen, EPG, etc.)</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContentDetails" type="ContentDetail" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of people, events, sports results, and word tags to search for things that represent this media (v5.0).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
@@ -212,7 +417,7 @@
 	</xs:complexType>
 	<xs:complexType name="MediaLocation">
 		<xs:annotation>
-			<xs:documentation>Used to designate the physical location of a media essence</xs:documentation>
+			<xs:documentation>Used to designate the physical location of a media essence and its quality</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Location" type="Location">
@@ -269,6 +474,11 @@
 						</xs:element>
 					</xs:sequence>
 				</xs:complexType>
+			</xs:element>
+			<xs:element name="QualityControl" type="QualityControl" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Media often must be checked for its quality each time it is copied or moved to another location.  Multiple checks are typical to confirm that the audio, video and other attributes meet the standards of the intended usage. (v5.0)</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>

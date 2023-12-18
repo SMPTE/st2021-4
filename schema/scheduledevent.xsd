@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2015 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2015/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2015/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
 	<xs:include schemaLocation="bxfparentalrating.xsd"/>
 	<xs:include schemaLocation="schedule.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
@@ -67,7 +68,7 @@
 						</xs:element>
 						<xs:choice minOccurs="0" maxOccurs="unbounded">
 							<xs:annotation>
-								<xs:documentation>**New** Added a choice option to create the ability to supply multiple content elements to a single schedule element and maintain historical consistency.</xs:documentation>
+								<xs:documentation>Added a choice option to create the ability to supply multiple content elements to a single schedule element and maintain historical consistency. (v4.0)</xs:documentation>
 							</xs:annotation>
 							<xs:element name="Content">
 								<xs:annotation>
@@ -81,7 +82,7 @@
 							</xs:element>
 							<xs:element name="MultiContent" type="Content">
 								<xs:annotation>
-									<xs:documentation>**New** Intended in cases where you would have more than one program content embedded within a single program such as compilation programs, cartoons, etc.</xs:documentation>
+									<xs:documentation>Intended in cases where you would have more than one program content embedded within a single program such as compilation programs, cartoons, etc. (v4.0)</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 						</xs:choice>
@@ -215,6 +216,34 @@
 				<xs:annotation>
 					<xs:documentation>Companies that are involved in the production or distribution of the series.</xs:documentation>
 				</xs:annotation>
+			</xs:element>
+			<xs:element name="Synopses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Allow the addition of one or more synopses of various lengths and for different purposes in multiple languages. (v5.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Synopsis" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="BxfText">
+										<xs:attribute name="synopsisName" type="xs:string"/>
+										<xs:attribute name="synopsisMaxLength" type="xs:integer">
+											<xs:annotation>
+												<xs:documentation>Indicates the maximum number of characters expected in the element. If set to -1 then the field is unlimited.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="synopsisPurpose" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Optional way to flag a specific type of synopsis (eg TVGuide, Nielsen, EPG, etc.)</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>

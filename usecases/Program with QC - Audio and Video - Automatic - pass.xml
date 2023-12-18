@@ -1,0 +1,89 @@
+<BxfMessage id="urn:uuid:11111111-1111-1111-1111-111111111111" dateTime="2012-12-28T09:30:47.0Z" messageType="Information" 
+origin="External System" originType="Ingest" destination="BXF Import Content" userName="external" xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2017/BXF bxfschema.xsd">
+	<BxfData action="add">
+		<Content>
+			<ProgramContent>
+				<ContentMetaData>
+					<ContentId>
+						<HouseNumber>BXFMATERIAL</HouseNumber>
+					</ContentId>
+					<Name>TITLE</Name>
+					<Media>
+						<BaseBand>
+							<Video>
+								<AspectRatio>16:9</AspectRatio>
+							</Video>
+						</BaseBand>
+						<MediaLocation>
+							<Location>
+								<AssetServer playoutAllowed="true" fileTransferAllowed="true">
+									<PathName>\\SV1\CLIPFOLDER</PathName>
+									<ReferenceName>SV1</ReferenceName>
+								</AssetServer>
+							</Location>
+							<SOM>
+								<SmpteTimeCode>00:00:01;00</SmpteTimeCode>
+							</SOM>
+							<Duration>
+								<SmpteDuration>
+									<SmpteTimeCode>00:15:10;00</SmpteTimeCode>
+								</SmpteDuration>
+							</Duration>
+							<QualityControl>
+								<QCReport lastModified="2012-12-28T09:30:47.0Z">
+									<QCReportID>urn:uuid:33333333-3333-3333-3333-333333333333</QCReportID>
+									<QCProfile>
+										<QCProfileID>urn:uuid:22222222-2222-2222-2222-222222222222</QCProfileID>
+										<QCProfileName>QC v1</QCProfileName>
+										<QCProfileDescription>Check Video and Audio</QCProfileDescription>
+										<QCProfileItem>
+											<QCItemID>0122B</QCItemID>
+											<QCItemName>Audibility (baseband) v1.0</QCItemName>
+										</QCProfileItem>
+										<QCProfileItem>
+											<QCItemID>0001F</QCItemID>
+											<QCItemName>Active Format Description</QCItemName>
+										</QCProfileItem>
+									</QCProfile>
+									<QCReportStatus>Completed</QCReportStatus>
+									<QCToolInformation>
+										<QCToolID>urn:uuid:22222222-2222-2222-2222-222222222222</QCToolID>
+										<QCToolName>Software to QC</QCToolName>
+										<VendorName>SMPTE Software LTD</VendorName>
+										<QCToolVersion>1.2.3.98080</QCToolVersion>
+									</QCToolInformation>
+									<QCItemResult>
+										<QCItemID>0122B</QCItemID>
+										<QCReportStatus>Completed</QCReportStatus>
+									</QCItemResult>
+									<QCItemResult>
+										<QCItemID>0001F</QCItemID>
+										<QCReportStatus>Completed</QCReportStatus>
+										<QCItemOutput>
+											<KeyWord>Active Format Description Absent</KeyWord>
+											<TestValue>False</TestValue>
+										</QCItemOutput>
+										<QCItemOutput>
+											<KeyWord>Active Format Description</KeyWord>
+											<TestValue>True</TestValue>
+										</QCItemOutput>
+										<QCItemOutput>
+											<KeyWord>Active Format Description Value</KeyWord>
+											<TestValue>9</TestValue>
+										</QCItemOutput>
+										<QCItemOutput>
+											<KeyWord>Active Format Description Desc</KeyWord>
+											<TestValue>In a 4:3 coded frame: Full frame 4:3 image, the same as the coded frame.
+In a 16:9 coded frame: Pillarbox 4:3 image, horizontally centered in the coded frame</TestValue>
+										</QCItemOutput>
+									</QCItemResult>
+								</QCReport>
+							</QualityControl>
+						</MediaLocation>
+					</Media>
+				</ContentMetaData>
+			</ProgramContent>
+		</Content>
+	</BxfData>
+</BxfMessage>

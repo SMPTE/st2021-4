@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="bxfcontentid.xsd"/>
+	<xs:complexType name="FragmentLocation">
+		<xs:annotation>
+			<xs:documentation>The time range and a spatial location that defines a unique part of the video essence. (v5.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StartTime" type="BxfSmpteTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Start time on the video</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndTime" type="BxfSmpteTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>End time on the video</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpatialLocation" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A string representing a rectangular spatial region of the video track according to the String pattern defined in W3C Media Fragments - 4.2.2 Spatial Dimension [3]</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QualityControl">
+		<xs:annotation>
+			<xs:documentation>Media often must be checked for its quality each time it is copied or moved to another location.  Multiple checks are typical to confirm that the audio, video and other attributes meet the standards of the intended usage. (v5.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContentId" type="BxfContentId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to identify a specific media to apply the QC process to.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="QCProfile" type="QCProfile">
+					<xs:annotation>
+						<xs:documentation>Used to define a set of test instructions that are generally related and which can be called using just the identifier.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="QCProfileList">
+					<xs:annotation>
+						<xs:documentation>List of previously defined QCProfiles to run against selected media.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="QCProfileID" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Unique identifier (usually UUID) to identify the saved profile, but may be a simple text string that is unique within the environment used.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="ResultsRule">
+												<xs:annotation>
+													<xs:documentation>The way multiple check items should be evaluated to determine if the Profile passed or failed as a group of tests.  Tests can be evaluated using "AND" or "OR" logic.  If the MinimumRelevance is selected then the RelevanceLevel value [0,10] determines if a specific test should be included to determine the Profile's overall performance.  Default if not included is to be "AND".</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:enumeration value="AND"/>
+														<xs:enumeration value="OR"/>
+														<xs:enumeration value="MinimumRelevance"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="RelevanceLevel">
+												<xs:annotation>
+													<xs:documentation>See ResultsRule attribute - an integer value between 0 and 10.</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:integer">
+														<xs:minInclusive value="0"/>
+														<xs:maxInclusive value="10"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attributeGroup ref="Action-ErrorGroup"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="QCProfileScope" type="QCScope" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Range of time on the media (using media timecode) that should be tested for all QCProfileCheckItems.  If not defined the entire media will be checked.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="QCReportID" type="xs:string" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Normally a UUID to be assured of a globally unique identifier.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="QCItem" type="QCItem" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Each check of the media can be part or all of the media and each of its components.  The checks may be done through machine control automatically or manually by a technician using a set of defined rules to pass.  A CheckItem option can be part of a profile or stand alone.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="QCReport" type="QCReports">
+					<xs:annotation>
+						<xs:documentation>Used to report back the results of the QC testing for either a single profile, multiple profiles or a single QCCheckItem.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="dueDateTime" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Indicates the date and time by which the QCReport should be completed.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="QCDetailedAnnotation">
+		<xs:annotation>
+			<xs:documentation>Additional descriptive details concerning who or what system was deployed to perform the QC test and when it was performed.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DetailedDescription" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Detailed description of QC Test performed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCTestPerformer" type="QCTestPerformer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>What person, system or tool was used to perform the QC Test.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCAnnotationDateTime" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>When the Annotation was created.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QCItem">
+		<xs:annotation>
+			<xs:documentation>Each check of the media can be part or all of the media and each of its components.  The checks may be done through machine control automatically or manually by a technician using a set of defined rules to pass.  A CheckItem option can be part of a profile or stand alone.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QCItemID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for the item to be tested.  Note - EBU has defined specific values for each QC Test ID (eg-0010B is a test for Loudness on baseband)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCItemName" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Brief name of the QC Test to be performed. (eg Aspect Ratio)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Layer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Equvialent to the EBU-QC Test Layer Field</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="baseband"/>
+						<xs:enumeration value="bitstream"/>
+						<xs:enumeration value="x-check"/>
+						<xs:enumeration value="wrapper"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Category" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Equivalent to the EBU-QC Test Category Field</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="absolute"/>
+						<xs:enumeration value="objective"/>
+						<xs:enumeration value="regulatory"/>
+						<xs:enumeration value="subjective"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Relevance" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used in conjunction with the QCProfile's relevanceLevel and checkResultRule values to determine how important this check is relative to the other checks in the profile and to determine the overall report checkresult. </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="EssenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the content type that the QCItem focuses on.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Video"/>
+						<xs:enumeration value="Audio"/>
+						<xs:enumeration value="Subtitle"/>
+						<xs:enumeration value="Captioning"/>
+						<xs:enumeration value="Metadata"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="QCItemScope" type="QCScope" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Limits the execution of the QCItem to one or more specific time ranges and overrides the QCProfileScope, if any.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCItemInput" type="QCItemInput" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Whether machine controlled or manually performed, a set of rules that govern what is being tested and how are described by the parameters.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCReportID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to identify the QCReport that will supply the results of the QCTest requested.  Normally a UUID to be assured of a globally unique identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="parameterType">
+			<xs:annotation>
+				<xs:documentation>Indicates the type of QC process being requested.  Readout (simple wrapper request), Measure (checks that a specific attribute falls within a required range or has a specific value), Check (pass-fail of a simple or complex test), Crosscheck (comparison of one attribute to another).</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="check"/>
+					<xs:enumeration value="measure"/>
+					<xs:enumeration value="readout"/>
+					<xs:enumeration value="x-check"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="QCItemInput">
+		<xs:annotation>
+			<xs:documentation>Whether machine controlled or manually performed, a set of rules that govern how to do the testing.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="KeyWord" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Unique name of the test input within the scope of QCItem and as accepted within the scope of the organization.  (Note EBU supports a specific defined list of names - eg. VideoAspectRatio).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Brief description related to the type of test to be performed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="ParameterValue" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Test parameter value used as either a single value or a range of values (rangeFlag=True) or a list of values (rangeFlag=False).</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="rangeFlag" type="xs:boolean" default="false"/>
+								<xs:attributeGroup ref="QCTypeUnitRep"/>
+								<xs:attributeGroup ref="Action-ErrorGroup"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ExpectedValue" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The expected return value or range or list of values the sets the tolerance for the QC test to be considered a pass.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="rangeFlag" type="xs:boolean" default="false"/>
+								<xs:attributeGroup ref="QCTypeUnitRep"/>
+								<xs:attributeGroup ref="Action-ErrorGroup"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="FragmentLocation" type="FragmentLocation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The time range and spatial location on the video (region of the screen) to be tested.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Track" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The unique identification of the media track the input refers to (eg- a number such as Track 1 or a specific UUID)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="WrapperLocation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicable only for QCCheckItems working at wrapper level.
+The identification of the portion of the file wrapper to be checked/utilized by the QCCheckItem. If not specified, it is assumed to use all the locations and also check for their consistency.
+When the wrapping is MXF, the wrapper location is actually the MXF partition with possible values header, footer, body.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="MXFWrapperLocation">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="header"/>
+									<xs:enumeration value="footer"/>
+									<xs:enumeration value="body"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="OtherWrapperLocation" type="xs:string"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QCItemOutput">
+		<xs:annotation>
+			<xs:documentation>The specific result of a single QC test.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="KeyWord" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Unique name of the test performed within the scope of QCItem and as accepted within the scope of the organization.  (Note EBU supports a specific defined list of names - eg. VideoAspectRatio).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Brief description related to the type of test performed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TestValue" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Value or values returned by the QC Test performed.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attributeGroup ref="QCTypeUnitRep"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RelatedQCItemOutput" type="QCItemOutput" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Use this to list multiple outputs related to the same spatiotemporal fragment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FragmentLocation" type="FragmentLocation" minOccurs="0"/>
+			<xs:element name="Track" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The unique identification of the media track the result refers to (eg- a number such as Track 1 or a specific UUID)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="WrapperLocation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicable only for QCItems working at wrapper level.
+The identification of the portion of the file wrapper tested by the QCItem.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="MXFWrapperLocation">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="header"/>
+									<xs:enumeration value="footer"/>
+									<xs:enumeration value="body"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="OtherWrapperLocation" type="xs:string"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="QCDetailedAnnotations" type="QCDetailedAnnotation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional descriptive details concerning who or what system was deployed to perform the QC test and when it was performed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VerificationMedia" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Link to external binary data generated by a tool during the QC test, the use of which is for easy verification of the results of the QC process.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ConfidenceLevel" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The confidence level with which a tool has found a defect (global or fragment) reported as a real number from 0.00 to 1.00.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:decimal">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="1"/>
+						<xs:totalDigits value="3"/>
+						<xs:fractionDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Severity" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A positive integer indicating the strength of the defect. 
+Severity shall be useful to provide at least a ranking of defects relevance when discovered by the same tool.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="parameterType">
+			<xs:annotation>
+				<xs:documentation>Indicates the type of QC process being requested.  Readout (simple wrapper request), Measure (checks that a specific attribute falls within a required range or has a specific value), Check (pass-fail of a simple or complex test), Crosscheck (comparison of one attribute to another).</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="check"/>
+					<xs:enumeration value="measure"/>
+					<xs:enumeration value="readout"/>
+					<xs:enumeration value="x-check"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="QCItemResult">
+		<xs:annotation>
+			<xs:documentation>The results received as a result of one or more QC test.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QCItemID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for the item to be checked.  Note - EBU has defined specific values for each QC Test ID (eg-0010B is a test for Loudness on baseband)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCItemName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Brief name of the QCItem performed. (eg Aspect Ratio)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCReportStatus">
+				<xs:annotation>
+					<xs:documentation>The overall status of all the QCReportItems that are part of the complete report.  The valid options are Completed, Error, and Submitted.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Completed"/>
+						<xs:enumeration value="Error"/>
+						<xs:enumeration value="Submitted"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ErrorDescription" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Error description for a QCItem that returns an error or is outside of the expected values.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CheckResult" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If one or more QCItems include a parameterType of "Check" the resulting default "AND" logic or the designated logic is evaluated and placed here to indicate a complete "true" or valid state of the logic or a false or fail state. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ResultDescription" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A short description of the result that could be used for both checks and measurement,</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCToolInformation" type="QCToolInformation" minOccurs="0"/>
+			<xs:element name="QCDetailAnnotation" type="QCDetailedAnnotation" minOccurs="0"/>
+			<xs:element name="Relevance" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used in conjunction with the QCProfile's relevanceLevel and checkResultRule values to determine how important this check is relative to the other checks in the profile and to determine the overall report checkresult. </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="MaxSeverity" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Sets the upper bound of the scale for severity for all QCCheckItemOutputs within  this QCCheckItemResult</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VerificationMedia" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Link to external binary data generated by a tool during analysis, the use of which is for easy checking of the results of the QC analyses.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DetectionMethod" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Flags the method of how the item was processed.
+Automatic means that the result was obtained with an automatic QC tool.
+Human means that the result was created by a human operator from scratch.
+Assisted means that the result is a revision by a human operator, based on another previous automatic result.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Assisted"/>
+						<xs:enumeration value="Automatic"/>
+						<xs:enumeration value="Human"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Revision" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Marks the version of a QCItemResult. Unless otherwise noted, it is assumed that revision N derives from revision N-1 (e.g. revision 1 automatic and revision 2 assisted means that rev2 is a human review of rev1)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCTestPerformer" type="QCTestPerformer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The user who has done a test manually, e.g. eye-ball check from scratch or a revision of an automatic result</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCItemOutput" type="QCItemOutput" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The specific result of a single QC test.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="creationDateTime" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Date and time when the QCItemResult has been created</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="QCProfile">
+		<xs:annotation>
+			<xs:documentation>Used to define a set of test instructions that are generally related and which can be called using just the identifier.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QCProfileID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Unique identifier (usually UUID) to identify the profile.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCProfileName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the profile.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCProfileDescription" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A brief description of what the profile is defined to test and the type of media to use it against.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCProfileScope" type="QCScope" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Range of time on the media (using media timecode) that should be tested for all QCProfileCheckItems.  If not defined the entire media will be checked.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCProfileItem" type="QCItem" maxOccurs="unbounded"/>
+			<xs:element name="QCReportID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Normally a UUID to be assured of a globally unique identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ResultsRule">
+			<xs:annotation>
+				<xs:documentation>The way multiple check items should be evaluated to determine if the Profile passed or failed as a group of tests.  Tests can be evaluated using "AND" or "OR" logic.  If the MinimumRelevance is selected then the RelevanceLevel value [0,10] determines if a specific test should be included to determine the Profile's overall performance.  Default if not included is to be "AND".</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="AND"/>
+					<xs:enumeration value="OR"/>
+					<xs:enumeration value="MinimumRelevance"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="RelevanceLevel">
+			<xs:annotation>
+				<xs:documentation>See ResultsRule attribute - an integer value between 0 and 10.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="10"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="QCReports">
+		<xs:annotation>
+			<xs:documentation>Used to report back the results of the QC testing for either a single profile, multiple profiles or a single QCCheckItem.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QCReportID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Normally a UUID to be assured of a globally unique identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCReportGroupID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional grouping identifier</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:annotation>
+					<xs:documentation>The QCProfileID or the complete QCProfile detail that was used to generate the report.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="QCProfileID" type="xs:string"/>
+				<xs:element name="QCProfile" type="QCProfile"/>
+			</xs:choice>
+			<xs:element name="QCReportStatus">
+				<xs:annotation>
+					<xs:documentation>The overall status of all the QCReportItems that are part of the complete report.  The valid options are Completed, Error, and Submitted.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Completed"/>
+						<xs:enumeration value="Error"/>
+						<xs:enumeration value="Submitted"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ErrorDescription" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A summary of the QCItems that return an error or are outside of the expected values.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CheckResult" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If one or more QCCheckItems include a parameterType of "Check" the resulting default "AND" logic or the designated logic is evaluated and placed here to indicate a complete "true" or valid state of the logic or a false or fail state. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCReportDuration" type="BxfDuration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Length of time it took to process all QCItems associated with the report based on the initial start time of first QCItem and the maximum end time of the last QCItem.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCToolInformation" type="QCToolInformation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Summary of tool information when one is used for all QCCheckItems associated to the Report.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCItemResult" type="QCItemResult" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The results received as a result of one or more QC test.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="lastModified" type="xs:dateTime" use="required">
+			<xs:annotation>
+				<xs:documentation>Last date-Time the Report was modified or the date time it was created.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="QCToolInformation">
+		<xs:annotation>
+			<xs:documentation>Summary of tool information when one is used for all QCCheckItems associated to the Report.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QCToolID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for the tool used to perform the QC test.  This can be a unique identifier or a specific URL that uniquely identifies the tool.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCToolName" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Name of the tool used to perform the QC test.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VendorName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the vendor that makes or supports the tool.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCToolVersion" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The version of the tool being used to perform the QC test.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ToolURL" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The endpoint of the tool's software actually used for the test in a QC environment or server farm.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QCScope">
+		<xs:annotation>
+			<xs:documentation>A brief description of what the profile is defined to test and the type of media to use it against.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="StartTime" type="BxfSmpteTime"/>
+			<xs:element name="EndTime" type="BxfSmpteTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QCTestPerformer">
+		<xs:annotation>
+			<xs:documentation>Who or what system performed the QC test</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="QCPerformerName" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Person, system or tool name who performed the QC Test</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCPerformerID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional identifier for that person, system or tool.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QCPerformerRole" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The role of the operator, tool or system in the QC environment.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

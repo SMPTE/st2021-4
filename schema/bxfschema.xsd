@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2015 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2015/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2015/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.000">
+<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="c:\pmcp\pmcp31.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:include schemaLocation="bxfchannel.xsd"/>
 	<xs:include schemaLocation="schedule.xsd"/>
 	<xs:include schemaLocation="contenttransfer.xsd"/>
 	<xs:include schemaLocation="configuration.xsd"/>
 	<xs:include schemaLocation="jobdetail.xsd"/>
+	<xs:include schemaLocation="qualitycontrol.xsd"/>
 	<xs:element name="BxfMessage">
 		<xs:annotation>
 			<xs:documentation>The root for all BXF messages.</xs:documentation>
@@ -57,6 +59,11 @@
 								<xs:element name="TrafficInstructions" type="TrafficInstructions" maxOccurs="unbounded">
 									<xs:annotation>
 										<xs:documentation>Used to describe traffic instructions to a single or multiple stations for multiple content.  Requires stations to be defined under a Job. (v3.0)</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="QCProfiles" type="QualityControl" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Used to setup quality control profiles or do to specific QC based work. (v5.0)</xs:documentation>
 									</xs:annotation>
 								</xs:element>
 							</xs:choice>
