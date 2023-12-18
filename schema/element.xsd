@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
 	<xs:include schemaLocation="scheduledevent.xsd"/>
 	<xs:include schemaLocation="nonprogramcontent.xsd"/>
 	<xs:complexType name="Element">
@@ -48,10 +48,15 @@
 					<xs:documentation>The order identifier for each segment</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Type" type="ProgramContentType" default="ProgramSegment">
+			<xs:element name="Type" default="ProgramSegment">
 				<xs:annotation>
-					<xs:documentation>Either a program segment or an interactive element</xs:documentation>
+					<xs:documentation>Either a program segment or an interactive element. Textless added as a new otpion. (v6.0)</xs:documentation>
 				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="ProgramContentType"/>
+					</xs:simpleContent>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="ContentMetaData" type="ContentMetaData">
 				<xs:annotation>
@@ -72,12 +77,6 @@
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
-	<xs:simpleType name="ProgramContentType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="Interactive"/>
-			<xs:enumeration value="ProgramSegment"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:complexType name="OverlayOpportunityType">
 		<xs:annotation>
 			<xs:documentation>Describes locations in time and space where overlays are either permitted or restricted from use. (v3.0)</xs:documentation>
@@ -177,4 +176,11 @@
 		</xs:attribute>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
+	<xs:simpleType name="ProgramContentType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Interactive"/>
+			<xs:enumeration value="ProgramSegment"/>
+			<xs:enumeration value="Textless"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

@@ -1,8 +1,191 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
-	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="c:\pmcp\pmcp31.xsd"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:complexType name="AccessServices">
+		<xs:annotation>
+			<xs:documentation>Indicators of the type of access services provided as part of the Library Master content. (V6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ClosedCaptioning" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether closed subtitles or captioning is provided and which type or types are included.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IMSC1" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Internet Media Subtitles and Captions 1.0, as defined by the W3C</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EBU-TT" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Captions may be delivered as an IMSC 1.0 constrained TTML document encapsulated as an MXF track.  The IMSC 1.0 captions additionally constrained to meet the requirements of EBU-TT (EBU-Tech 3350/3390)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EBU-STL" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>If EBU STL (EBU-Tech 3265) is to be carried in addition to the IMSC 1.0 TTML, it will be encapsulated as an MXF Track File according to SMPTE ST 2075.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CEA-608" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>If CTA 608-708 Captioning is to be carried in addition to the IMSC 1.0 TTML, it will be encapsulated as an MXF Track File according to SMPTE ST 2052 and referenced by an Ancillary Data Essence Virtual Track according to SMPTE ST 2067-2.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="CEA-708" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>If CEA 608-708 Captioning is to be carried in addition to the IMSC 1.0 TTML, it will be encapsulated as an MXF Track File according to SMPTE ST 2052 and referenced by an Ancillary Data Essence Virtual Track according to SMPTE ST 2067-2.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AudioDescription_DVS" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether Audio Description (AD) also known as Described Video Service (DVS) or Video Description is provided.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Signing" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicator of whether signed video is provided.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AlternativeCaptions">
+		<xs:annotation>
+			<xs:documentation>Additional caption and subtitle options as used worldwide as well as the ability to extend to other customized types. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="captionID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>Unique identifier assigned to the caption.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="captionTypeName">
+			<xs:annotation>
+				<xs:documentation>The name associated with the caption type being used such as EBU-STL, EBU-TT or IMSC.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="EBU-STL"/>
+					<xs:enumeration value="EBU-TT"/>
+					<xs:enumeration value="IMSC"/>
+					<xs:enumeration value="SAMI"/>
+					<xs:enumeration value="SRT"/>
+					<xs:enumeration value="WebVTT"/>
+					<xs:enumeration value="Other"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="captionName" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>If the captionTypeName is Other, use this to provide actual name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="captionServiceType">
+			<xs:annotation>
+				<xs:documentation>Type of caption service: hard of hearing or translation.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Hard of Hearing"/>
+					<xs:enumeration value="Translation"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="captionProfile" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Specific profile of the caption type.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="captionLanguage" type="xs:language">
+			<xs:annotation>
+				<xs:documentation>The language that the caption is using.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="captionVersion" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Some caption services have versions that must be explicit and can be placed here in an acceptable format.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BXFCaptionOP42">
+		<xs:annotation>
+			<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Austarlia OP 42. (v6.0)
+</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="WSTpage" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="pageNumber" type="xs:positiveInteger"/>
+					<xs:attribute name="lang" type="xs:language" use="optional">
+						<xs:annotation>
+							<xs:documentation>Language of the caption service</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="captionServiceType">
+						<xs:annotation>
+							<xs:documentation>Type of caption service: hard of hearing or translation.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Hard of Hearing"/>
+								<xs:enumeration value="Translation"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="lineNumberinVB">
+			<xs:annotation>
+				<xs:documentation>Must be either 21/334 or 22/335. </xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="21/334"/>
+					<xs:enumeration value="22/335"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BXFCaptionOP47">
+		<xs:annotation>
+			<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Austarlia OP 47 Note that when used, DigitalVideo and CaptionsInVANC should both be set to True in VideoType. (v6.0)
+</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="WSTpage" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="pageNumber" type="xs:positiveInteger"/>
+					<xs:attribute name="lang" type="xs:language" use="optional">
+						<xs:annotation>
+							<xs:documentation>Language of the caption service</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="captionServiceType">
+						<xs:annotation>
+							<xs:documentation>Type of caption service: hard of hearing or translation.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Hard of Hearing"/>
+								<xs:enumeration value="Translation"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
 	<xs:complexType name="BxfCaptions">
 		<xs:annotation>
 			<xs:documentation>Caption Service Descriptor (A/65B 6.9.3)</xs:documentation>
@@ -23,6 +206,23 @@
 				<xs:element name="Caption708" type="BxfCaption708" minOccurs="0" maxOccurs="16">
 					<xs:annotation>
 						<xs:documentation>Describe digital captions services.  Note that when used, DigitalVideo and CaptionsInVANC should both be set to True in VideoType.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CaptionOP42" type="BXFCaptionOP42" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Austarlia OP 42. (v6.0)
+</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CaptionOP47" type="BXFCaptionOP47" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Austarlia OP 47 Note that when used, DigitalVideo and CaptionsInVANC should both be set to True in VideoType. (v6.0)
+</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AlternativeCaptions" type="AlternativeCaptions" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Additional caption and subtitle options as used worldwide as well as the ability to extend to other customized types. (v6.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>

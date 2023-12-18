@@ -1,8 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
-	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="c:\pmcp\pmcp31.xsd"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" xmlns:altova="http://www.altova.com/xml-schema-extensions" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:complexType name="AudioChannel">
+		<xs:annotation>
+			<xs:documentation>Distinct collection of sequenced audio samples that are intended for delivery to a single loudspeaker or other reproduction device. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SoundfieldGroupLinkID" type="Uuid" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to link an AudioChannel to a specific SoundfieldGroup.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AudioChannelType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type of labeling used for each AudioChannel such as LEFT, RIGHT, CENTER, etc. and further extended for UK requirements to include control channels.  (ST 428-12:2013; ST2067-8:2013)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Left"/>
+						<xs:enumeration value="Center"/>
+						<xs:enumeration value="Right"/>
+						<xs:enumeration value="LFE"/>
+						<xs:enumeration value="Left Surround"/>
+						<xs:enumeration value="Right Surround"/>
+						<xs:enumeration value="Left Side Surround"/>
+						<xs:enumeration value="Right Side Surround"/>
+						<xs:enumeration value="Left Rear Surround"/>
+						<xs:enumeration value="Right Rear Surround "/>
+						<xs:enumeration value="Left Center"/>
+						<xs:enumeration value="Right Center"/>
+						<xs:enumeration value="Center Surround"/>
+						<xs:enumeration value="Mono One"/>
+						<xs:enumeration value="Mono Two"/>
+						<xs:enumeration value="Left Total"/>
+						<xs:enumeration value="Right Total"/>
+						<xs:enumeration value="Left Sorrund Total"/>
+						<xs:enumeration value="Right Surround Total"/>
+						<xs:enumeration value="Surround"/>
+						<xs:enumeration value="Control"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="audioChannelID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>Unique Identifier for this Audio Channel.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="audioChannelReference" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>A positive integer that is uniquely assigned within the SoundfieldGroup for this AudioChannel.  For example Channel 1, Channel 2, etc. Each refers to either the channel in an encoded stram or to an actual MCAChannelID.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="directPCMTrack" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>An integer indicating the PCM track number which contains the AudioChannel. To be used only for uncompressed PCM audio (AES/BWAV), where a track contains one audio channel only. Note that this track reference is not the MXF essence track reference. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="directPCMTrackID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>The specific unique identifier of the PCM track which contains the audio channel. To be used only for uncompressed PCM audio (AES/BWAV), where a track contains one audio channel.  Note that this track reference is not the MXF essence track reference. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
 	<xs:complexType name="Audios">
 		<xs:annotation>
 			<xs:documentation>Extends PMCP AudiosType</xs:documentation>
@@ -91,8 +156,18 @@
 						<xs:documentation>Enumerates the different types of digital audio streams. (v3.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+				<xs:element name="MultiChannelAudioStreams" type="MultiChannelAudioStreams" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A collection of one or more audio streams that further incorporate groups of audio channels in a specific format as defined in ST 377M.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 			</xs:sequence>
 		</xs:choice>
+		<xs:attribute name="voiceOver" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Flag as True if the audio includes a voice over (v6.0)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
 	<xs:complexType name="AudioTransition">
@@ -141,7 +216,28 @@
 							<xs:documentation>Indicates if bitRateKbps is an exact value or an upper bound (A/65)</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
+					<xs:attribute name="bitRateKbps" type="pmcp:bitRateKbpsType" use="optional" default="448">
+						<xs:annotation>
+							<xs:documentation>Bit rate of the elementary stream in kbps (A/65B 6.9.1) (v6.0)</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attributeGroup ref="Action-ErrorGroup"/>
 				</xs:complexType>
+			</xs:element>
+			<xs:element name="DED2Audio" type="DigitalAudioAttribute">
+				<xs:annotation>
+					<xs:documentation>(v6.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Ac4Audio" type="DigitalAudioAttribute">
+				<xs:annotation>
+					<xs:documentation>(v6.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MPEGHAudio" type="DigitalAudioAttribute">
+				<xs:annotation>
+					<xs:documentation>(v6.0)</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 		</xs:choice>
 		<xs:attribute name="audioReference" type="xs:positiveInteger">
@@ -173,12 +269,13 @@
 		</xs:attribute>
 		<xs:attribute name="measurementMethod">
 			<xs:annotation>
-				<xs:documentation>Select between LKFS (BS.1770) or dBFS (ANSI S1.4). (v3.0)</xs:documentation>
+				<xs:documentation>Select between LKFS (BS.1770), dBFS (ANSI S1.4). (v3.0) or LUFS (v6.0)</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:enumeration value="dBFS"/>
 					<xs:enumeration value="LKFS"/>
+					<xs:enumeration value="LUFS"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
@@ -201,6 +298,23 @@
 				<xs:restriction base="xs:nonPositiveInteger">
 					<xs:minInclusive value="-146"/>
 					<xs:maxInclusive value="0"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="audioEncodingRefID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>Used to reference and link to the audio encoding option used for the stream. (v6.0)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="loudnessMeasurementType">
+			<xs:annotation>
+				<xs:documentation>Indicates the type of loudness measurement used. (v6.0)</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Program loudness"/>
+					<xs:enumeration value="Max short-term loudness"/>
+					<xs:enumeration value="Max momentary loudness"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
@@ -238,6 +352,373 @@
 		<xs:attribute name="surround" type="xs:boolean" use="optional">
 			<xs:annotation>
 				<xs:documentation>Indicates if the audio service is surround (A/65)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dualMono" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Use to flag that a non-stereo, 2 channel is actually dual mono channels. (v6.0)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="GroupofSoundfieldGroups">
+		<xs:annotation>
+			<xs:documentation>A group of groups allows encapsulation of SoundfieldGroups into defined streams. It is often used to classify the purpose of the audio such as Main Program, Alternate Program, etc.(v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GroupContent" type="BxfText" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Information about the content in the Group, which is common for all SoundfieldsGroups in the Group of SoundfieldGroups.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="groupOfSoundfieldGroupsID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>Unique identifier used to link group of groups, groups and channels together to represent the complete soundfield audio stream structure.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="Loudness">
+		<xs:annotation>
+			<xs:documentation>Indicates the loudness of the SoundfieldGroup as measured in various ways and using various standards. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MeasuredLoudness" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The mesured loudness value of the SoundfieldGroup. Can be programm loudness, maximum short-term loudness or maximum momentary loudness expressed by the measurementType attribute. The unit attribute allows for various mesurement units. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="loudnessValue">
+						<xs:simpleType>
+							<xs:restriction base="xs:nonPositiveInteger">
+								<xs:minInclusive value="-146"/>
+								<xs:maxInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="loudnessUnit">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="dBFS"/>
+								<xs:enumeration value="LKFS"/>
+								<xs:enumeration value="LUFS"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="measurementType">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Program loudness"/>
+								<xs:enumeration value="Max short-term loudness"/>
+								<xs:enumeration value="Max momentary loudness"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attributeGroup ref="Action-ErrorGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MeasuredMaximumTruePeak" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The measured maximumTruePeak - unit of the value is dBTP </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:nonPositiveInteger">
+						<xs:minInclusive value="-146"/>
+						<xs:maxInclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DesiredLoudnessStandard" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Loudness standard that the SoundfieldGroup meets.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="ATSC A/85"/>
+						<xs:enumeration value="EBU R128"/>
+						<xs:enumeration value="OP 57"/>
+						<xs:enumeration value="None"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MultiChannelAudioStreams">
+		<xs:annotation>
+			<xs:documentation>A collection of one or more audio streams with the same encoding method that further incorporate groups of audio channels in a specific format as defined in ST 377-4.  If a data stream (MXF audio essence track) contains multiple encodeing (e.g. PCM and Dolby E) than multiple MultiChannelAudioStreams must be used. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GroupofSoundfieldGroups" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A group of groups allows encapsulation of SoundfieldGroups into defined streams. It is often used to classify the purpose of the audio such as Main Program, Alternate Program, etc.(v6.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="GroupofSoundfieldGroups"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SoundfieldGroup" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to organize a group of multiple audio channels that conprise the complete audio structure for the program.  For example, Stereo, or Stereo-Spanish, or 5.1.  It may be comprised of a single audio stream using a specific encoding or multiple channels (Left, Right, Center LFE, etc.)  It can also be multiple complete streams assigned to various channels. (v6.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="SoundFieldGroup"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AudioChannel" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Distinct collection of sequenced audio samples that are intended for delivery to a single loudspeaker or other reproduction device. (v6.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="AudioChannel"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AudioEncoding" type="DigitalAudio" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The single audio encoding method  used within this MCA across all AudioChannels included.  It can be either indicated at this level or alternatively referenced using the encodingReferenceID. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="essenceReference" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>Reference to a MXF essenceTrack number. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="audioEncodingRefID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>Used to reference and link to the audio encoding option used for the stream. (v6.0)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="numberOfSoundFieldGroups" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>The number of Soundfield groups contained in the stream,</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="firstTrack" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>A positive integer indicating the first track that is part of the stream.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="firstTrackID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>A specific unique identifier for the first audio track in the stream. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lastTrack" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>A positive integer indicating the last track that is part of the stream.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lastTrackID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>A specific unique identifier for the last audio track in the stream. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="SoundFieldGroup">
+		<xs:annotation>
+			<xs:documentation>Used to organize a group of multiple audio channels that conprise the complete audio structure for the program.  For example, Stereo, or Stereo-Spanish, or 5.1.  It may be comprised of a single audio stream using a specific encoding or multiple channels (Left, Right, Center LFE, etc.)  It can also be multiple complete streams assigned to various channels. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GroupofSounfieldGroupLinkID" type="Uuid" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to link a SoundfieldGroup to a specific Group of SoundfieldGroups.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MultichannelType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the multichannel type of SoundfieldGroup.  For example MONO, STEREO, 5.1, etc. Can be sourced from MXF MCATagname of a SoundfieldGroup (e.g.AS-11 X1 MXF) if it contains this information.
+(ST 428-12:2013 and ST2067-8:2013)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Mono"/>
+						<xs:enumeration value="Dual Mono"/>
+						<xs:enumeration value="Stereo"/>
+						<xs:enumeration value="Lt-Rt"/>
+						<xs:enumeration value="3.0"/>
+						<xs:enumeration value="4.0"/>
+						<xs:enumeration value="5.0"/>
+						<xs:enumeration value="5.1"/>
+						<xs:enumeration value="5.1EX"/>
+						<xs:enumeration value="6.0"/>
+						<xs:enumeration value="6.1"/>
+						<xs:enumeration value="7.0"/>
+						<xs:enumeration value="7.1DS"/>
+						<xs:enumeration value="7.1SDS"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AudioContent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional details concerning the language spoken and the purpose of the audio.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AudioContentKind" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Describes the high level purpose or use of the audio content.  The assigned value can be sourced form MXF MCA Content (e.g. Video Description equals the Audio Descriprion term widely used in the UK).  If MCA content is not available, may be sourced from MCAContentKind.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Primary"/>
+									<xs:enumeration value="Secondary Audio Program"/>
+									<xs:enumeration value="Hearing Impaired"/>
+									<xs:enumeration value="Descriptive Video"/>
+									<xs:enumeration value="Dialog"/>
+									<xs:enumeration value="Music"/>
+									<xs:enumeration value="Effects"/>
+									<xs:enumeration value="Music and Effects"/>
+									<xs:enumeration value="Optional Music and Effects"/>
+									<xs:enumeration value="Program Narration"/>
+									<xs:enumeration value="Optional Narration"/>
+									<xs:enumeration value="Voice Over"/>
+									<xs:enumeration value="Visually Impaired"/>
+									<xs:enumeration value="Visually Impaired with control channel"/>
+									<xs:enumeration value="Recorded Commentary"/>
+									<xs:enumeration value="Live Commentary"/>
+									<xs:enumeration value="International"/>
+									<xs:enumeration value="Other"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="AudioContentUse" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Describes the condition of the content (e.g. finished, intermediate) as a modifier to the AudioContentKind value and indicates its intended use. Value can be sourced from MXF MCA Use Class.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Finished Composite"/>
+									<xs:enumeration value="Intermediary Composite"/>
+									<xs:enumeration value="Simplified"/>
+									<xs:enumeration value="Singular"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="AudioContentSubType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Describes particular aspects of the content, such as whether a commentary is a Director, Cast or Writer’s commentary.  This property is absent if it is not relevant to a particular AudioContentKind value.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Director"/>
+									<xs:enumeration value="Technical"/>
+									<xs:enumeration value="Writer"/>
+									<xs:enumeration value="Cast"/>
+									<xs:enumeration value="Announcer"/>
+									<xs:enumeration value="Commentator"/>
+									<xs:enumeration value="Other"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PrimarySpokenlanguage" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Intelligible primery spoken language that potentially distinguishes this Soundfield Group from another Soundfield Group. Value can be sourced form MXF MCA RFC 5646 Spoken Language.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:language">
+										<xs:attribute name="dubbed" type="xs:boolean">
+											<xs:annotation>
+												<xs:documentation>Attribute depicts whether the language of the content is the original language or a dubbed language.  This attribute can be used to constrain the uses of the content as well as provide information.  </xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="AdditionalSpokenLanguage" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Additional intelligible spoken languages that are present in the audio, but are not considered primary. </xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:language">
+										<xs:attribute name="dubbed" type="xs:boolean">
+											<xs:annotation>
+												<xs:documentation>Attribute depicts whether the language of the content is the original language or a dubbed language.  This attribute can be used to constrain the uses of the content as well as provide information.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Loudness" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the loudness of the SoundfieldGroup as measured in various ways and using various standards. (v6.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="Loudness"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AudioMetadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Flags indicating whether the audio metadata in stored in the VANC or the Audio Stream or if it is contained in the RDD6 XML.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AudioMetadataInVANC" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Indicates that audio metadata is in VANC (required if multichannel audio is in an uncompressed stream) ST 2020-2</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AudioMetadataInAudioStream" type="xs:boolean" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Indicates that audio metadata is in the compressed audio stream.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AudioMetadataInRDD6XML" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="soundfieldGroupID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>Unique identifier for a SoundfieldGroup.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="numberOfChannels" type="xs:integer">
+			<xs:annotation>
+				<xs:documentation>The number of channels included in the SoundfieldGroup.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="firstPCMTrack" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>A positive integer indicating the first PCM track that is part of the SoundfieldGroup. To be used only for uncompressed PCM audio (AES/BWAV), where a track contains one audio channel only. Note that this track reference is not the MXF essence track reference. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="firstPCMTrackID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>A specific unique identifier for the first PCM audio track in the SoundfieldGroup. To be used only for uncompressed PCM audio (AES/BWAV), where a track contains one audio channel only.   Note that this track reference is not the MXF essence track reference. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lastPCMTrack" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>A positive integer indicating the last PCM audio track that is part of the SoundfieldGroup. To be used only for uncompressed PCM audio (AES/BWAV), where a track contains one audio channel only. Note that this track reference is not the MXF essence track reference. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lastPCMTrackID" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>A specific unique identifier of the last PCM audio track in the SoundfieldGroup. To be used only for uncompressed PCM audio (AES/BWAV), where a track contains one audio channel only. Note that this track reference is not the MXF essence track reference.  </xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>

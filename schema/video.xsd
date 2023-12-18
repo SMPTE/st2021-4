@@ -1,238 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
-	<xs:complexType name="TSVideo">
-		<xs:annotation>
-			<xs:documentation>Enumerates the various values relating to the presentation of video in a transport stream</xs:documentation>
-		</xs:annotation>
-		<xs:choice>
-			<xs:element name="Null">
-				<xs:annotation>
-					<xs:documentation>No Information provided for Video</xs:documentation>
-				</xs:annotation>
-				<xs:complexType/>
-			</xs:element>
-			<xs:sequence>
-				<xs:element name="Encoding" type="TSVideoEncodingType" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>If NTSC or PAL this should be set to uncompressed.  The other options are various compression utilities that are used to store or transmit video.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="DigitalVideo" type="xs:boolean" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Required to be true if video format is 1080p, 1080i, 720p, 480p, optional for 576i and 480i</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Format" type="VideoFormatType" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The number of lines of video and either an "i" for interlaced or "p" for progressive.  Note that NTSC = 480i; PAL = 576i; and the rest are digital ATSC/DVB options.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Only 4:3 or 16:9 values allowed</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:choice minOccurs="0">
-					<xs:element name="AFD-BarDataPresent" type="xs:boolean" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates that active format description and bar data is used in the presentation of the video in order to convert the production image to the selected transmission aspect ration.  The actual values for these items is incorporated into the video VANC.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="PanAndScanPresent" type="xs:boolean" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates that pan and scan techniques are being used to adjust the production image to fit the transmission aspect ratio.  Note that each frame's values may be different and the actual data to determine the values are carried in the video VANC.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:choice>
-				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="AFDData" type="AFDData" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
-			</xs:sequence>
-		</xs:choice>
-		<xs:attributeGroup ref="Action-ErrorGroup"/>
-	</xs:complexType>
-	<xs:complexType name="Video">
-		<xs:annotation>
-			<xs:documentation>Enumerates the various values relating to the presentation of video</xs:documentation>
-		</xs:annotation>
-		<xs:choice>
-			<xs:element name="Null">
-				<xs:annotation>
-					<xs:documentation>No Information provided for Video</xs:documentation>
-				</xs:annotation>
-				<xs:complexType/>
-			</xs:element>
-			<xs:sequence>
-				<xs:element name="Encoding" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>If NTSC or PAL this should be set to uncompressed.  The other options are various compression utilities that are used to store or transmit video.</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:simpleContent>
-							<xs:extension base="VideoEncodingType">
-								<xs:attribute name="EncodingReference" type="xs:string">
-									<xs:annotation>
-										<xs:documentation>Allows the user to annotate the type of encoding method used</xs:documentation>
-									</xs:annotation>
-								</xs:attribute>
-							</xs:extension>
-						</xs:simpleContent>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="DigitalVideo" type="xs:boolean" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Required to be true if video format is 1080p, 1080i, 720p, 480p, optional for 576i and 480i</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Format" type="VideoFormatType" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The number of lines of video and either an "i" for interlaced or "p" for progressive.  Note that NTSC = 480i; PAL = 576i; and the rest are digital ATSC/DVB options.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The horizontal:vertical ratio of the complete video display including AFD-BarData (A/53)</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:choice minOccurs="0">
-					<xs:element name="AFD-BarDataPresent" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates that active format description and bar data is used in the presentation of the video in order to convert the production image to the selected transmission aspect ratio.  The actual values for these items is incorporated into the video VANC.</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:simpleContent>
-								<xs:extension base="xs:boolean"/>
-							</xs:simpleContent>
-						</xs:complexType>
-					</xs:element>
-					<xs:element name="PanAndScanPresent" type="xs:boolean" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates that pan and scan techniques are being used to adjust the production image to fit the transmission aspect ratio.  Note that each frame's values may be different and the actual data to determine the values are carried in the video VANC.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:choice>
-				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="AFDData" type="AFDData" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
-			</xs:sequence>
-		</xs:choice>
-		<xs:attributeGroup ref="Action-ErrorGroup"/>
-	</xs:complexType>
-	<xs:complexType name="VideoTransition">
-		<xs:annotation>
-			<xs:documentation>Allows the user to specify specific actions to be used by the automation system to transition the video from one event to another</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="TransitionInType" type="VideoTransitionEnumType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The type of transition to perform between the previous event and this event</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TransitionPattern" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>If the transition is a wipe the pattern to be used for the wipe. (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="255"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="TransitionInRate" type="VideoRateType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The rate of transition between the previous event and this event</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TransitionOutType" type="VideoTransitionEnumType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The type of transition to before between this event and the next event</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TransitionOutRate" type="VideoRateType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The rate of transition between this event and the next event</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TransitionSom" type="BxfSmpteTime" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Used to designate a specific start point for the transition relative to the active content</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TransitionEom" type="BxfSmpteTime" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Used to designate a specific end point for the transition relative to the active content</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
-		</xs:sequence>
-		<xs:attributeGroup ref="Action-ErrorGroup"/>
-	</xs:complexType>
-	<xs:complexType name="AFDDetails">
-		<xs:sequence>
-			<xs:element name="OriginalFrameType">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="4:3"/>
-						<xs:enumeration value="14:9"/>
-						<xs:enumeration value="16:9"/>
-						<xs:enumeration value="Other"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="AFDPosition">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="Centered"/>
-						<xs:enumeration value="Full Frame"/>
-						<xs:enumeration value="Reserved"/>
-						<xs:enumeration value="Top"/>
-						<xs:enumeration value="Undefined"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="AFDStyle">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="Full Frame"/>
-						<xs:enumeration value="Letterbox"/>
-						<xs:enumeration value="Pillarbox"/>
-						<xs:enumeration value="Protected"/>
-						<xs:enumeration value="Reserved"/>
-						<xs:enumeration value="Undefined"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:complexType name="AFDData">
 		<xs:annotation>
 			<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
@@ -352,6 +121,1186 @@
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
+	<xs:complexType name="AFDDetails">
+		<xs:sequence>
+			<xs:element name="OriginalFrameType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="4:3"/>
+						<xs:enumeration value="14:9"/>
+						<xs:enumeration value="16:9"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AFDPosition">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Centered"/>
+						<xs:enumeration value="Full Frame"/>
+						<xs:enumeration value="Reserved"/>
+						<xs:enumeration value="Top"/>
+						<xs:enumeration value="Undefined"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AFDStyle">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Full Frame"/>
+						<xs:enumeration value="Letterbox"/>
+						<xs:enumeration value="Pillarbox"/>
+						<xs:enumeration value="Protected"/>
+						<xs:enumeration value="Reserved"/>
+						<xs:enumeration value="Undefined"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChromaSubsampling">
+		<xs:annotation>
+			<xs:documentation>The practice of encoding images by implementing less resolution for chroma information than for luma information, taking advantage of the human visual system's lower acuity for color differences than for luminance. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ChromaSubsample4-2-0">
+				<xs:annotation>
+					<xs:documentation>Cb and Cr are each subsampled at a factor of 2 both horizontally and vertically.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quantization4-2-0" default="QE.1">
+							<xs:annotation>
+								<xs:documentation>Only QE.1 allowed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="QE.1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ColorComponents4-2-0" default="Y'Cb'Cr'">
+							<xs:annotation>
+								<xs:documentation>Y'Cb'Cr'</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Y'Cb'Cr'"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Colorimetry4-2-0">
+							<xs:annotation>
+								<xs:documentation>Note: COLOR.3 only applies to ITU-R BT.709 delivered material and COLOR.8 corresponds to the HLG system specified in Recommendation ITU-R BT.2100</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="COLOR.3"/>
+									<xs:enumeration value="COLOR.5"/>
+									<xs:enumeration value="COLOR.7"/>
+									<xs:enumeration value="COLOR.8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PixelBitDepth4-2-0" default="10">
+							<xs:annotation>
+								<xs:documentation>Only 10 allowed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ChromaSubsample4-2-2">
+				<xs:annotation>
+					<xs:documentation>The two chroma components are sampled at half the sample rate of luma: the horizontal chroma resolution is halved. This reduces the bandwidth of an uncompressed video signal by one-third with little to no visual difference.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quantization4-2-2" default="QE.1">
+							<xs:annotation>
+								<xs:documentation>Only QE.1 allowed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="QE.1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ColorComponents4-2-2" default="Y'Cb'Cr'">
+							<xs:annotation>
+								<xs:documentation>Y'Cb'Cr'</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Y'Cb'Cr'"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Colorimetry4-2-2">
+							<xs:annotation>
+								<xs:documentation>Note: COLOR.3 only applies to ITU-R BT.709 delivered material and COLOR.8 corresponds to the HLG system specified in Recommendation ITU-R BT.2100</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="COLOR.3"/>
+									<xs:enumeration value="COLOR.5"/>
+									<xs:enumeration value="COLOR.7"/>
+									<xs:enumeration value="COLOR.8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PixelBitDepth4-2-2" default="10">
+							<xs:annotation>
+								<xs:documentation>Only 10 allowed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ChromaSubsample4-4-4">
+				<xs:annotation>
+					<xs:documentation>Each of the three Y'CbCr components have the same sample rate, thus there is no chroma subsampling.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quantization4-4-4">
+							<xs:annotation>
+								<xs:documentation>Either QE.1 or QE.2</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="QE.1"/>
+									<xs:enumeration value="QE.2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ColorComponents4-4-4" default="R'G'B">
+							<xs:annotation>
+								<xs:documentation>R'G'B</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="R'G'B"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Colorimetry4-4-4">
+							<xs:annotation>
+								<xs:documentation>Note: COLOR.8 corresponds to the HLG system specified in Recommendation ITU-R BT.2100</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="COLOR.5"/>
+									<xs:enumeration value="COLOR.7"/>
+									<xs:enumeration value="COLOR.8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PixelBitDepth4-4-4" default="12">
+							<xs:annotation>
+								<xs:documentation>Only 12 allowed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="12"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ImageEssence">
+		<xs:annotation>
+			<xs:documentation>Description of the video image essence for ProRes, J2K and others. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageFrameWidth">
+				<xs:annotation>
+					<xs:documentation>Three options allowed: 1920, 3840, and 7680 pixels</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1920"/>
+						<xs:enumeration value="3840"/>
+						<xs:enumeration value="7680"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ImageFrameHeight">
+				<xs:annotation>
+					<xs:documentation>Three options allowed: 1080, 2160 and 4320 pixels</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1080"/>
+						<xs:enumeration value="2160"/>
+						<xs:enumeration value="4320"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FrameStructure" default="Progressive">
+				<xs:annotation>
+					<xs:documentation>Progressive only</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Progressive"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Stereoscopy">
+				<xs:annotation>
+					<xs:documentation>Supports either monoscopic or stereoscopic formats</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Monoscopic"/>
+						<xs:enumeration value="Stereoscopic"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FrameRate">
+				<xs:annotation>
+					<xs:documentation>Multiple frame rate speeds are supported.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="24"/>
+						<xs:enumeration value="24000/1001"/>
+						<xs:enumeration value="25"/>
+						<xs:enumeration value="30"/>
+						<xs:enumeration value="30000/1001"/>
+						<xs:enumeration value="50"/>
+						<xs:enumeration value="60"/>
+						<xs:enumeration value="60000/1001"/>
+						<xs:enumeration value="100"/>
+						<xs:enumeration value="120"/>
+						<xs:enumeration value="120000/1001"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ChromaSubsampling" type="ChromaSubsampling">
+				<xs:annotation>
+					<xs:documentation>The practice of encoding images by implementing less resolution for chroma information than for luma information, taking advantage of the human visual system's lower acuity for color differences than for luminance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IMFChromaSubsample4-2-2">
+		<xs:annotation>
+			<xs:documentation>The two chroma components are sampled at half the sample rate of luma: the horizontal chroma resolution is halved. This reduces the bandwidth of an uncompressed video signal by one-third with little to no visual difference. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Quantization4-2-2" default="QE.1">
+				<xs:annotation>
+					<xs:documentation>Only QE.1 allowed</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="QE.1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ColorComponents4-2-2" default="Y'Cb'Cr'">
+				<xs:annotation>
+					<xs:documentation>Y'Cb'Cr'</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Y'Cb'Cr'"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Colorimetry4-2-2">
+				<xs:annotation>
+					<xs:documentation>Thre options allowed: COLOR.1, .2 and .3</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="COLOR.1"/>
+						<xs:enumeration value="COLOR.2"/>
+						<xs:enumeration value="COLOR.3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PixelBitDepth">
+				<xs:annotation>
+					<xs:documentation>Pixel Bit Depth must be either set as a value of 8 or 10.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="8"/>
+						<xs:enumeration value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IMFImageEssenceApp2">
+		<xs:annotation>
+			<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageFrameWidth">
+				<xs:annotation>
+					<xs:documentation>The width of the frame is defined as the number of horizontal pixel elements and must be an integer no greater than 1920.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="1"/>
+						<xs:maxInclusive value="1920"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ImageFrameHeight">
+				<xs:annotation>
+					<xs:documentation>The height of the frame is defined as the number of vertical pixel elements and must be an integer.  If interlaced, the number must be even and can be no greater than 1080.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:maxInclusive value="1080"/>
+						<xs:minInclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FrameStructure">
+				<xs:annotation>
+					<xs:documentation>Under IMF there is the option of Progressive or Interlaced frame structures.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="Progressive">
+							<xs:annotation>
+								<xs:documentation>An image frame with progressive structure shall consist of a complete image frame, scanned progressively left to right and from top to bottom.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Stereoscopy-P">
+										<xs:annotation>
+											<xs:documentation>Can be either stereoscopic or monscopic.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Monoscopic"/>
+												<xs:enumeration value="Stereoscopic"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FrameRate-P">
+										<xs:annotation>
+											<xs:documentation>Multiple frame rate speeds are supported under progressive structure,</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="24"/>
+												<xs:enumeration value="24000/1001"/>
+												<xs:enumeration value="25"/>
+												<xs:enumeration value="30"/>
+												<xs:enumeration value="30000/1001"/>
+												<xs:enumeration value="50"/>
+												<xs:enumeration value="60"/>
+												<xs:enumeration value="60000/1001"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="IMFChromaSubsampling-P">
+										<xs:annotation>
+											<xs:documentation>COLOR.1
+Mapped as specified for 625-line systems in Section 2.6 of Recommendation ITU-R BT.601
+COLOR.2
+Mapped as specified for 525-line systems in Section 2.6 of Recommendation ITU-R BT.601
+COLOR.3
+Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:choice>
+												<xs:element name="IMFChromaSubsample4-2-2" type="IMFChromaSubsample4-2-2">
+													<xs:annotation>
+														<xs:documentation>The two chroma components are sampled at half the sample rate of luma: the horizontal chroma resolution is halved. This reduces the bandwidth of an uncompressed video signal by one-third with little to no visual difference.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="IMFChromaSubsample4-4-4">
+													<xs:annotation>
+														<xs:documentation>Each of the three Y'CbCr components have the same sample rate, thus there is no chroma subsampling.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Quantization4-4-4">
+																<xs:annotation>
+																	<xs:documentation>If set to QE.2, other componenst are restricted.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="QE.1"/>
+																		<xs:enumeration value="QE.2"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="ColorComponents4-4-4" default="R'G'B">
+																<xs:annotation>
+																	<xs:documentation>If Quantization = QE.2 then this must be R'G'B'.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="R'G'B"/>
+																		<xs:enumeration value="Y'C'bC'r"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="Colorimetry4-4-4">
+																<xs:annotation>
+																	<xs:documentation>If Quantization = QE.2 then this must be COLOR.3.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="COLOR.1"/>
+																		<xs:enumeration value="COLOR.2"/>
+																		<xs:enumeration value="COLOR.3"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="PixelBitDepth">
+																<xs:annotation>
+																	<xs:documentation>Pixel Bit Depth must be either set as a value of 8 or 10.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:integer">
+																		<xs:enumeration value="8"/>
+																		<xs:enumeration value="10"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:choice>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Interlaced">
+							<xs:annotation>
+								<xs:documentation>An image frame with interlaced structure shall consist of a pair of fields, a first field then a second field. The lines of each field shall have twice the vertical spatial sampling pitch of the frame. Lines in the second field shall be displaced vertically by the vertical sampling pitch and the line timing shall be delayed temporally by half the frame time from the lines in the first field. Image frames with an interlaced image structure shall have an even number of vertical pixels.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Stereoscopy-I">
+										<xs:annotation>
+											<xs:documentation>Restricted to only allow monoscopic as an option.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Monoscopic"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FrameRate-I">
+										<xs:annotation>
+											<xs:documentation>When interlaced frame structure is used, the field rate, i.e. the number of image fields per second, shall be twice the frame rate.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="25"/>
+												<xs:enumeration value="30"/>
+												<xs:enumeration value="30000/1001"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="IMFChromaSubsampling-I">
+										<xs:annotation>
+											<xs:documentation>COLOR.1
+Mapped as specified for 625-line systems in Section 2.6 of Recommendation ITU-R BT.601
+COLOR.2
+Mapped as specified for 525-line systems in Section 2.6 of Recommendation ITU-R BT.601
+COLOR.3
+Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="IMFChromaSubsample4-2-2" type="IMFChromaSubsample4-2-2">
+													<xs:annotation>
+														<xs:documentation>The two chroma components are sampled at half the sample rate of luma: the horizontal chroma resolution is halved. This reduces the bandwidth of an uncompressed video signal by one-third with little to no visual difference.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="J2KEncodingProfile-SD" type="J2KEncodingProfile-SD">
+				<xs:annotation>
+					<xs:documentation>Implementations shall support the profile and level combinations utilizing JPEG 2000 Profiles as specified in ISO/IEC 15444-1 Amendment 3.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IMFImageEssenceApp2e">
+		<xs:annotation>
+			<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework.(v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageFrameWidth">
+				<xs:annotation>
+					<xs:documentation>The width of the frame is defined as the number of horizontal pixel elements and must be an integer. Note that for Widths>3840, COLOR.4 is not supported and sampling must be 4:4:4 and R'G'B''.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="1"/>
+						<xs:maxInclusive value="4096"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ImageFrameHeight">
+				<xs:annotation>
+					<xs:documentation>The height of the frame is defined as the number of vertical pixel elements and must be an integer.  If interlaced, the number must be even. Note that for Heights greater than 2160, COLOR.4 is not supported and sampling must be 4:4:4 and R'G'B''.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:maxInclusive value="3112"/>
+						<xs:minInclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FrameStructure">
+				<xs:annotation>
+					<xs:documentation>Under IMFApp2e only Progressive is allowed.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Progressive">
+							<xs:annotation>
+								<xs:documentation>An image frame with progressive structure shall consist of a complete image frame, scanned progressively left to right and from top to bottom.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Stereoscopy-P">
+										<xs:annotation>
+											<xs:documentation>Can be either stereoscopic or monscopic.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Monoscopic"/>
+												<xs:enumeration value="Stereoscopic"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FrameRate-P">
+										<xs:annotation>
+											<xs:documentation>Note that 120 fps is only available with FrameWidth>3840 and FrameHeight>2160.</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="24"/>
+												<xs:enumeration value="24000/1001"/>
+												<xs:enumeration value="25"/>
+												<xs:enumeration value="30"/>
+												<xs:enumeration value="30000/1001"/>
+												<xs:enumeration value="50"/>
+												<xs:enumeration value="60"/>
+												<xs:enumeration value="60000/1001"/>
+												<xs:enumeration value="120"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="IMFApp2eChromaSubsampling-P">
+										<xs:annotation>
+											<xs:documentation>See section 5.2 under SMPTE ST 2067-21 for further details.</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:choice>
+												<xs:element name="IMFApp2eChromaSubsample4-2-2">
+													<xs:annotation>
+														<xs:documentation>[4:2:2]</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Quantization4-2-2" default="QE.1">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="QE.1"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="ColorComponents4-2-2" default="Y'Cb'Cr'">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="Y'Cb'Cr'"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="Colorimetry4-2-2">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="COLOR.3"/>
+																		<xs:enumeration value="COLOR.4"/>
+																		<xs:enumeration value="COLOR.5"/>
+																		<xs:enumeration value="COLOR.7"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="PixelBitDepth">
+																<xs:annotation>
+																	<xs:documentation>Under IMF-App2e, Pixel Bit Depth can be 8,10,12,16, but values are further restricted based on the Colorimetry used.  COLOR.3 and COLOR.4 allows 8 and 10, COLOR.5 allows 10 and 12 and COLOR.7 allows 10, 12, or 16.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:integer">
+																		<xs:enumeration value="8"/>
+																		<xs:enumeration value="10"/>
+																		<xs:enumeration value="12"/>
+																		<xs:enumeration value="16"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IMFApp2eChromaSubsample4-4-4">
+													<xs:annotation>
+														<xs:documentation>[4:4:4]</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Quantization4-4-4">
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="QE.1"/>
+																		<xs:enumeration value="QE.2"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="ColorComponents4-4-4" default="R'G'B">
+																<xs:annotation>
+																	<xs:documentation>If Quantization = QE.2 then this must be R'G'B'.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="R'G'B"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="Colorimetry4-4-4">
+																<xs:annotation>
+																	<xs:documentation>If Quantization = QE.2 then this must be COLOR.3.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="COLOR.3"/>
+																		<xs:enumeration value="COLOR.5"/>
+																		<xs:enumeration value="COLOR.6"/>
+																		<xs:enumeration value="COLOR.7"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="PixelBitDepth">
+																<xs:annotation>
+																	<xs:documentation>Under IMF-App2e, Pixel Bit Depth can be 8,10,12,16, but values are further restricted based on the Colorimetry used.  COLOR.3 allows 8 and 10, COLOR.5 allows 10 and 12 and COLOR.6 and COLOR.7 allows 10, 12, or 16.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:integer">
+																		<xs:enumeration value="8"/>
+																		<xs:enumeration value="10"/>
+																		<xs:enumeration value="12"/>
+																		<xs:enumeration value="16"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:choice>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="J2KEncodingProfile-IMF">
+				<xs:annotation>
+					<xs:documentation>Implementations shall support the combinations of JPEG 2000 profiles (as specified in ISO/IEC 15444-1 Amd.7) and image frame dimensions listed in Table 5, which replaces Table 5 in ST 2067-20.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="J2K-SD-IMF" type="J2KEncodingProfile-SD">
+							<xs:annotation>
+								<xs:documentation>Implementations shall support the profile and level combinations utilizing JPEG 2000 Profiles as specified in ISO/IEC 15444-1 Amendment 3.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="J2K-2K-IMF">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="J2KProfile">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Lossy"/>
+												<xs:enumeration value="Reversible"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="J2KOperatingLevel">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Level-1"/>
+												<xs:enumeration value="Level-2"/>
+												<xs:enumeration value="Level-3"/>
+												<xs:enumeration value="Level-4"/>
+												<xs:enumeration value="Level-5"/>
+												<xs:enumeration value="Level-6"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="J2KSub-level">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Level 0 Only"/>
+												<xs:enumeration value="All Except Level 0"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="J2K-4K-IMF">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="J2KProfile">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Lossy"/>
+												<xs:enumeration value="Reversible"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="J2KOperatingLevel">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Level-1"/>
+												<xs:enumeration value="Level-2"/>
+												<xs:enumeration value="Level-3"/>
+												<xs:enumeration value="Level-4"/>
+												<xs:enumeration value="Level-5"/>
+												<xs:enumeration value="Level-6"/>
+												<xs:enumeration value="Level-7"/>
+												<xs:enumeration value="Level-8"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="J2KSub-level">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Sublevel 0 Only"/>
+												<xs:enumeration value="All Allowed except Sublevel 0"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="J2KEncodingProfile">
+		<xs:annotation>
+			<xs:documentation>JPEG-2000 Encoding Options (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="JPEG-2000-2K">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="J2KProfile">
+							<xs:annotation>
+								<xs:documentation>Two options: Lossy or Reversible</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Lossy"/>
+									<xs:enumeration value="Reversible"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="J2KOperatingLevel">
+							<xs:annotation>
+								<xs:documentation>Level-5 or Level-6 only</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Level-5"/>
+									<xs:enumeration value="Level-6"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="J2KSub-Level">
+							<xs:annotation>
+								<xs:documentation>Either Level 0 Only or allow all except Level 0</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Level 0 Only"/>
+									<xs:enumeration value="All Except Level 0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="JPEG-2000-4K">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="J2KProfile">
+							<xs:annotation>
+								<xs:documentation>Two options: Lossy or Reversible</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Lossy"/>
+									<xs:enumeration value="Reversible"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="J2KOperatingLevel">
+							<xs:annotation>
+								<xs:documentation>Levels 6 through 9</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Level-6"/>
+									<xs:enumeration value="Level-7"/>
+									<xs:enumeration value="Level-8"/>
+									<xs:enumeration value="Level-9"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="J2KSub-Level">
+							<xs:annotation>
+								<xs:documentation>Either Level 0 Only or allow all except Level 0</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Level 0 Only"/>
+									<xs:enumeration value="All Except Level 0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="JPEG-2000-8K">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="J2KProfile">
+							<xs:annotation>
+								<xs:documentation>Two options: Lossy or Reversible</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Lossy"/>
+									<xs:enumeration value="Reversible"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="J2KOperatingLevel">
+							<xs:annotation>
+								<xs:documentation>Levels 7 through 11</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Level-7"/>
+									<xs:enumeration value="Level-8"/>
+									<xs:enumeration value="Level-9"/>
+									<xs:enumeration value="Level-10"/>
+									<xs:enumeration value="Lelvel-11"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="J2KSub-Level">
+							<xs:annotation>
+								<xs:documentation>Either Level 0 Only or allow all except Level 0</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Level 0 Only"/>
+									<xs:enumeration value="All Except Level 0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="J2KEncodingProfile-SD">
+		<xs:annotation>
+			<xs:documentation>Implementations shall support the profile and level combinations utilizing JPEG 2000 Profiles as specified in ISO/IEC 15444-1 Amendment 3. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="J2KProfile-IMF">
+				<xs:annotation>
+					<xs:documentation>Broadcast Contribution values single or multi-tile.  Effects valid operating level settings.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Single Tile"/>
+						<xs:enumeration value="Multi-tile Reversible"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="J2KOperatingLevel-IMF">
+				<xs:annotation>
+					<xs:documentation>Note that the J2K Profile setting of single tile option is valid for Level's 1-5 only and multi-tile is valid for Level 6 and 7 only.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Level-1"/>
+						<xs:enumeration value="Level-2"/>
+						<xs:enumeration value="Level-3"/>
+						<xs:enumeration value="Level-4"/>
+						<xs:enumeration value="Level-5"/>
+						<xs:enumeration value="Level-6"/>
+						<xs:enumeration value="Level-7"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TSVideo">
+		<xs:annotation>
+			<xs:documentation>Enumerates the various values relating to the presentation of video in a transport stream</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Null">
+				<xs:annotation>
+					<xs:documentation>No Information provided for Video</xs:documentation>
+				</xs:annotation>
+				<xs:complexType/>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="Encoding" type="TSVideoEncodingType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If NTSC or PAL this should be set to uncompressed.  The other options are various compression utilities that are used to store or transmit video.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DigitalVideo" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Required to be true if video format is 1080p, 1080i, 720p, 480p, optional for 576i and 480i</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Format" type="VideoFormatType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The number of lines of video and either an "i" for interlaced or "p" for progressive.  Note that NTSC = 480i; PAL = 576i; and the rest are digital ATSC/DVB options.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Only 4:3 or 16:9 values allowed</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:choice minOccurs="0">
+					<xs:element name="AFD-BarDataPresent" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that active format description and bar data is used in the presentation of the video in order to convert the production image to the selected transmission aspect ration.  The actual values for these items is incorporated into the video VANC.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PanAndScanPresent" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that pan and scan techniques are being used to adjust the production image to fit the transmission aspect ratio.  Note that each frame's values may be different and the actual data to determine the values are carried in the video VANC.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AFDData" type="AFDData" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+			</xs:sequence>
+		</xs:choice>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="Video">
+		<xs:annotation>
+			<xs:documentation>Enumerates the various values relating to the presentation of video</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Null">
+				<xs:annotation>
+					<xs:documentation>No Information provided for Video</xs:documentation>
+				</xs:annotation>
+				<xs:complexType/>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="Encoding" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If NTSC or PAL this should be set to uncompressed.  The other options are various compression utilities that are used to store or transmit video.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="VideoEncodingType">
+								<xs:attribute name="encodingReference" type="xs:string">
+									<xs:annotation>
+										<xs:documentation>Allows the user to annotate the type of encoding method used if not standard.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DigitalVideo" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Required to be true if video format is 2160p, 1080p, 1080i, 720p, 480p, optional for 576i and 480i.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Format" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The number of lines of video and either an "i" for interlaced or "p" for progressive.  Note that NTSC = 480i; PAL = 576i; and the rest are digital ATSC/DVB options.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="VideoFormatType"/>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The horizontal:vertical ratio of the complete video display including AFD-BarData (A/53)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:choice minOccurs="0">
+					<xs:element name="AFD-BarDataPresent" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that active format description and bar data is used in the presentation of the video in order to convert the production image to the selected transmission aspect ratio.  The actual values for these items is incorporated into the video VANC.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:boolean"/>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PanAndScanPresent" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that pan and scan techniques are being used to adjust the production image to fit the transmission aspect ratio.  Note that each frame's values may be different and the actual data to determine the values are carried in the video VANC.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AFDData" type="AFDData" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="WideScreen" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Use to flag if original content is letterboxed, SD or HD. (v6.0)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ChromaSubsampling" type="ChromaSubsampling" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Video sampling options (v6.0)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+			</xs:sequence>
+		</xs:choice>
+		<xs:attribute name="centerCutProtected" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Set as True if video content was created with centercut protection. (v6.0)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="nativeFrameRate" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Original framerate that the content was shot. (v6.0)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="VideoTransition">
+		<xs:annotation>
+			<xs:documentation>Allows the user to specify specific actions to be used by the automation system to transition the video from one event to another</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TransitionInType" type="VideoTransitionEnumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type of transition to perform between the previous event and this event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionPattern" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the transition is a wipe the pattern to be used for the wipe. (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransitionInRate" type="VideoRateType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The rate of transition between the previous event and this event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionOutType" type="VideoTransitionEnumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type of transition to before between this event and the next event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionOutRate" type="VideoRateType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The rate of transition between this event and the next event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionSom" type="BxfSmpteTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to designate a specific start point for the transition relative to the active content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionEom" type="BxfSmpteTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to designate a specific end point for the transition relative to the active content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
 	<xs:simpleType name="AspectRatioType">
 		<xs:annotation>
 			<xs:documentation>Enumerates either 4:3 or 16:9 video presentation formats</xs:documentation>
@@ -373,18 +1322,22 @@
 	</xs:simpleType>
 	<xs:simpleType name="VideoEncodingType">
 		<xs:annotation>
-			<xs:documentation>Enumerates various methods of compressing video</xs:documentation>
+			<xs:documentation>Enumerates various methods of compressing video (v6.0)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Uncompressed"/>
+			<xs:enumeration value="DNxHD"/>
+			<xs:enumeration value="DNxHR"/>
+			<xs:enumeration value="HEVC"/>
 			<xs:enumeration value="MPEG-2"/>
 			<xs:enumeration value="MPEG-4 AVC"/>
+			<xs:enumeration value="ProRes"/>
 			<xs:enumeration value="SMPTE VC-1"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="VideoFormatType">
 		<xs:annotation>
-			<xs:documentation>Enumerates the different video presentation formats</xs:documentation>
+			<xs:documentation>Enumerates the different video presentation formats (v6.0)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="1080p"/>
@@ -393,6 +1346,7 @@
 			<xs:enumeration value="576i"/>
 			<xs:enumeration value="480p"/>
 			<xs:enumeration value="480i"/>
+			<xs:enumeration value="2160p"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="VideoRateType">

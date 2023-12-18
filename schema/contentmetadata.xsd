@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:include schemaLocation="bxfcaptions.xsd"/>
 	<xs:include schemaLocation="bxfcontentid.xsd"/>
@@ -38,7 +38,7 @@
 			<xs:choice>
 				<xs:element name="BaseBand">
 					<xs:annotation>
-						<xs:documentation>Used to describe the attributes of media that is still in the process of production prior to transmission or release for final viewing.</xs:documentation>
+						<xs:documentation>Used to describe the attributes of media that is still in the process of production prior to transmission or release for final viewing.  (Added Access Services in V6.0)</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
@@ -46,6 +46,11 @@
 							<xs:element name="Video" type="Video" minOccurs="0"/>
 							<xs:element name="Captions" type="BxfCaptions" minOccurs="0"/>
 							<xs:element name="VerticalIntervalData" type="VerticalIntervalData" minOccurs="0"/>
+							<xs:element name="AccessServices" type="AccessServices" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Expands Captioning options and other access services. (v6.0)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
 						</xs:sequence>
 						<xs:attribute name="compressionBitRate" type="xs:decimal">
 							<xs:annotation>
@@ -110,7 +115,7 @@
 				</xs:element>
 				<xs:element name="ContentDelivery" type="ContentDelivery">
 					<xs:annotation>
-						<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. (v5.0)</xs:documentation>
+						<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. AirReadyMaster added (v5.0) and LibraryMaster added (v6.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>

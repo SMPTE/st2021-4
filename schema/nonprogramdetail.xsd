@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="Advertiser">
 		<xs:sequence maxOccurs="unbounded">
@@ -53,10 +53,11 @@
 		<xs:sequence>
 			<xs:element name="AdType">
 				<xs:annotation>
-					<xs:documentation>Used to describe the type of advertisement being placed (e.g. General, Promo, PSA, etc.) Default is General. (v5.0)</xs:documentation>
+					<xs:documentation>Used to describe the type of advertisement being placed (e.g. Commercial, General, Promo, PSA, etc.).  Note: added “Commercial” as an additional enumeration to be explicit from the General option. (v6.0)</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
+						<xs:enumeration value="Commercial"/>
 						<xs:enumeration value="Direct Response"/>
 						<xs:enumeration value="General"/>
 						<xs:enumeration value="Paid Program"/>
@@ -150,6 +151,19 @@
 							<xs:attribute name="advertiserCampaignCode" type="xs:string"/>
 						</xs:extension>
 					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DirectResponse" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Direct Response information (v6.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DRPhonetNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="DRCode" type="xs:string" minOccurs="0"/>
+						<xs:element name="DR_URL" type="xs:anyURI" minOccurs="0"/>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>

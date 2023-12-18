@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
 	<xs:include schemaLocation="bxfcontentid.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:include schemaLocation="qualitycontrol.xsd"/>
@@ -10,12 +9,12 @@
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:complexType name="ContentDelivery">
 		<xs:annotation>
-			<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. (v5.0)</xs:documentation>
+			<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. AirReadyMaster added (v5.0) and LibraryMaster added (v6.0)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence minOccurs="0">
-			<xs:element name="AirReadyMaster">
+			<xs:element name="AirReadyMaster" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Used to specify requirements for delivery of Air Ready Masters.</xs:documentation>
+					<xs:documentation>Used to specify requirements for delivery of Air Ready Masters. (v5.0)</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
@@ -607,6 +606,145 @@
 						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 					</xs:sequence>
 				</xs:complexType>
+			</xs:element>
+			<xs:element name="LibraryMaster" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Content delivery options for Library Masters using various published specifications (v6.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="ProRes" type="ProResLibraryMasterApp"/>
+						<xs:element name="J2K" type="J2KLibraryMasterApp"/>
+						<xs:element name="IMFApplications">
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="IMFapp2" type="IMFLibraryMasterApp2"/>
+									<xs:element name="IMFapp2E" type="IMFLibraryMasterApp2e"/>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DescriptiveMetadata">
+		<xs:annotation>
+			<xs:documentation>Indicates the presence of various types of desrciptive metadata in the Library Master. (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AS-11_DPPMetadata" type="xs:boolean"/>
+			<xs:element name="EBU_QCMetadata" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="QualityControl"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RDD6_DolbyAudioMetadata" type="xs:boolean"/>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IMFLibraryMasterApp2">
+		<xs:annotation>
+			<xs:documentation>Added content delivery options for Library Masters that conform to the IMF Framework as specified by ST 2067  (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageEssence" type="IMFImageEssenceApp2" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework  (v6.0) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MultiChannelAudioStreams" type="MultiChannelAudioStreams" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Linear PCM</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IMFLibraryMasterApp2e">
+		<xs:annotation>
+			<xs:documentation>Added content delivery options for Library Masters that conform to the IMF Framework as specified by ST 2067  (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageEssence" type="IMFImageEssenceApp2e" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework  (v6.0) </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MultiChannelAudioStreams" type="MultiChannelAudioStreams" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Linear PCM</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="J2KLibraryMasterApp">
+		<xs:annotation>
+			<xs:documentation>Added content delivery options for Library Masters in various configurations (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageEssence" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the video image essence for J2K content.(v6.0) </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="ImageEssence">
+							<xs:sequence>
+								<xs:element name="J2KEncodingProfile" type="J2KEncodingProfile"/>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MultiChannelAudioStreams" type="MultiChannelAudioStreams" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A collection of one or more audio streams with the same encoding method that further incorporate groups of audio channels in a specific format as defined in ST 377-4.  If a data stream (MXF audio essence track) contains multiple encodeing (e.g. PCM and Dolby E) than multiple MultiChannelAudioStreams must be used. (v6.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DescriptiveMetadata" type="DescriptiveMetadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the presence of various types of desrciptive metadata in the Library Master. (v6.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AccessServices" type="AccessServices" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicators of the type of access services provided as part of the Library Master content. (V6.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProResLibraryMasterApp">
+		<xs:annotation>
+			<xs:documentation>Added content delivery options for Library Masters in various configurations (v6.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageEssence" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the video image essence for ProRes content.(v6.0) </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="ImageEssence"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MultiChannelAudioStreams" type="MultiChannelAudioStreams" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A collection of one or more audio streams with the same encoding method that further incorporate groups of audio channels in a specific format as defined in ST 377-4.  If a data stream (MXF audio essence track) contains multiple encodeing (e.g. PCM and Dolby E) than multiple MultiChannelAudioStreams must be used. (v6.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DescriptiveMetadata" type="DescriptiveMetadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the presence of various types of desrciptive metadata in the Library Master. (v6.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AccessServices" type="AccessServices" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicators of the type of access services provided as part of the Library Master content. (V6.0)</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>

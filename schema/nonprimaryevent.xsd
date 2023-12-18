@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2017 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2017/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2017/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.000">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
 	<xs:include schemaLocation="macro.xsd"/>
 	<xs:include schemaLocation="nonprogramevent.xsd"/>
 	<xs:include schemaLocation="programevent.xsd"/>
@@ -35,7 +35,7 @@
 					<xs:sequence>
 						<xs:element name="OffsetTime" type="BxfSmpteTime" minOccurs="0">
 							<xs:annotation>
-								<xs:documentation>The time to start the event relative to the start time of the primary event</xs:documentation>
+								<xs:documentation>The time to start the event relative to the start time of the primary event, unless OffsetFrom = EndofEvent, OffsetType = End and direction = Negative, in which case, this is the start time of the event relative to the end time of the primary event. (v6.0)</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 					</xs:sequence>
@@ -159,6 +159,22 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
+			<xs:element name="GraphicKeyValuePairs" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Pair of Key values associated with Graphic details (v6.0)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Key" type="xs:string"/>
+						<xs:element name="Value" type="xs:string"/>
+					</xs:sequence>
+					<xs:attribute name="itemSequence" type="xs:positiveInteger">
+						<xs:annotation>
+							<xs:documentation>A positive integer representing the order in which the Key/Value pairs should be executed by the graphics system.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
