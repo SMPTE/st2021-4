@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
+<!-- Copyright 2015 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2015/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2015/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.000">
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
 	<xs:complexType name="BxfAddress">
 		<xs:annotation>
@@ -30,24 +30,25 @@
 			</xs:element>
 			<xs:element name="CompanyType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Used to designate the type of company such as an agency, advertiser, third party processor, station, network, etc. (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+					<xs:documentation>Used to designate the type of company such as an agency, advertiser, third party processor, station, network, producer (see enumerations).</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:enumeration value="Advertiser"/>
 						<xs:enumeration value="Agency"/>
-						<xs:enumeration value="TV Station"/>
 						<xs:enumeration value="Cable Network"/>
-						<xs:enumeration value="TV Network"/>
+						<xs:enumeration value="Interconnect Content Distributor"/>
 						<xs:enumeration value="Local Cable System"/>
-						<xs:enumeration value="Satellite Service"/>
+						<xs:enumeration value="Producer"/>
 						<xs:enumeration value="Program Distributor"/>
 						<xs:enumeration value="Radio Network"/>
 						<xs:enumeration value="Radio Station"/>
 						<xs:enumeration value="MSO"/>
-						<xs:enumeration value="Interconnect Content Distributor"/>
-						<xs:enumeration value="Other"/>
 						<xs:enumeration value="MVPD"/>
+						<xs:enumeration value="Satellite Service"/>
+						<xs:enumeration value="TV Network"/>
+						<xs:enumeration value="TV Station"/>
+						<xs:enumeration value="Other"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -103,6 +104,7 @@
 									<xs:enumeration value="Home"/>
 									<xs:enumeration value="Mobile"/>
 									<xs:enumeration value="Alternate"/>
+									<xs:enumeration value="Fax"/>
 									<xs:enumeration value="Other"/>
 								</xs:restriction>
 							</xs:simpleType>

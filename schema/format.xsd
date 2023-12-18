@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
+<!-- Copyright 2015 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2015/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2015/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:include schemaLocation="macro.xsd"/>
 	<xs:complexType name="Format">
@@ -93,6 +93,7 @@
 											</xs:simpleContent>
 										</xs:complexType>
 									</xs:element>
+									<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 									<xs:choice>
 										<xs:sequence>
 											<xs:annotation>
@@ -116,71 +117,13 @@
 													</xs:complexContent>
 												</xs:complexType>
 											</xs:element>
-											<xs:element name="NonPrimaryElements" minOccurs="0" maxOccurs="unbounded">
-												<xs:annotation>
-													<xs:documentation>It is possible to add secondary events to a primary event such that one or more events occur at the same time or in overlapping sequence.</xs:documentation>
-												</xs:annotation>
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="NonPrimaryElementId" type="Uuid">
-															<xs:annotation>
-																<xs:documentation>A UUID representing a unique identification of the element</xs:documentation>
-															</xs:annotation>
-														</xs:element>
-														<xs:element name="NonPrimaryOffset" maxOccurs="2">
-															<xs:annotation>
-																<xs:documentation>The definition of how a non-primary event should run relative to the primary event either using the start or end points of either event.</xs:documentation>
-															</xs:annotation>
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="OffsetTime" type="BxfSmpteTime" minOccurs="0">
-																		<xs:annotation>
-																			<xs:documentation>The time to start the event relative to the start time of the primary event</xs:documentation>
-																		</xs:annotation>
-																	</xs:element>
-																</xs:sequence>
-																<xs:attribute name="OffsetFrom">
-																	<xs:annotation>
-																		<xs:documentation>Defines the point of the primary event from which the offset is applied either start or end</xs:documentation>
-																	</xs:annotation>
-																	<xs:simpleType>
-																		<xs:restriction base="xs:string">
-																			<xs:enumeration value="BeginningofEvent"/>
-																			<xs:enumeration value="EndofEvent"/>
-																		</xs:restriction>
-																	</xs:simpleType>
-																</xs:attribute>
-																<xs:attribute name="OffsetType">
-																	<xs:annotation>
-																		<xs:documentation>This describes whether the start or end point of the non-primary event should be used when the offset is applied</xs:documentation>
-																	</xs:annotation>
-																	<xs:simpleType>
-																		<xs:restriction base="xs:string">
-																			<xs:enumeration value="Start"/>
-																			<xs:enumeration value="End"/>
-																		</xs:restriction>
-																	</xs:simpleType>
-																</xs:attribute>
-																<xs:attribute name="Direction">
-																	<xs:annotation>
-																		<xs:documentation>Defines whether the offset value is applied as a positive or negative value</xs:documentation>
-																	</xs:annotation>
-																	<xs:simpleType>
-																		<xs:restriction base="xs:string">
-																			<xs:enumeration value="Positive"/>
-																			<xs:enumeration value="Negative"/>
-																		</xs:restriction>
-																	</xs:simpleType>
-																</xs:attribute>
-															</xs:complexType>
-														</xs:element>
-														<xs:element name="NonPrimaryDuration" type="BxfDuration"/>
-														<xs:element name="NonPrimaryDescription" type="BxfText" minOccurs="0"/>
-														<xs:element name="Macros" type="Macro" minOccurs="0" maxOccurs="unbounded"/>
-													</xs:sequence>
-												</xs:complexType>
-											</xs:element>
+											<xs:element name="NonPrimaryElements" type="NonPrimaryElements" minOccurs="0"/>
 											<xs:element name="Description" type="BxfText" minOccurs="0"/>
+											<xs:element name="FormatSubElements" type="FormatSubElements" minOccurs="0" maxOccurs="unbounded">
+												<xs:annotation>
+													<xs:documentation>Used to subdivide a format element into smaller structures which when summed in duration would equal the total of the item.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
 											<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 										</xs:sequence>
 										<xs:element name="Description" type="BxfText">
@@ -199,6 +142,65 @@
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="FormatSubElements">
+		<xs:annotation>
+			<xs:documentation>Used to subdivide a format element into smaller structures which when summed in duration would equal the total of the item.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SubElementID" type="Uuid">
+				<xs:annotation>
+					<xs:documentation>UUID identfier for the structure.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubElementSequence" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>The ordinal sequence of each element with in the substructure.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubElementType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The type of element as defined in Configuration that is acceptable within the substructure.  Typically strings such as National, Local, but can be any unique definition for the element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubElementDuration">
+				<xs:annotation>
+					<xs:documentation>The expected duration of the subelement.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BxfDuration">
+							<xs:attribute name="variable">
+								<xs:annotation>
+									<xs:documentation>Used to indicate if the duration can be changed based on the contents added to the format element.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SubElementCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A string that defines the type of element or localized code for that element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubElementName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional name for the subelement.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubElementCategory" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional category as defined in Configuration or elsewhere which allows the grouping of the subelements.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NonPrimaryElements" type="NonPrimaryElements" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>It is possible to add secondary events to a subelement such that one or more events occur at the same time or in overlapping sequence.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="FormatUsage">
 		<xs:annotation>
@@ -228,5 +230,72 @@
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="NonPrimaryElements">
+		<xs:annotation>
+			<xs:documentation>It is possible to add secondary events to a primary event such that one or more events occur at the same time or in overlapping sequence.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NonPrimaryElementId" type="Uuid">
+				<xs:annotation>
+					<xs:documentation>A UUID representing a unique identification of the element</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NonPrimaryOffset" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The definition of how a non-primary event should run relative to the primary event either using the start or end points of either event.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OffsetTime" type="BxfSmpteTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The time to start the event relative to the start time of the primary event</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="OffsetFrom">
+						<xs:annotation>
+							<xs:documentation>Defines the point of the primary event from which the offset is applied either start or end</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="BeginningofEvent"/>
+								<xs:enumeration value="EndofEvent"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="OffsetType">
+						<xs:annotation>
+							<xs:documentation>This describes whether the start or end point of the non-primary event should be used when the offset is applied</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Start"/>
+								<xs:enumeration value="End"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="Direction">
+						<xs:annotation>
+							<xs:documentation>Defines whether the offset value is applied as a positive or negative value</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Positive"/>
+								<xs:enumeration value="Negative"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NonPrimaryDuration" type="BxfDuration"/>
+			<xs:element name="NonPrimaryDescription" type="BxfText" minOccurs="0"/>
+			<xs:element name="Macros" type="Macro" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PrimaryElementId" type="Uuid" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to establish a direct linkage to the Primary Element</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
