@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2019 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2019/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2019/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.000">
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:include schemaLocation="bxfcaptions.xsd"/>
 	<xs:include schemaLocation="bxfcontentid.xsd"/>
@@ -38,7 +39,7 @@
 			<xs:choice>
 				<xs:element name="BaseBand">
 					<xs:annotation>
-						<xs:documentation>Used to describe the attributes of media that is still in the process of production prior to transmission or release for final viewing.  (Added Access Services in V6.0)</xs:documentation>
+						<xs:documentation>Used to describe the attributes of media that is still in the process of production prior to transmission or release for final viewing.  (Added Access Services in v6.0) (Added AcceptedQCIssues in v7.0)</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
@@ -50,6 +51,16 @@
 								<xs:annotation>
 									<xs:documentation>Expands Captioning options and other access services. (v6.0)</xs:documentation>
 								</xs:annotation>
+							</xs:element>
+							<xs:element name="AcceptedQCIssues" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Used to describe QC issues that will be present on the content, but have been approved or accepted previously. (v7.0)</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="BxfText"/>
+									</xs:complexContent>
+								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
 						<xs:attribute name="compressionBitRate" type="xs:decimal">
@@ -115,7 +126,7 @@
 				</xs:element>
 				<xs:element name="ContentDelivery" type="ContentDelivery">
 					<xs:annotation>
-						<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. AirReadyMaster added (v5.0) and LibraryMaster added (v6.0)</xs:documentation>
+						<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. AirReadyMaster added (v5.0) and LibraryMaster added (v6.0) and minor modifications made (v7.0).</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
@@ -554,6 +565,11 @@
 			<xs:element name="EmbeddedRights" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Used to describe the rights held within a piece of content that differ from the rest of the content's rights.  For example, music embedded in a program, or a special event shown as part of an anthology program.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlatformType" type="BxfText" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to indicate the platform the content playout is on (eg. Linear, VOD, etc.). (v7.0)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>

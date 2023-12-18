@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2019 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2019/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2019/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="AFDData">
 		<xs:annotation>
@@ -165,7 +166,7 @@
 		<xs:choice>
 			<xs:element name="ChromaSubsample4-2-0">
 				<xs:annotation>
-					<xs:documentation>Cb and Cr are each subsampled at a factor of 2 both horizontally and vertically.</xs:documentation>
+					<xs:documentation>C'b and C'r are each subsampled at a factor of 2 both horizontally and vertically.</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
@@ -179,19 +180,19 @@
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
-						<xs:element name="ColorComponents4-2-0" default="Y'Cb'Cr'">
+						<xs:element name="ColorComponents4-2-0" default="Y'C'bC'r">
 							<xs:annotation>
-								<xs:documentation>Y'Cb'Cr'</xs:documentation>
+								<xs:documentation>Y'C'bC'r</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
-									<xs:enumeration value="Y'Cb'Cr'"/>
+									<xs:enumeration value="Y'C'bC'r"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
 						<xs:element name="Colorimetry4-2-0">
 							<xs:annotation>
-								<xs:documentation>Note: COLOR.3 only applies to ITU-R BT.709 delivered material and COLOR.8 corresponds to the HLG system specified in Recommendation ITU-R BT.2100</xs:documentation>
+								<xs:documentation>Note: COLOR.3 only applies to ITU-R BT.709 delivered material and COLOR.8 [DPP] corresponds to the HLG system specified in Recommendation ITU-R BT.2100</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
@@ -231,13 +232,13 @@
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
-						<xs:element name="ColorComponents4-2-2" default="Y'Cb'Cr'">
+						<xs:element name="ColorComponents4-2-2" default="Y'C'bC'r">
 							<xs:annotation>
-								<xs:documentation>Y'Cb'Cr'</xs:documentation>
+								<xs:documentation>Y'C'bC'r</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
-									<xs:enumeration value="Y'Cb'Cr'"/>
+									<xs:enumeration value="Y'C'bC'r"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
@@ -269,7 +270,7 @@
 			</xs:element>
 			<xs:element name="ChromaSubsample4-4-4">
 				<xs:annotation>
-					<xs:documentation>Each of the three Y'CbCr components have the same sample rate, thus there is no chroma subsampling.</xs:documentation>
+					<xs:documentation>Each of the three Y'C'bC'r components have the same sample rate, thus there is no chroma subsampling.</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
@@ -284,13 +285,13 @@
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
-						<xs:element name="ColorComponents4-4-4" default="R'G'B">
+						<xs:element name="ColorComponents4-4-4" default="R'G'B'">
 							<xs:annotation>
-								<xs:documentation>R'G'B</xs:documentation>
+								<xs:documentation>R'G'B'</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
-									<xs:enumeration value="R'G'B"/>
+									<xs:enumeration value="R'G'B'"/>
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:element>
@@ -317,6 +318,110 @@
 							</xs:simpleType>
 						</xs:element>
 					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="DynamicRange">
+		<xs:annotation>
+			<xs:documentation>Used to indicate whether the video content has either a standard dynamic range (SDR) or a hign dynamic range (HDR). (v7.0)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="SDR">
+				<xs:annotation>
+					<xs:documentation>Standard Dynamic Range</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice minOccurs="0">
+						<xs:element name="BT.601" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Standard Definition Television with standard dynamic range</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="BT.709" type="xs:boolean" default="1">
+							<xs:annotation>
+								<xs:documentation>High Definition Television with standard dynamic range</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="BT.2020" type="xs:boolean" default="0">
+							<xs:annotation>
+								<xs:documentation>Ultra High Definition Television with standard dynamic range</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="HDR">
+				<xs:annotation>
+					<xs:documentation>High Dynamic Range used with Ultra High Definition Television and 1080p</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="PQ">
+							<xs:annotation>
+								<xs:documentation>Perceptual Quantizer per ITU-R BT.2100</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="StaticMetadata">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ST-2086" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Mastering Display Color Volume, ST-2086</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="DisplayPrimaries" type="xs:integer"/>
+															<xs:element name="ChromaticityWhitePoint" type="xs:integer"/>
+															<xs:element name="MaxDispMasteringLuminance" type="xs:integer"/>
+															<xs:element name="MinDispMasteringLuminance" type="xs:double"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="MAXCLL" type="xs:double" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Maximum Content Light Level - the luma of the brightest pixel.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="MAXFALL" type="xs:double" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Maximum Frame Average Light Level - the highest frame average brightness within the content.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DynamicMetadata">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ST-2094-10" type="xs:boolean" minOccurs="0"/>
+												<xs:element name="ST-2094-40" type="xs:boolean" minOccurs="0"/>
+												<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+											</xs:sequence>
+											<xs:attribute name="sdiDynamicMetadataType">
+												<xs:annotation>
+													<xs:documentation>Allowed values are 1 or 5 with 2-4 reserved per ST 2108-1:2018 Table 3.  One(1) indicates ATSC A/341 (ST 2094-10) and five (5) indicates SL-HDR information SEI message. (v7.0)</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:integer">
+														<xs:enumeration value="1"/>
+														<xs:enumeration value="5"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:choice>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="HLG" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Hybrid Log-Gamma per ITU-R BT.2100</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
 				</xs:complexType>
 			</xs:element>
 		</xs:choice>
@@ -413,13 +518,13 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="ColorComponents4-2-2" default="Y'Cb'Cr'">
+			<xs:element name="ColorComponents4-2-2" default="Y'C'bC'r">
 				<xs:annotation>
-					<xs:documentation>Y'Cb'Cr'</xs:documentation>
+					<xs:documentation>Y'C'bC'r</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
-						<xs:enumeration value="Y'Cb'Cr'"/>
+						<xs:enumeration value="Y'C'bC'r"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -653,12 +758,12 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 	</xs:complexType>
 	<xs:complexType name="IMFImageEssenceApp2e">
 		<xs:annotation>
-			<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework.(v6.0)</xs:documentation>
+			<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework.  All references are taken from SMPTE ST 2067-21:2016 Section 5.1 and reference Table 3. (v6.0).</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ImageFrameWidth">
 				<xs:annotation>
-					<xs:documentation>The width of the frame is defined as the number of horizontal pixel elements and must be an integer. Note that for Widths>3840, COLOR.4 is not supported and sampling must be 4:4:4 and R'G'B''.</xs:documentation>
+					<xs:documentation>The width of the frame is defined as the number of horizontal pixel elements and must be an integer. Note that for Widths>3840, COLOR.4 is not supported and sampling must be 4:4:4 and R'G'B'.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -669,7 +774,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 			</xs:element>
 			<xs:element name="ImageFrameHeight">
 				<xs:annotation>
-					<xs:documentation>The height of the frame is defined as the number of vertical pixel elements and must be an integer.  If interlaced, the number must be even. Note that for Heights greater than 2160, COLOR.4 is not supported and sampling must be 4:4:4 and R'G'B''.</xs:documentation>
+					<xs:documentation>The height of the frame is defined as the number of vertical pixel elements and must be an integer. Note that for Heights greater than 2160, COLOR.4 is not supported and sampling must be 4:4:4 and R'G'B'.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
@@ -727,7 +832,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 											<xs:choice>
 												<xs:element name="IMFApp2eChromaSubsample4-2-2">
 													<xs:annotation>
-														<xs:documentation>[4:2:2]</xs:documentation>
+														<xs:documentation>In 4:2:2 Y’C’bC’r sampling, the Y’ component shall be sampled at each pixel, but the C’r and C’b components shall be horizontally subsampled by a factor of two with respect to the Y' component, co-sited with even-numbered Y’ samples (See Section 5.1.3.9 in SMPTE ST 2067-20:2016).</xs:documentation>
 													</xs:annotation>
 													<xs:complexType>
 														<xs:sequence>
@@ -738,10 +843,10 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:element>
-															<xs:element name="ColorComponents4-2-2" default="Y'Cb'Cr'">
+															<xs:element name="ColorComponents4-2-2" default="Y'C'bC'r">
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
-																		<xs:enumeration value="Y'Cb'Cr'"/>
+																		<xs:enumeration value="Y'C'bC'r"/>
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:element>
@@ -773,7 +878,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 												</xs:element>
 												<xs:element name="IMFApp2eChromaSubsample4-4-4">
 													<xs:annotation>
-														<xs:documentation>[4:4:4]</xs:documentation>
+														<xs:documentation>In 4:4:4 sampling, each component shall be sampled once at each image frame pixel  (See Section 5.1.3.9 in SMPTE ST 2067-20:2016).</xs:documentation>
 													</xs:annotation>
 													<xs:complexType>
 														<xs:sequence>
@@ -785,19 +890,19 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:element>
-															<xs:element name="ColorComponents4-4-4" default="R'G'B">
+															<xs:element name="ColorComponents4-4-4" default="R'G'B'">
 																<xs:annotation>
 																	<xs:documentation>If Quantization = QE.2 then this must be R'G'B'.</xs:documentation>
 																</xs:annotation>
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
-																		<xs:enumeration value="R'G'B"/>
+																		<xs:enumeration value="R'G'B'"/>
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:element>
 															<xs:element name="Colorimetry4-4-4">
 																<xs:annotation>
-																	<xs:documentation>If Quantization = QE.2 then this must be COLOR.3.</xs:documentation>
+																	<xs:documentation>If Quantization = QE.2 then this must be COLOR.3 (Section 5.2 Table 4).</xs:documentation>
 																</xs:annotation>
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
@@ -918,6 +1023,118 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="J2KChromaSubsampling">
+		<xs:annotation>
+			<xs:documentation>The practice of encoding images by implementing less resolution for chroma information than for luma information, taking advantage of the human visual system's lower acuity for color differences than for luminance. (v7.0)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ChromaSubsample4-2-2">
+				<xs:annotation>
+					<xs:documentation>The two chroma components are sampled at half the sample rate of luma: the horizontal chroma resolution is halved. This reduces the bandwidth of an uncompressed video signal by one-third with little to no visual difference.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quantization4-2-2" default="QE.1">
+							<xs:annotation>
+								<xs:documentation>Only QE.1 allowed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="QE.1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ColorComponents4-2-2" default="Y'C'bC'r">
+							<xs:annotation>
+								<xs:documentation>Y'C'bC'r</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Y'C'bC'r"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Colorimetry4-2-2">
+							<xs:annotation>
+								<xs:documentation>Note: COLOR.3 only applies to ITU-R BT.709 delivered material and COLOR.8 corresponds to the HLG system specified in Recommendation ITU-R BT.2100</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="COLOR.3"/>
+									<xs:enumeration value="COLOR.5"/>
+									<xs:enumeration value="COLOR.7"/>
+									<xs:enumeration value="COLOR.8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PixelBitDepth4-2-2" default="10">
+							<xs:annotation>
+								<xs:documentation>8 or 10 allowed with COLOR.3, otherwise only 10.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="8"/>
+									<xs:enumeration value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ChromaSubsample4-4-4">
+				<xs:annotation>
+					<xs:documentation>Each of the three Y'C'bC'r components have the same sample rate, thus there is no chroma subsampling.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Quantization4-4-4">
+							<xs:annotation>
+								<xs:documentation>Either QE.1 or QE.2</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="QE.1"/>
+									<xs:enumeration value="QE.2"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="ColorComponents4-4-4" default="R'G'B'">
+							<xs:annotation>
+								<xs:documentation>R'G'B'</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="R'G'B'"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Colorimetry4-4-4">
+							<xs:annotation>
+								<xs:documentation>Note: COLOR.8 corresponds to the HLG system specified in Recommendation ITU-R BT.2100</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="COLOR.5"/>
+									<xs:enumeration value="COLOR.7"/>
+									<xs:enumeration value="COLOR.8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="PixelBitDepth4-4-4" default="12">
+							<xs:annotation>
+								<xs:documentation>Only 12 allowed</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:enumeration value="12"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="J2KEncodingProfile">
 		<xs:annotation>
@@ -1082,6 +1299,78 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="J2KImageEssence">
+		<xs:annotation>
+			<xs:documentation>Description of the video image essence for ProRes, J2K and others. (v7.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ImageFrameWidth">
+				<xs:annotation>
+					<xs:documentation>Two options allowed: 1920 or 3840 pixels</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1920"/>
+						<xs:enumeration value="3840"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ImageFrameHeight">
+				<xs:annotation>
+					<xs:documentation>Two options allowed: 1080 or 2160</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="1080"/>
+						<xs:enumeration value="2160"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FrameStructure" default="Progressive">
+				<xs:annotation>
+					<xs:documentation>Progressive only</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Progressive"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Stereoscopy">
+				<xs:annotation>
+					<xs:documentation>Supports either monoscopic or stereoscopic formats</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Monoscopic"/>
+						<xs:enumeration value="Stereoscopic"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FrameRate">
+				<xs:annotation>
+					<xs:documentation>Multiple frame rate speeds are supported up to 60 fps.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="24"/>
+						<xs:enumeration value="24000/1001"/>
+						<xs:enumeration value="25"/>
+						<xs:enumeration value="30"/>
+						<xs:enumeration value="30000/1001"/>
+						<xs:enumeration value="50"/>
+						<xs:enumeration value="60"/>
+						<xs:enumeration value="60000/1001"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="J2KChromaSubsampling" type="J2KChromaSubsampling">
+				<xs:annotation>
+					<xs:documentation>The practice of encoding images by implementing less resolution for chroma information than for luma information, taking advantage of the human visual system's lower acuity for color differences than for luminance. (v7.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="TSVideo">
 		<xs:annotation>
 			<xs:documentation>Enumerates the various values relating to the presentation of video in a transport stream</xs:documentation>
@@ -1231,9 +1520,19 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 						<xs:documentation>Use to flag if original content is letterboxed, SD or HD. (v6.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="ChromaSubsampling" type="ChromaSubsampling" minOccurs="0">
+				<xs:element name="ChromaSubsampling" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Video sampling options (v6.0)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="ChromaSubsampling"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DynamicRange" type="DynamicRange" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to indicate whether the video content has either a standard dynamic range (SDR) or a hign dynamic range (HDR). (v7.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
@@ -1247,6 +1546,11 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 		<xs:attribute name="nativeFrameRate" type="xs:string">
 			<xs:annotation>
 				<xs:documentation>Original framerate that the content was shot. (v6.0)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="includesSlate" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Used to indicate that a slate is present in the video content. (v7.0)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>

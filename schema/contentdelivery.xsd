@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2018/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2018/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2019 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2019/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2019/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.000">
 	<xs:include schemaLocation="bxfcontentid.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:include schemaLocation="qualitycontrol.xsd"/>
@@ -9,12 +10,12 @@
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:complexType name="ContentDelivery">
 		<xs:annotation>
-			<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. AirReadyMaster added (v5.0) and LibraryMaster added (v6.0)</xs:documentation>
+			<xs:documentation>Used to specify the method by which media content should be created and formatted for downstream use by a designated media company. AirReadyMaster added (v5.0) and LibraryMaster added (v6.0) and minor modifications made (v7.0).</xs:documentation>
 		</xs:annotation>
 		<xs:sequence minOccurs="0">
 			<xs:element name="AirReadyMaster" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Used to specify requirements for delivery of Air Ready Masters. (v5.0)</xs:documentation>
+					<xs:documentation>Used to specify requirements for delivery of Air Ready Masters. (v5.0).  UHD options added (v7.0).</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
@@ -113,7 +114,7 @@
 						</xs:element>
 						<xs:element name="DeliveryOptions">
 							<xs:annotation>
-								<xs:documentation>Video specification options - either MPEG-2 or AVC for HD content or AVC for UHD content.</xs:documentation>
+								<xs:documentation>Video specification options - either MPEG-2 or AVC for HD content or AVC for UHD content.  Updated (v7.0).</xs:documentation>
 							</xs:annotation>
 							<xs:complexType>
 								<xs:choice>
@@ -206,6 +207,209 @@
 																		<xs:enumeration value="PCM"/>
 																	</xs:restriction>
 																</xs:simpleType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UHDDeliverySpecification">
+										<xs:annotation>
+											<xs:documentation>NABA DPP Air Ready Delivery Speciification for UHD content (v7.0).</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="UHDVideoAudioEncoding">
+													<xs:annotation>
+														<xs:documentation>Note that PCM Audio is the only option for audio encoding for UHD content.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:choice>
+																<xs:element name="RDD-32Mode">
+																	<xs:annotation>
+																		<xs:documentation>Select either Option 1a or 1b as speciified in RDD-32 (XAVC).</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:enumeration value="Option 1a"/>
+																			<xs:enumeration value="Option 1b"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:sequence>
+																	<xs:element name="VideoFormat">
+																		<xs:annotation>
+																			<xs:documentation> 1080p or 2160p only</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:enumeration value="1080p"/>
+																				<xs:enumeration value="2160p"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:element name="AspectRatio" default="16:9">
+																		<xs:annotation>
+																			<xs:documentation>Must be 16:9</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:enumeration value="16:9"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:element name="FrameRate">
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:enumeration value="60"/>
+																				<xs:enumeration value="60*1000/1001"/>
+																				<xs:enumeration value="120"/>
+																				<xs:enumeration value="120*1000/1001"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:element name="ColorSystem" default="Y'C'bC'r">
+																		<xs:annotation>
+																			<xs:documentation>Must be Y'C'bC'r</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:enumeration value="Y'C'bC'r"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:element name="BitRate" type="xs:integer">
+																		<xs:annotation>
+																			<xs:documentation>Mbps</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="BitDepth" default="10">
+																		<xs:annotation>
+																			<xs:documentation>Only 10 bit allowed</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:integer">
+																				<xs:enumeration value="10"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																	<xs:element name="ColorSubsampling">
+																		<xs:annotation>
+																			<xs:documentation>Choose between 4:2:0 or 4:2:2</xs:documentation>
+																		</xs:annotation>
+																		<xs:simpleType>
+																			<xs:restriction base="xs:string">
+																				<xs:enumeration value="4:2:0"/>
+																				<xs:enumeration value="4:2:2"/>
+																			</xs:restriction>
+																		</xs:simpleType>
+																	</xs:element>
+																</xs:sequence>
+															</xs:choice>
+															<xs:element name="FileFormat-AS11">
+																<xs:annotation>
+																	<xs:documentation>The AS-11 family of Specifications defines constrained media file formats for the delivery of finished media assets to a broadcaster or publisher. Each Specification is developed for a particular business purpose. The value must be an "X" plus an integer value (1-9) that represents the AS-11 constraint such as X8 or X9.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:enumeration value="X1"/>
+																		<xs:enumeration value="X2"/>
+																		<xs:enumeration value="X3"/>
+																		<xs:enumeration value="X4"/>
+																		<xs:enumeration value="X5"/>
+																		<xs:enumeration value="X6"/>
+																		<xs:enumeration value="X7"/>
+																		<xs:enumeration value="X8"/>
+																		<xs:enumeration value="X9"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:element>
+															<xs:element name="AudioFormat">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="AudioEncoding" default="PCM">
+																			<xs:annotation>
+																				<xs:documentation>PCM Audio is Required</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="xs:string">
+																					<xs:enumeration value="PCM"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:element>
+																		<xs:element name="UHDLoudness">
+																			<xs:annotation>
+																				<xs:documentation>Program Loudness requirements and guidelines.</xs:documentation>
+																			</xs:annotation>
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="MeasuredLoudness" maxOccurs="unbounded">
+																						<xs:annotation>
+																							<xs:documentation>Program loudness, K-weighted, relative to full scale, measured with equipment that implements
+the algorithm specified by ITU-R BS.1770; Dialog Loudness, in LKFS units, of the Anchor Element</xs:documentation>
+																						</xs:annotation>
+																						<xs:complexType>
+																							<xs:attribute name="loudnessValue" use="required">
+																								<xs:simpleType>
+																									<xs:restriction base="xs:nonPositiveInteger">
+																										<xs:minInclusive value="-146"/>
+																										<xs:maxInclusive value="0"/>
+																									</xs:restriction>
+																								</xs:simpleType>
+																							</xs:attribute>
+																							<xs:attribute name="loudnessUnit" use="required">
+																								<xs:simpleType>
+																									<xs:restriction base="xs:string">
+																										<xs:enumeration value="dBFS"/>
+																									</xs:restriction>
+																								</xs:simpleType>
+																							</xs:attribute>
+																							<xs:attribute name="measurementType" use="required">
+																								<xs:simpleType>
+																									<xs:restriction base="xs:string">
+																										<xs:enumeration value="Program loudness"/>
+																										<xs:enumeration value="Max short-term loudness"/>
+																										<xs:enumeration value="Max momentary loudness"/>
+																									</xs:restriction>
+																								</xs:simpleType>
+																							</xs:attribute>
+																							<xs:attributeGroup ref="Action-ErrorGroup"/>
+																						</xs:complexType>
+																					</xs:element>
+																					<xs:element name="MeasuredMaximumTruePeak" default="-2" minOccurs="0">
+																						<xs:annotation>
+																							<xs:documentation>The maximum absolute level of the signal waveform in the continuous time domain, measured per ITU-R BS.1770</xs:documentation>
+																						</xs:annotation>
+																						<xs:simpleType>
+																							<xs:restriction base="xs:nonPositiveInteger">
+																								<xs:minInclusive value="-146"/>
+																								<xs:maxInclusive value="0"/>
+																							</xs:restriction>
+																						</xs:simpleType>
+																					</xs:element>
+																					<xs:element name="LoudnessStandard" default="ATSC A/85" minOccurs="0">
+																						<xs:annotation>
+																							<xs:documentation>Must be ATSC A/85.</xs:documentation>
+																						</xs:annotation>
+																						<xs:simpleType>
+																							<xs:restriction base="xs:string">
+																								<xs:enumeration value="ATSC A/85"/>
+																							</xs:restriction>
+																						</xs:simpleType>
+																					</xs:element>
+																					<xs:element name="Normalization" type="xs:nonPositiveInteger" default="-24" minOccurs="0">
+																						<xs:annotation>
+																							<xs:documentation>Although the target loudness is -24 LKFS, in exceptional circumstances other target levels may be permitted by agreement with the broadcaster. Other target levels must be agreed with the broadcaster before the final mix.</xs:documentation>
+																						</xs:annotation>
+																					</xs:element>
+																					<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
 															</xs:element>
 														</xs:sequence>
 													</xs:complexType>
@@ -670,7 +874,7 @@
 		<xs:sequence>
 			<xs:element name="ImageEssence" type="IMFImageEssenceApp2e" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework  (v6.0) </xs:documentation>
+					<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework.  All references are taken from SMPTE ST 2067-21:2016 Section 5.1 and reference Table 3. (v6.0).</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="MultiChannelAudioStreams" type="MultiChannelAudioStreams" minOccurs="0">
@@ -687,13 +891,17 @@
 		<xs:sequence>
 			<xs:element name="ImageEssence" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Description of the video image essence for J2K content.(v6.0) </xs:documentation>
+					<xs:documentation>Description of the video image essence for J2K content.(v6.0 and updated in v7.0 to remove 4-2-0 that was not appropriate and fix other labeling errors). </xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:complexContent>
-						<xs:extension base="ImageEssence">
+						<xs:extension base="J2KImageEssence">
 							<xs:sequence>
-								<xs:element name="J2KEncodingProfile" type="J2KEncodingProfile"/>
+								<xs:element name="J2KEncodingProfile" type="J2KEncodingProfile">
+									<xs:annotation>
+										<xs:documentation>Implementations shall support the combinations of JPEG 2000 IMF profiles (as specified in ISO/IEC 15444-1:2016). (v7.0)</xs:documentation>
+									</xs:annotation>
+								</xs:element>
 							</xs:sequence>
 						</xs:extension>
 					</xs:complexContent>
@@ -701,12 +909,12 @@
 			</xs:element>
 			<xs:element name="MultiChannelAudioStreams" type="MultiChannelAudioStreams" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>A collection of one or more audio streams with the same encoding method that further incorporate groups of audio channels in a specific format as defined in ST 377-4.  If a data stream (MXF audio essence track) contains multiple encodeing (e.g. PCM and Dolby E) than multiple MultiChannelAudioStreams must be used. (v6.0)</xs:documentation>
+					<xs:documentation>A collection of one or more audio streams with the same encoding method that further incorporate groups of audio channels in a specific format as defined in ST 377-4.  If a data stream (MXF audio essence track) contains multiple encoding (e.g. PCM and Dolby E) then multiple MultiChannelAudioStreams must be used. (v6.0)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DescriptiveMetadata" type="DescriptiveMetadata" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Indicates the presence of various types of desrciptive metadata in the Library Master. (v6.0)</xs:documentation>
+					<xs:documentation>Indicates the presence of various types of descriptive metadata in the Library Master. (v6.0)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AccessServices" type="AccessServices" minOccurs="0">
