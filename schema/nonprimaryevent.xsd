@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:include schemaLocation="macro.xsd"/>
 	<xs:include schemaLocation="nonprogramevent.xsd"/>
 	<xs:include schemaLocation="programevent.xsd"/>
+	<xs:include schemaLocation="content.xsd"/>
 	<xs:complexType name="NonPrimaryEvent">
 		<xs:sequence>
 			<xs:element name="NonPrimaryEventName" type="xs:string">
@@ -86,6 +87,27 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
+			<xs:element name="AudioOverPercent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to set an adjustment to the audio levels for voice over audio</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:nonNegativeInteger">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="GraphicData" type="GraphicData" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Use to add in graphics associated data  to a specific secondary event. Used for delineating a graphic collection, keyer number, template name, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OverlayPlacement" type="OverlayOpportunityType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes locations in time and space where overlays are either permitted or restricted from use.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="auxillary" type="xs:boolean" default="false">
@@ -93,6 +115,42 @@
 				<xs:documentation>Boolean flag to indicate that the non-primary event is an auxillary event which is time based and does not link to a primary event</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="GraphicData">
+		<xs:annotation>
+			<xs:documentation>Use to add in graphics associated data  to a specific secondary event. Used for delineating a graphic collection, keyer number, template name, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GraphicCollectionName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The collection in which the template can be found</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GraphicTemplate" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of template used for graphics overlay</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GraphicKeyer" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name or number of the keyer being used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="GraphicTextSource" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If an external source is used for the graphics, specify a path or external device.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GraphicText" type="BxfText" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Actual text to appear.  Do not use for captioning.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
 </xs:schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:F1234568-0022-92EE-9BA6-C293A1FA6693" messageType="Information" dateTime="2006-09-06T07:50:23.26" origin="Content Delivery System" originType="Content Delivery" destination="Traffic System" userName="Content Delivery System User" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+<BxfData action="add">
+	<ContentTransfer transferId="urn:uuid:FF56FE68-3D41-11DB-8AF6-B622A1EF5492" transferType="File transfer" priority="Normal" status="Completed" statusDescription="Content recently arrived--date and time reflected in the 'recordEventStart' and 'recordEventEnd' fields" recordEventStart="2006-09-06T07:50:23.26" recordEventEnd="2006-09-06T07:55:23.26">
+		<Content location="http://edgeserver.com/incoming_files" source="Regional Distributor">
+			<ProgramContent>
+				<ContentMetaData>
+					<ContentId action="add">
+						<Isan root="2B1A-FF17-3E20" episodeOrPart="6541" check1="7" version="48CD-78B1" check2="B"/>
+					</ContentId>
+						<Name>The One With the Thumb</Name>
+						<Description>Ross discovers the fate of his childhood pet, Chi-Chi.  Chandler starts smoking again; when the group complains, he diverts their attention to their own faults. Phoebe gets money she doesn't want; she complains and gets more; she gives it away and gets a can of soda in return...which contains a thumb. The beverage company gives her $7000. Monica's new boyfriend is a hit with her friends, but Monica's not too sure.</Description>
+				</ContentMetaData>
+				<Series>
+					<SeriesName>Friends</SeriesName>
+				</Series>
+			</ProgramContent>
+		</Content>
+	</ContentTransfer>
+</BxfData>
+</BxfMessage> 

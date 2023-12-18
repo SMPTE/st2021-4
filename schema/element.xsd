@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:include schemaLocation="scheduledevent.xsd"/>
 	<xs:include schemaLocation="nonprogramcontent.xsd"/>
 	<xs:complexType name="Element">
@@ -29,6 +29,11 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
+			<xs:element name="OverlayOpportunity" type="OverlayOpportunityType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes locations in time and space where overlays are either permitted or restricted from use. (v3.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
@@ -58,6 +63,11 @@
 					<xs:documentation>Each segment can have a descriptive name for the segment</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="OverlayOpportunity" type="OverlayOpportunityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes locations in time and space where overlays are either permitted or restricted from use. (v3.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
@@ -68,4 +78,103 @@
 			<xs:enumeration value="ProgramSegment"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="OverlayOpportunityType">
+		<xs:annotation>
+			<xs:documentation>Describes locations in time and space where overlays are either permitted or restricted from use. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Video-Audio">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Video"/>
+						<xs:enumeration value="Audio"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SOM" type="BxfSmpteTime"/>
+			<xs:element name="EOM" type="BxfSmpteTime"/>
+			<xs:element name="OpportunityComment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ScreenLocation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Defines the location of one or more video overlays on the screen and if it is interactive.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Plane">
+							<xs:annotation>
+								<xs:documentation>Defines the layer when multiple overlays are allowed.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="zOrder" type="xs:positiveInteger" use="required">
+									<xs:annotation>
+										<xs:documentation>Order of layers from 1 to n</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="percentOpaque" type="xs:integer" use="required">
+									<xs:annotation>
+										<xs:documentation>A level of 0 to 100 percent where 0 is fully transparent and 100 is completely opaque.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TopCorner">
+							<xs:annotation>
+								<xs:documentation>Upper left corner definition of the overlay position relative to the upper left corner of the screen.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="horizontalCoordinate" type="xs:nonNegativeInteger" use="required"/>
+								<xs:attribute name="verticalCoordinate" type="xs:nonNegativeInteger" use="required"/>
+								<xs:attribute name="units" default="Percent of Screen">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="Centimeters"/>
+											<xs:enumeration value="Inches"/>
+											<xs:enumeration value="Percent of Screen"/>
+											<xs:enumeration value="Pixels"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Size">
+							<xs:annotation>
+								<xs:documentation>The offset from the TopCorner using the same units</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="width" type="xs:positiveInteger" use="required"/>
+								<xs:attribute name="height" type="xs:positiveInteger" use="required"/>
+								<xs:attribute name="units" default="Percent of Screen">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="Centimeters"/>
+											<xs:enumeration value="Inches"/>
+											<xs:enumeration value="Percent of Screen"/>
+											<xs:enumeration value="Pixels"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="interactivity" type="xs:boolean" default="0">
+						<xs:annotation>
+							<xs:documentation>Used to designate whether the overlay is an interactive component where a viewer can have input to the video segment.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="allow" type="xs:boolean" use="optional" default="1">
+			<xs:annotation>
+				<xs:documentation>Option to allow or restrict content at the designation location.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="opportunityType" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Used to define the types of overlays that can be used such as crawls, voice-overs, over the shoulders, logos, etc.  (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
 </xs:schema>

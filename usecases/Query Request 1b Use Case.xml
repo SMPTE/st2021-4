@@ -1,0 +1,12 @@
+<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F2" messageType="Reply" dateTime="2006-08-16T20:44:50.16" origin="Automation" originType="Automation" destination="Traffic System" userName="Automation System User"  originMessageId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391E1" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+
+	<BxfQueryResponse>
+	  <Schedule type="Primary" scheduleId="urn:uuid:00000000-0000-0000-0000-003833839122">
+		<Channel>....</Channel>
+	  </Schedule>
+	  <Schedule type="Primary" scheduleId="urn:uuid:00000000-0000-0000-0000-003833839123">
+		<Channel>....</Channel>
+	  </Schedule>
+	</BxfQueryResponse>
+</BxfMessage>
+

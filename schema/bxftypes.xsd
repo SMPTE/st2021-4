@@ -1,7 +1,189 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
+	<xs:complexType name="BxfAddress">
+		<xs:annotation>
+			<xs:documentation>Address details</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LocationName" type="BxfText"/>
+			<xs:element name="Street1" type="BxfText"/>
+			<xs:element name="Street2" type="BxfText" minOccurs="0"/>
+			<xs:element name="Street3" type="BxfText" minOccurs="0"/>
+			<xs:element name="City" type="BxfText"/>
+			<xs:element name="StateProv" type="BxfText"/>
+			<xs:element name="Country" type="BxfText" minOccurs="0"/>
+			<xs:element name="PostalCode" type="xs:string"/>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BxfCompany">
+		<xs:annotation>
+			<xs:documentation>Defines all the attributes required for a company</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CompanyName" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>The name of the company</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CompanyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to designate the type of company such as an agency, advertiser, third party processor, station, network, etc. (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Advertiser"/>
+						<xs:enumeration value="Agency"/>
+						<xs:enumeration value="TV Station"/>
+						<xs:enumeration value="Cable Network"/>
+						<xs:enumeration value="TV Network"/>
+						<xs:enumeration value="Local Cable System"/>
+						<xs:enumeration value="Satellite Service"/>
+						<xs:enumeration value="Program Distributor"/>
+						<xs:enumeration value="Radio Network"/>
+						<xs:enumeration value="Radio Station"/>
+						<xs:enumeration value="MSO"/>
+						<xs:enumeration value="Interconnect Content Distributor"/>
+						<xs:enumeration value="Other"/>
+						<xs:enumeration value="MVPD"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CompanyDetails">
+				<xs:annotation>
+					<xs:documentation>Used to identify the company using specific identifiers and provide details about addresses and contacts associated with the company</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Identifiers" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Identifier" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>Actual identifier for the company</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="AuthoritativeIdSource" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>The industry standards body or other source for the identification value listed for the company (e.g. 4A's ID, FCC Call Sign, IRS EIN#, etc.) (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Locations" type="BxfAddress" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="Contacts" type="BxfContact" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BxfContact">
+		<xs:annotation>
+			<xs:documentation>A contact is a person that is being referenced including phone, email and address details</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContactSalutation" minOccurs="0"/>
+			<xs:element name="ContactFirstName" type="BxfText"/>
+			<xs:element name="ContactLastName" type="BxfText"/>
+			<xs:element name="ContactSuffix" minOccurs="0"/>
+			<xs:element name="ContactJobTitle" type="BxfText" minOccurs="0"/>
+			<xs:element name="Locations" type="BxfAddress" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Phones" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PhoneNumber" type="xs:string"/>
+						<xs:element name="PhoneType" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Business"/>
+									<xs:enumeration value="Home"/>
+									<xs:enumeration value="Mobile"/>
+									<xs:enumeration value="Alternate"/>
+									<xs:enumeration value="Other"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EMails" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Email">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="BxfText">
+										<xs:attribute name="primaryFlag" type="xs:boolean" default="0">
+											<xs:annotation>
+												<xs:documentation>Used to designate one of the emails as a primary one to use for the contact</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="EmailType" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Alternate"/>
+									<xs:enumeration value="Home"/>
+									<xs:enumeration value="Office"/>
+									<xs:enumeration value="Other"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BxfCoverage">
+		<xs:annotation>
+			<xs:documentation>An area of physical locations that represent the coverage for a broadcast station or the areas of distribution for a distributor of media content.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CoverageName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>ZIPCODE 10022</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TypeofCoverage">
+				<xs:annotation>
+					<xs:documentation>Specifies the type of units used to define the coverage using a specific enumeration. (e.g. Zip code)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="City"/>
+						<xs:enumeration value="Country"/>
+						<xs:enumeration value="Market"/>
+						<xs:enumeration value="DMA"/>
+						<xs:enumeration value="Zipcode"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CoverageId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The identifier within the type of units (e.g. 10022)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IncludeRestrictFlag">
+				<xs:annotation>
+					<xs:documentation>Indicates if this is included or excluded from the definition of the coverage for the Station. (e.g. Include)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Include"/>
+						<xs:enumeration value="Restrict"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="BxfDateTime">
 		<xs:annotation>
 			<xs:documentation>Allows either SMPTE or UTC based date-time notation</xs:documentation>
@@ -11,6 +193,67 @@
 			<xs:element name="UtcDateTime" type="BxfUtcDateTime"/>
 		</xs:choice>
 	</xs:complexType>
+	<xs:complexType name="BxfDaypart">
+		<xs:annotation>
+			<xs:documentation>A defined range of days, for one or more time period ranges and optionally dates that can be used to include or exclude for scheduling of content.  Note that it is possible to create illogical periods of time when potentially crossing the start of the broadcast day or crossing midnight depending on the system ingesting the definition.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DaypartDetail" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DayOfWeek" type="DayPattern">
+							<xs:annotation>
+								<xs:documentation>A 7 element binary representation of the days of the week in Monday-Sunday order where a 1 includes the day and a 0 excludes the day 
+(e.g. 1 1 1 1 1 0 0 = M-F) </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="StartTime" type="BxfSmpteTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The start time of the daypart for all  days specified in the DayofWeek element.  If not specified assume the Start of Broadcast Day.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EndTime" type="BxfSmpteTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The end time of the daypart for all  days specified in the DayofWeek element.  If not specified assume the End of Broadcast Day.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="localTimeZoneFlag" type="xs:boolean" use="required">
+						<xs:annotation>
+							<xs:documentation>Used to designate if the times in the daypart are to be treated as local times (1) or to alternately use a timezone designated in the dates field (0).</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DaypartName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional name that can be used to reference this daypart definition.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StartDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The start date that the daypart is valid or can be used for the specified content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The end date that the daypart is valid or can be used for the specified content.  If not specified it remains valid until further notice.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DaypartComment" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional comments that can be added to the daypart definition.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="excludeFlag" type="xs:boolean" default="0">
+			<xs:annotation>
+				<xs:documentation>If set to 1, treat defined daypart as a period to be excluded.  If set to 0 then treat as a period to be included. Default value is 0.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
 	<xs:complexType name="BxfDuration">
 		<xs:annotation>
 			<xs:documentation>Duration can be expressed using either SMPTE time code or xs:duration</xs:documentation>
@@ -19,6 +262,47 @@
 			<xs:element name="SmpteDuration" type="BxfSmpteTime"/>
 			<xs:element name="UtcDuration" type="xs:duration"/>
 		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="BxfExtensions">
+		<xs:annotation>
+			<xs:documentation>Used to describe customized metadata using data pairs and optionally a validation data type. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ItemValue" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A value for the metadata type (e.g. 2011 Oscar for Best Actor)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BxfText">
+							<xs:attribute name="itemName" type="xs:string" use="required">
+								<xs:annotation>
+									<xs:documentation>The name of the value (e.g. Best Actor)</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="itemType" type="xs:string" use="required">
+								<xs:annotation>
+									<xs:documentation>The type of the value (e.g. Oscar)</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="dataType">
+								<xs:annotation>
+									<xs:documentation>The validation that can be used for the ItemValue (e.g. string, integer, etc.)</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string"/>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="extensionType" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>The name of the metadata that will be used to refer to the enumerated date (e.g. Awards)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="BxfPrivateInformation">
 		<xs:annotation>
@@ -44,7 +328,11 @@
 				<xs:documentation>Specifies the number of frames per second and should always be provided if known</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="framecount" type="xs:integer"/>
+		<xs:attribute name="framecount" type="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Note that this attribute name might be expected to be "frameCount", but was left unchanged from previous versions in order to preserve backward compatibility.  This is a documented exception as of v3.0.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
 	<xs:complexType name="BxfSmpteDateTime">
@@ -65,6 +353,113 @@
 				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BxfStation">
+		<xs:annotation>
+			<xs:documentation>A transmitter or distributer of media content either over the air or by other means</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StationId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A unique identifier within the context of this message to be used in conjunction with the InstructionMap element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StationName" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Name used to commonly reference the station, network or other entity performing a job.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StationCallSign" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional federal designation for an over the air broadcast station consisting of 3 to 4 characters. (e.g. WHN or KABC or CJON)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="4"/>
+						<xs:minLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StationType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of enumerated types of JobPerformers that accept video and/or audio based advertising content.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Cable MSO"/>
+						<xs:enumeration value="Content Distributor"/>
+						<xs:enumeration value="Internet Distributor"/>
+						<xs:enumeration value="Radio Broadcast"/>
+						<xs:enumeration value="Radio Network"/>
+						<xs:enumeration value="Satellite Network"/>
+						<xs:enumeration value="Telco Distributor"/>
+						<xs:enumeration value="TV Broadcast"/>
+						<xs:enumeration value="TV Network"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DistributionPlatform" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Method of distribution used by the Station.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="AM"/>
+						<xs:enumeration value="FM"/>
+						<xs:enumeration value="Internet"/>
+						<xs:enumeration value="Mobile"/>
+						<xs:enumeration value="TV"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Ownership" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The company or companies that own the Station.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BxfCompany">
+							<xs:attribute name="percentOwnership">
+								<xs:annotation>
+									<xs:documentation>Percentage of ownership of the Station by the Company</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:integer">
+										<xs:minInclusive value="1"/>
+										<xs:maxInclusive value="100"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Contacts" type="BxfContact" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A list of contacts or personnel associated with the Station.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Coverage" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The definition using legally defined areas (e.g. Zip codes, DMA's, etc.) of the coverage provided by the station for a specific signal or distribution of their content.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BxfCoverage">
+							<xs:sequence>
+								<xs:element name="CoverageChildren" type="BxfCoverage" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>The children of the definition that describe the coverage using a different TypeofCoverage (e.g. Zip code List)</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="BxfText">
 		<xs:annotation>

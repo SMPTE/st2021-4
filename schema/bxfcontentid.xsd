@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxfisan.xsd"/>
 	<xs:complexType name="BxfAlternateId">
@@ -22,7 +22,7 @@
 		<xs:complexContent>
 			<xs:extension base="pmcp:HouseNumberType">
 				<xs:attributeGroup ref="PmcpActionErrorExtensionGroup"/>
-				<xs:attribute name="dayPattern" type="DayPattern"/>
+				<xs:attribute name="DayPattern" type="DayPattern"/>
 				<xs:attribute name="endOfDay" fixed="5">
 					<xs:annotation>
 						<xs:documentation>This 5-bit unsigned integer shall be set to the hour of the day in UTC in which the broadcast day ends and the instant after which the content_id values may be re-used according to unique_for. The value of this field shall be in the range of 0–23. The values 24–31 are reserved. Note that thevalue of this field is expected to be static per broadcaster.</xs:documentation>
@@ -59,28 +59,16 @@
 						<xs:documentation>V-ISAN, as defined by ISO.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="HouseNumber" type="BxfHouseNumber" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Legacy string used to identify the material locally to a station</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Any proprietary string other than the house number used to identify the material locally or globally</xs:documentation>
-					</xs:annotation>
-				</xs:element>
+				<xs:choice minOccurs="0">
+					<xs:element name="HouseNumber" type="BxfHouseNumber"/>
+				</xs:choice>
+				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:sequence>
-				<xs:element name="HouseNumber" type="BxfHouseNumber">
-					<xs:annotation>
-						<xs:documentation>Legacy string used to identify the material locally to a station</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Any proprietary string other than the house number used to identify the material locally or globally</xs:documentation>
-					</xs:annotation>
-				</xs:element>
+				<xs:choice>
+					<xs:element name="HouseNumber" type="BxfHouseNumber"/>
+				</xs:choice>
+				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:element name="AlternateId" type="BxfAlternateId" maxOccurs="unbounded">
 				<xs:annotation>

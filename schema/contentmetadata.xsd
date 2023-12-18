@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:include schemaLocation="bxfcaptions.xsd"/>
 	<xs:include schemaLocation="bxfcontentid.xsd"/>
@@ -8,6 +8,7 @@
 	<xs:include schemaLocation="location.xsd"/>
 	<xs:include schemaLocation="video.xsd"/>
 	<xs:include schemaLocation="macro.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="AlternateAudioContent">
 		<xs:annotation>
 			<xs:documentation>Used to provide alternate audio only media information</xs:documentation>
@@ -110,9 +111,66 @@
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
+	<xs:complexType name="BillBoard">
+		<xs:annotation>
+			<xs:documentation>Used to describe the different attributes of one or more BillBoards</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContentId" type="BxfContentId">
+				<xs:annotation>
+					<xs:documentation>Use only if multiple billboard elements.  If only one then repeat Id from previous level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BillBoardName" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>Name of BillBoard element</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Copy" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If just short copy, include in this element , otherwise, link full script in ScriptFile</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ScriptFile" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Use to place a text file containing the full script for the billboard.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="xs:anyType">
+							<xs:attribute name="fileName"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LogoGraphicFile" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Use to place a graphic file that contains the BillBoard to be displayed on air.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="xs:anyType">
+							<xs:attribute name="fileName" type="xs:string"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Media" type="Media" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If additional media records are associated with the billboard such as audio or video, decribe them in this area and assign separate contentIds.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BillBoardComment" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional instructions for handling the billboard</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="ContentMetaData">
 		<xs:annotation>
-			<xs:documentation>Used to describe all the metadata for a single instance of content</xs:documentation>
+			<xs:documentation>Used to describe all the metadata for a single instance of content. (Note that this element name might be expected to be “ContentMetadata”, but was left unchanged from previous versions in order to preserve backward compatibility.  This is a documented exception as of v3.0)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ContentId" type="BxfContentId"/>
@@ -130,6 +188,12 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Media" type="Media" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="BillBoard" type="BillBoard" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="DataExtensions" type="BxfExtensions" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to add an unlimited amount of descriptive metadata for the content. (v3.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
@@ -140,7 +204,7 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="BaseMedia">
-				<xs:sequence>
+				<xs:sequence maxOccurs="unbounded">
 					<xs:element name="MediaLocation" type="MediaLocation"/>
 				</xs:sequence>
 			</xs:extension>
@@ -242,6 +306,11 @@
 						<xs:element name="HiatusEndDate" type="xs:dateTime" minOccurs="0"/>
 					</xs:sequence>
 				</xs:complexType>
+			</xs:element>
+			<xs:element name="Exclusions" type="BxfExtensions" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Allows unlimited defined values to be excluded as part of the UsagePolicy. (v3.0)</xs:documentation>
+				</xs:annotation>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>

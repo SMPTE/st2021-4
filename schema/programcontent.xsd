@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:include schemaLocation="bxfparentalrating.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:include schemaLocation="contentmetadata.xsd"/>
@@ -39,6 +39,17 @@
 					<xs:documentation>Parental rating for the show for one region (PMCP)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="ContentType" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to describe the type of content (e.g. network, local, entertainment, news) (See Configuration Section in BXF Protocol Documentation) (v3.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EiCode" type="EiCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used for FCC Education/Information Children's code. (v3.0)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaidProgramming" type="SalesContract" minOccurs="0"/>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>

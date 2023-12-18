@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:904e104a-3345-4261-bac3-da80bb988b6a" dateTime="2006-11-16T08:11:12.00" messageType="Information" origin="Traffic System" originType="Traffic" userName="TrafficUser1" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+	<BxfData>
+		<Schedule type="Primary" scheduleId="urn:uuid:00000000-0000-0000-0000-0038338391E0" scheduleName="KXXX111706" scheduleStart="2006-11-17T17:30:00.00" scheduleEnd="2006-11-30T17:30:30.00">
+			<Channel channelNumber="2-1" status="active">
+			</Channel>
+			<!-- This is an example of a schedule update for AlternateId, Name, Description of content based on HouseNumber, scheduleStart and scheduleEnd -->
+			<ScheduledEvent>
+				<Content action="update">
+					<ContentId>
+						<HouseNumber action="update">90120</HouseNumber>
+						<AlternateId action="update" idType="ISCI">JFMC1205</AlternateId>
+					</ContentId>
+					<Name lang="eng">Johnson Motors</Name>
+					<Description lang="eng">Super Sales Event - Extended</Description>
+				</Content>
+			</ScheduledEvent>
+			<!-- This is an example of a schedule update for MediaLocation based on scheduleStart and scheduleEnd -->
+			<ScheduledEvent>
+				<!-- Content element provided for readability only -->
+				<Content>
+					<ContentId action="update">
+						<HouseNumber>90120</HouseNumber>
+						<AlternateId idType="ISCI">JFMC1205</AlternateId>
+					</ContentId>
+					<Media action="update">
+						<BaseBand/>
+						<MediaLocation>
+							<Location action="update">
+								<AssetServer fileTransferAllowed="true" playoutAllowed="true">
+									<PathName>\\server2\content\commercials</PathName>
+								</AssetServer>
+							</Location>
+							<SOM>
+								<SmpteTimeCode>00:00:00;00</SmpteTimeCode>
+							</SOM>
+							<Duration>
+								<SmpteDuration>
+									<SmpteTimeCode>00:00:30;00</SmpteTimeCode>
+								</SmpteDuration>
+							</Duration>
+						</MediaLocation>
+					</Media>
+				</Content>
+			</ScheduledEvent>
+		</Schedule>
+	</BxfData>
+</BxfMessage>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F2" dateTime="2006-09-05T13:38:26.28" messageType="Information" origin="Traffic System" originType="Traffic" userName="Traffic System User" destination="Automation" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" pmcp:schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd">
+	<BxfData action="add">
+		<Schedule type="Primary" scheduleId="urn:uuid:00000000-0000-0000-0000-0038338391E0" scheduleName="WXXX Ch 6-1" scheduleStart="2006-06-21T17:30:00.00" scheduleEnd="2006-06-21T17:30:00.00">
+			<Channel channelNumber="6-1" status="active" type="digital_television" ca="false" shortName="WXXX-DT" outOfBand="true">
+				<pmcp:Name lang="eng">WXXX-DT Ch 6-1</pmcp:Name>
+			</Channel>
+			<ScheduledEvent>
+				<ScheduleElements>
+					<EventData eventType="Primary-ProgramHeader">
+						<EventId>
+							<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F1</EventId>
+						</EventId>
+						<PrimaryEvent>
+							<ProgramEvent>
+								<SegmentNumber>1</SegmentNumber>
+								<ProgramName>Evening News</ProgramName>
+							</ProgramEvent>
+						</PrimaryEvent>
+						<StartDateTime nominalFlag="false">
+							<SmpteDateTime broadcastDate="2006-10-01">
+								<SmpteTimeCode>15:30:00:00</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<LengthOption>
+							<Duration>
+								<SmpteDuration>
+									<SmpteTimeCode>00:12:00:00</SmpteTimeCode>
+								</SmpteDuration>
+							</Duration>
+						</LengthOption>
+						<StartMode>Fixed</StartMode>
+						<EndMode>Duration</EndMode>
+					</EventData>
+					<Content>
+						<ContentId>
+							<HouseNumber>Network-1</HouseNumber>
+						</ContentId>
+						<Name>Evening News Segment-1</Name>
+						<Media>
+							<BaseBand/>
+							<MediaLocation>
+								<Location>
+									<RouterSource>
+										<Name>NEWS</Name>
+										<CrossPoint>PCL</CrossPoint>
+									</RouterSource>
+								</Location>
+								<SOM>
+									<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+								</SOM>
+								<Duration>
+									<SmpteDuration>
+										<SmpteTimeCode>00:12:00:00</SmpteTimeCode>
+									</SmpteDuration>
+								</Duration>
+							</MediaLocation>
+						</Media>
+					</Content>
+				</ScheduleElements>
+				<ScheduleElements>
+					<EventData eventType="Primary-BreakHeader">
+						<EventId>
+							<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F2</EventId>
+						</EventId>
+						<PrimaryEvent>
+							<NonProgramEvent>
+								<Details>
+									<AdType>General</AdType>
+									<SpotType>Standard</SpotType>
+									<Advertiser>
+										<AdvertiserName>Johnson Ford Motors</AdvertiserName>
+									</Advertiser>
+									<Product>
+										<Name>Car Sales Event</Name>
+									</Product>
+								</Details>
+							</NonProgramEvent>
+						</PrimaryEvent>
+						<StartDateTime nominalFlag="false">
+							<SmpteDateTime broadcastDate="2006-10-01">
+								<SmpteTimeCode>15:42:00:00</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<LengthOption>
+							<Duration>
+								<SmpteDuration>
+									<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+								</SmpteDuration>
+							</Duration>
+						</LengthOption>
+						<StartMode>Follow</StartMode>
+						<EndMode>Duration</EndMode>
+					</EventData>
+					<Content>
+						<ContentId>
+							<HouseNumber>JFMC1201</HouseNumber>
+							<AlternateId idType="ISCI" authorativeSource="AAAA">JFMC1201</AlternateId>
+						</ContentId>
+						<Name>Johnson Motors Super Sales Event</Name>
+						<Media>
+							<BaseBand/>
+							<MediaLocation>
+								<Location>
+									<AssetServer fileTransferAllowed="true" playoutAllowed="true">
+										<PathName>C:\MediaFiles\Commercials</PathName>
+									</AssetServer>
+								</Location>
+								<SOM>
+									<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+								</SOM>
+								<Duration>
+									<SmpteDuration>
+										<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+									</SmpteDuration>
+								</Duration>
+							</MediaLocation>
+						</Media>
+					</Content>
+				</ScheduleElements>
+				<ScheduleElements>
+					<EventData eventType="Primary-ProgramHeader">
+						<EventId>
+							<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F3</EventId>
+						</EventId>
+						<PrimaryEvent>
+							<ProgramEvent>
+								<SegmentNumber>2</SegmentNumber>
+								<ProgramName>Evening News</ProgramName>
+							</ProgramEvent>
+						</PrimaryEvent>
+						<StartDateTime nominalFlag="false">
+							<SmpteDateTime broadcastDate="2006-10-01">
+								<SmpteTimeCode>15:42:30:00</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<LengthOption>
+							<Duration>
+								<SmpteDuration>
+									<SmpteTimeCode>00:10:00:00</SmpteTimeCode>
+								</SmpteDuration>
+							</Duration>
+						</LengthOption>
+						<StartMode>Fixed</StartMode>
+						<EndMode>Duration</EndMode>
+					</EventData>
+					<Content>
+						<ContentId>
+							<HouseNumber>Network-1</HouseNumber>
+						</ContentId>
+						<Name>Evening News Segment-2</Name>
+						<Media>
+							<BaseBand/>
+							<MediaLocation>
+								<Location>
+									<RouterSource>
+										<Name>NEWS</Name>
+										<CrossPoint>PCL</CrossPoint>
+									</RouterSource>
+								</Location>
+								<SOM>
+									<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+								</SOM>
+								<Duration>
+									<SmpteDuration>
+										<SmpteTimeCode>00:10:00:00</SmpteTimeCode>
+									</SmpteDuration>
+								</Duration>
+							</MediaLocation>
+						</Media>
+					</Content>
+				</ScheduleElements>
+				<ScheduleElements>
+					<EventData eventType="Primary-BreakHeader">
+						<EventId>
+							<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F4</EventId>
+						</EventId>
+						<PrimaryEvent>
+							<NonProgramEvent>
+								<Details>
+									<AdType>General</AdType>
+									<SpotType>Standard</SpotType>
+									<Advertiser>
+										<AdvertiserName>Fortified Banks</AdvertiserName>
+									</Advertiser>
+									<Product>
+										<Name>Discount Mortgage Promotion</Name>
+									</Product>
+								</Details>
+							</NonProgramEvent>
+						</PrimaryEvent>
+						<StartDateTime nominalFlag="false">
+							<SmpteDateTime broadcastDate="2006-10-01">
+								<SmpteTimeCode>15:52:30:00</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<LengthOption>
+							<Duration>
+								<SmpteDuration>
+									<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+								</SmpteDuration>
+							</Duration>
+						</LengthOption>
+						<StartMode>Follow</StartMode>
+						<EndMode>Duration</EndMode>
+					</EventData>
+					<Content>
+						<ContentId>
+							<HouseNumber>FBIN0901</HouseNumber>
+							<AlternateId idType="ISCI" authorativeSource="AAAA">FBIN0901</AlternateId>
+						</ContentId>
+						<Name>Discount Mortgage Promotion</Name>
+						<Media>
+							<BaseBand/>
+							<MediaLocation>
+								<Location>
+									<AssetServer fileTransferAllowed="true" playoutAllowed="true">
+										<PathName>C:\MediaFiles\Commercials</PathName>
+									</AssetServer>
+								</Location>
+								<SOM>
+									<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+								</SOM>
+								<Duration>
+									<SmpteDuration>
+										<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+									</SmpteDuration>
+								</Duration>
+							</MediaLocation>
+						</Media>
+					</Content>
+				</ScheduleElements>
+				<ScheduleElements>
+					<EventData>
+						<EventId>
+							<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F5</EventId>
+						</EventId>
+						<PrimaryEvent>
+							<ProgramEvent>
+								<SegmentNumber>3</SegmentNumber>
+								<ProgramName>Evening News</ProgramName>
+							</ProgramEvent>
+						</PrimaryEvent>
+						<StartDateTime nominalFlag="false">
+							<SmpteDateTime broadcastDate="2006-10-01">
+								<SmpteTimeCode>15:53:00:00</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<LengthOption>
+							<Duration>
+								<SmpteDuration>
+									<SmpteTimeCode>00:07:00:00</SmpteTimeCode>
+								</SmpteDuration>
+							</Duration>
+						</LengthOption>
+						<StartMode>Fixed</StartMode>
+						<EndMode>Duration</EndMode>
+					</EventData>
+					<Content>
+						<ContentId>
+							<HouseNumber>Network-1</HouseNumber>
+						</ContentId>
+						<Name>Evening News Segment-3</Name>
+						<Media>
+							<BaseBand/>
+							<MediaLocation>
+								<Location>
+									<RouterSource>
+										<Name>NEWS</Name>
+										<CrossPoint>PCL</CrossPoint>
+									</RouterSource>
+								</Location>
+								<SOM>
+									<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+								</SOM>
+								<Duration>
+									<SmpteDuration>
+										<SmpteTimeCode>00:07:00:00</SmpteTimeCode>
+									</SmpteDuration>
+								</Duration>
+							</MediaLocation>
+						</Media>
+					</Content>
+				</ScheduleElements>
+			</ScheduledEvent>
+		</Schedule>
+	</BxfData>
+</BxfMessage>

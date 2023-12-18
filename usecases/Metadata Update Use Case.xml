@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:ABCCDDDD-6000-11D3-8CFE-0050048383C9" dateTime="2006-08-16T20:44:43.16" messageType="Information" origin="Traffic System" originType="Traffic" destination="Program Management" userName="Traffic System User" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+	<BxfData action="update">
+		<Format action="update">
+			<FormatId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D9</FormatId>
+			<FormatLength>
+				<SmpteDuration>
+					<SmpteTimeCode>00:30:00:00</SmpteTimeCode>
+				</SmpteDuration>
+			</FormatLength>
+			<FormatName>SampleFormat_PrimeTime_Sitcom</FormatName>
+			<FormatStructure>
+				<FormatElements>
+					<PrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D1</PrimaryElementId>
+					<FormatElementType>Break</FormatElementType>
+					<PrimaryOffset>
+						<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+					</PrimaryOffset>
+					<PrimaryDuration variable="false">
+						<SmpteDuration>
+							<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+						</SmpteDuration>
+					</PrimaryDuration>
+				</FormatElements>
+				<FormatElements>
+					<PrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D2</PrimaryElementId>
+					<FormatElementType>Segment</FormatElementType>
+					<PrimaryOffset>
+						<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+					</PrimaryOffset>
+					<PrimaryDuration variable="true">
+						<SmpteDuration>
+							<SmpteTimeCode>00:09:00:00</SmpteTimeCode>
+						</SmpteDuration>
+					</PrimaryDuration>
+					<NonPrimaryElements>
+						<NonPrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D2</NonPrimaryElementId>
+						<NonPrimaryOffset>
+							<OffsetTime>
+								<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+							</OffsetTime>
+						</NonPrimaryOffset>
+						<NonPrimaryDuration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:10:00</SmpteTimeCode>
+							</SmpteDuration>
+						</NonPrimaryDuration>
+						<NonPrimaryDescription>Station ID Bug</NonPrimaryDescription>
+					</NonPrimaryElements>
+				</FormatElements>
+				<FormatElements>
+					<PrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D3</PrimaryElementId>
+					<FormatElementType>Break</FormatElementType>
+					<PrimaryOffset>
+						<SmpteTimeCode>00:09:30:00</SmpteTimeCode>
+					</PrimaryOffset>
+					<PrimaryDuration variable="false">
+						<SmpteDuration>
+							<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+						</SmpteDuration>
+					</PrimaryDuration>
+				</FormatElements>
+				<FormatElements>
+					<PrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D4</PrimaryElementId>
+					<FormatElementType>Segment</FormatElementType>
+					<PrimaryOffset>
+						<SmpteTimeCode>00:10:00:00</SmpteTimeCode>
+					</PrimaryOffset>
+					<PrimaryDuration variable="true">
+						<SmpteDuration>
+							<SmpteTimeCode>00:09:00:00</SmpteTimeCode>
+						</SmpteDuration>
+					</PrimaryDuration>
+					<NonPrimaryElements>
+						<NonPrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D4</NonPrimaryElementId>
+						<NonPrimaryOffset>
+							<OffsetTime>
+								<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+							</OffsetTime>
+						</NonPrimaryOffset>
+						<NonPrimaryDuration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:10:00</SmpteTimeCode>
+							</SmpteDuration>
+						</NonPrimaryDuration>
+						<NonPrimaryDescription>Station ID Bug for segment 2</NonPrimaryDescription>
+					</NonPrimaryElements>
+				</FormatElements>
+				<FormatElements>
+					<PrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D5</PrimaryElementId>
+					<FormatElementType>Break</FormatElementType>
+					<PrimaryOffset>
+						<SmpteTimeCode>00:19:00:00</SmpteTimeCode>
+					</PrimaryOffset>
+					<PrimaryDuration variable="true">
+						<SmpteDuration>
+							<SmpteTimeCode>00:00:45:00</SmpteTimeCode>
+						</SmpteDuration>
+					</PrimaryDuration>
+				</FormatElements>
+				<FormatElements>
+					<PrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D6</PrimaryElementId>
+					<FormatElementType>Segment</FormatElementType>
+					<PrimaryOffset>
+						<SmpteTimeCode>00:19:45:00</SmpteTimeCode>
+					</PrimaryOffset>
+					<PrimaryDuration variable="true">
+						<SmpteDuration>
+							<SmpteTimeCode>00:10:00:00</SmpteTimeCode>
+						</SmpteDuration>
+					</PrimaryDuration>
+					<NonPrimaryElements>
+						<NonPrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D6</NonPrimaryElementId>
+						<NonPrimaryOffset>
+							<OffsetTime>
+								<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+							</OffsetTime>
+						</NonPrimaryOffset>
+						<NonPrimaryDuration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:10:00</SmpteTimeCode>
+							</SmpteDuration>
+						</NonPrimaryDuration>
+						<NonPrimaryDescription>Station ID Bug for segment 3</NonPrimaryDescription>
+					</NonPrimaryElements>
+				</FormatElements>
+				<FormatElements>
+					<PrimaryElementId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391D7</PrimaryElementId>
+					<FormatElementType>Break</FormatElementType>
+					<PrimaryOffset>
+						<SmpteTimeCode>00:29:45:00</SmpteTimeCode>
+					</PrimaryOffset>
+					<PrimaryDuration variable="false">
+						<SmpteDuration>
+							<SmpteTimeCode>00:00:15:00</SmpteTimeCode>
+						</SmpteDuration>
+					</PrimaryDuration>
+				</FormatElements>
+			</FormatStructure>
+		</Format>
+	</BxfData>
+</BxfMessage>
+
+

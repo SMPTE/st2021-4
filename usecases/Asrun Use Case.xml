@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391E1" dateTime="2006-09-05T13:38:26.28" messageType="Information" origin="Automation System" originType="Automation" userName="Automation System User" destination="Traffic System" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" pmcp:schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1">
+	<BxfData action="add">
+		<Schedule type="Primary" scheduleId="urn:uuid:00000000-0000-0000-0000-0038338391E0" scheduleName="WXXX Ch 6-1" scheduleStart="2006-06-21T17:30:00.00" scheduleEnd="2006-06-21T18:00:00.00">
+			<Channel channelNumber="6-1" status="active" type="digital_television" ca="false" shortName="WXXX-DT" outOfBand="true">
+
+				<pmcp:Name lang="eng">WXXX-DT Ch 6-1</pmcp:Name>
+			</Channel>
+			<AsRun>
+				<BasicAsRun>
+					<AsRunEventId>
+						<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F1</EventId>
+					</AsRunEventId>
+					<Content>
+						<ContentId>
+							<HouseNumber>Network-1</HouseNumber>
+						</ContentId>
+						<Name>Evening News Segment-1</Name>
+					</Content>
+					<AsRunDetail>
+						<Status>Aired Without Discrepancy</Status>
+						<Type>ProgramHeader</Type>
+						<StartDateTime>
+							<SmpteDateTime broadcastDate="2006-06-21">
+								<SmpteTimeCode>15:30:01:10</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<Duration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:12:02:10</SmpteTimeCode>
+							</SmpteDuration>
+						</Duration>
+					</AsRunDetail>
+				</BasicAsRun>
+			</AsRun>
+			<AsRun>
+				<BasicAsRun>
+					<AsRunEventId>
+						<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F2</EventId>
+						<BillingReferenceCode>JFMC1201-0012</BillingReferenceCode>
+					</AsRunEventId>
+					<Content>
+						<ContentId>
+							<HouseNumber>JFMC1201</HouseNumber>
+							<AlternateId idType="ISCI" authorativeSource="AAAA">JFMC1201</AlternateId>
+						</ContentId>
+						<Name>Johnson Motors Super Sales Event</Name>
+					</Content>
+					<AsRunDetail>
+						<Status>Aired Without Discrepancy</Status>
+						<Type>BreakHeader</Type>
+						<StartDateTime>
+							<SmpteDateTime broadcastDate="2006-06-21">
+								<SmpteTimeCode>15:42:03:20</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<Duration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+							</SmpteDuration>
+						</Duration>
+					</AsRunDetail>
+				</BasicAsRun>
+			</AsRun>
+			<AsRun>
+				<BasicAsRun>
+					<AsRunEventId>
+						<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F3</EventId>
+					</AsRunEventId>
+					<Content>
+						<ContentId>
+							<HouseNumber>Network-1</HouseNumber>
+						</ContentId>
+						<Name>Evening News Segment-2</Name>
+					</Content>
+					<AsRunDetail>
+						<Status>Aired Without Discrepancy</Status>
+						<Type>ProgramHeader</Type>
+						<StartDateTime>
+							<SmpteDateTime broadcastDate="2006-06-21">
+								<SmpteTimeCode>15:42:33:20</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<Duration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:09:28:03</SmpteTimeCode>
+							</SmpteDuration>
+						</Duration>
+					</AsRunDetail>
+				</BasicAsRun>
+			</AsRun>
+			<AsRun>
+				<BasicAsRun>
+					<AsRunEventId>
+						<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F4</EventId>
+						<BillingReferenceCode>FBIN0901-0001</BillingReferenceCode>
+					</AsRunEventId>
+					<Content>
+						<ContentId>
+							<HouseNumber>FBIN0901</HouseNumber>
+							<AlternateId idType="ISCI" authorativeSource="AAAA">FBIN0901</AlternateId>
+						</ContentId>
+						<Name>Discount Mortgage Promotion</Name>
+					</Content>
+					<AsRunDetail>
+						<Status>Aired with Duration Discrepancy</Status>
+						<Type>BreakHeader</Type>
+						<StartDateTime>
+							<SmpteDateTime broadcastDate="2006-06-21">
+								<SmpteTimeCode>15:52:01:23</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<Duration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:29:25</SmpteTimeCode>
+							</SmpteDuration>
+						</Duration>
+						<EventNotes>
+							<EventNote>Upcut by switcher</EventNote>
+						</EventNotes>
+					</AsRunDetail>
+				</BasicAsRun>
+			</AsRun>
+			<AsRun>
+				<BasicAsRun>
+					<AsRunEventId>
+						<EventId>urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391F5</EventId>
+					</AsRunEventId>
+					<Content>
+						<ContentId>
+							<HouseNumber>Network-1</HouseNumber>
+						</ContentId>
+						<Name>Evening News Segment-3</Name>
+					</Content>
+					<AsRunDetail>
+						<Status>Aired Without Discrepancy</Status>
+						<Type>ProgramHeader</Type>
+						<StartDateTime>
+							<SmpteDateTime broadcastDate="2006-06-21">
+								<SmpteTimeCode>15:52:31:18</SmpteTimeCode>
+							</SmpteDateTime>
+						</StartDateTime>
+						<Duration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:07:28:05</SmpteTimeCode>
+							</SmpteDuration>
+						</Duration>
+					</AsRunDetail>
+				</BasicAsRun>
+			</AsRun>
+		</Schedule>
+	</BxfData>
+</BxfMessage>

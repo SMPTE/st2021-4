@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:00000000-0000-0000-0000-000000000000" dateTime="2013-05-06T12:00:47Z" messageType="Information" origin="ECN" originType="CopyInstructions" userName="ECN"  xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF bxfschema.xsd">
+	<BxfData action="add">
+		<JobDetail jobId="99999_1844">
+			<JobType>Traffic Instructions</JobType>
+			<JobRequester>
+				<CompanyName>Talent Partners</CompanyName>
+				<CompanyType>Agency</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>2639_ECN1844</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+					<Locations>
+						<LocationName>Talent Partners</LocationName>
+						<Street1>115 West 18th Street</Street1>
+						<Street2>5th Floor</Street2>
+						<City>New York</City>
+						<StateProv>NY</StateProv>
+						<PostalCode>10011</PostalCode>
+					</Locations>
+					<Contacts>
+						<ContactFirstName>Kate</ContactFirstName>
+						<ContactLastName>McGuire</ContactLastName>
+						<Phones>
+							<PhoneNumber>570-319-1161</PhoneNumber>
+							<PhoneType>Business</PhoneType>
+						</Phones>
+						<EMails>
+							<Email primaryFlag="true">cmcguire@talentpartners.com</Email>
+						</EMails>
+					</Contacts>
+				</CompanyDetails>
+			</JobRequester>
+			<JobManager>
+				<CompanyName>Entertainment Communications Network, Inc.</CompanyName>
+				<CompanyType>Other</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>613</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+					<Locations>
+						<LocationName>ECN</LocationName>
+						<Street1>4370 Tujunga Ave., Suite 210</Street1>
+						<City>Studio City</City>
+						<StateProv>CA</StateProv>
+						<PostalCode>91604</PostalCode>
+					</Locations>
+				</CompanyDetails>
+			</JobManager>
+			<JobPerformers>
+				<CompanyName>WABC</CompanyName>
+				<CompanyType>TV Station</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>613</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+					<Locations>
+						<LocationName>ECN</LocationName>
+						<Street1>4370 Tujunga Ave., Suite 210</Street1>
+						<City>Studio City</City>
+						<StateProv>CA</StateProv>
+						<PostalCode>91604</PostalCode>
+					</Locations>
+				</CompanyDetails>
+				<Station>
+					<StationId>7842</StationId>
+					<StationName>WABC-TV</StationName>
+					<StationType>TV Broadcast</StationType>
+					<Contacts>
+						<ContactFirstName>Omni</ContactFirstName>
+						<ContactLastName>Lozano</ContactLastName>
+						<ContactJobTitle>Senior Traffic Coordinator</ContactJobTitle>
+						<Phones>
+							<PhoneNumber>212-456-3202</PhoneNumber>
+						</Phones>
+						<EMails>
+							<Email>wabctv-traffic@abc.com</Email>
+						</EMails>
+					</Contacts>
+				</Station>
+			</JobPerformers>
+			<JobInstruction jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" instructionType="Traffic Instructions" instructionStartDate="2013-05-06" instructionEndDate="2013-06-02" revisionNumber="1" revisionDateTime="2013-05-13T09:30:47Z" revisionReason="Adds QVNB-00160000/H into rotation 5/15-6/2/13">
+				<JobReference>
+					<ReferenceType>AdvertiserName</ReferenceType>
+					<ReferenceName>Valley National Bank</ReferenceName>
+					<ReferenceType>EstimateNumber</ReferenceType>
+					<ReferenceName>$499 buy</ReferenceName>
+				</JobReference>
+				<Disclaimer>Note: This does not constitute an order for time and it is not an authorization to run advertising. Questions regarding time purchased and/or product allocations should be addressed to the media buying service or your station rep. Questions regarding instructions or delivery of commercial material should be addressed to the traffic contact indicated on these instructions.</Disclaimer>
+			</JobInstruction>
+		</JobDetail>
+		<TrafficInstructions action="add">
+			<Content timestamp="2013-05-13T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C1">
+				<NonProgramContent>
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>Valley National Bank</AdvertiserName>
+						</Advertiser>
+						<Agency action="add">
+							<AgencyName>DFG/NJ</AgencyName>
+							<EstimateName>$499 buy</EstimateName>
+						</Agency>
+						<Product>
+							<Name>Valley National Bank</Name>
+						</Product>
+					</Details>
+					<ContentMetaData>
+						<ContentId>
+							<AlternateId idType="Ad-ID" authoritativeSource="www.adid.org">QVNB0016000H</AlternateId>
+						</ContentId>
+						<Name>Skeptic Male </Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-05-13T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C2">
+				<NonProgramContent>
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>Valley National Bank</AdvertiserName>
+						</Advertiser>
+						<Agency>
+							<AgencyName>DFG/NJ</AgencyName>
+							<EstimateName>$499 buy</EstimateName>
+						</Agency>
+						<Product>
+							<Name>Valley National Bank</Name>
+						</Product>
+					</Details>
+					<ContentMetaData>
+						<ContentId>
+							<AlternateId idType="Ad-ID" authoritativeSource="www.adid.org">QVNB0018000H</AlternateId>
+						</ContentId>
+						<Name>Valley Business</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-05-13T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C3">
+				<NonProgramContent>
+					<Details action="add">
+						<AdType>Other</AdType>
+						<SpotType>BillBoard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>Valley National Bank</AdvertiserName>
+						</Advertiser>
+						<Agency>
+							<AgencyName>DFG/NJ</AgencyName>
+							<EstimateName>$499 buy</EstimateName>
+						</Agency>
+						<Product>
+							<Name>Valley National Bank</Name>
+						</Product>
+					</Details>
+					<ContentMetaData>
+						<ContentId action="add">
+							<AlternateId idType="ISCI" action="add" errorDescription="Agency">QVNB2000</AlternateId>
+						</ContentId>
+						<BillBoard>
+							<ContentId action="add">
+								<AlternateId idType="ISCI" action="add" errorDescription="Agency">QVNB2000</AlternateId>
+							</ContentId>
+							<BillBoardName>Logo</BillBoardName>
+							<BillBoardComment action="add">please email:  ebrown@talentpartners.com</BillBoardComment>
+						</BillBoard>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-05-13T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C4">
+				<NonProgramContent>
+					<Details action="add">
+						<AdType>Other</AdType>
+						<SpotType>BillBoard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>Valley National Bank</AdvertiserName>
+						</Advertiser>
+						<Agency>
+							<AgencyName>DFG/NJ</AgencyName>
+							<EstimateName>$499 buy</EstimateName>
+						</Agency>
+						<Product>
+							<Name>Valley National Bank</Name>
+						</Product>
+					</Details>
+					<ContentMetaData>
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">QVNB2001</AlternateId>
+						</ContentId>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:05,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+						<BillBoard>
+							<ContentId>
+								<AlternateId idType="ISCI" authoritativeSource="Agency">QVNB2001</AlternateId>
+							</ContentId>
+							<BillBoardName>Copy</BillBoardName>
+							<Copy>(Brought to you by…) Valley National Bank.  The Perfect Fit </Copy>
+						</BillBoard>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-05-13T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C5">
+				<NonProgramContent>
+					<Details>
+						<AdType>Other</AdType>
+						<SpotType>BillBoard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>Valley National Bank</AdvertiserName>
+						</Advertiser>
+						<Agency>
+							<AgencyName>DFG/NJ</AgencyName>
+							<EstimateName>$499 buy</EstimateName>
+						</Agency>
+						<Product>
+							<Name>Valley National Bank</Name>
+						</Product>
+					</Details>
+					<ContentMetaData>
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">QVNB2002</AlternateId>
+						</ContentId>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:05,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+						<BillBoard>
+							<ContentId>
+								<AlternateId idType="ISCI" authoritativeSource="Agency">QVNB2002</AlternateId>
+							</ContentId>
+							<BillBoardName>Copy</BillBoardName>
+							<Copy>(Brought to you by…) Valley National Bank.  The Perfect Fit for all your banking needs</Copy>
+						</BillBoard>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D1" stationId="7842">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Dayparts>
+							<StartDate>2013-05-15</StartDate>
+							<EndDate>2013-06-02</EndDate>
+						</Dayparts>
+					</NPCSchedule>
+				</PlacementMethod>
+				<ContentRotation>
+					<RotationPercentage>50</RotationPercentage>
+				</ContentRotation>
+			</InstructionDetail>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2" stationId="7842">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Dayparts>
+							<StartDate>2013-05-06</StartDate>
+							<EndDate>2013-05-14</EndDate>
+						</Dayparts>
+					</NPCSchedule>
+				</PlacementMethod>
+				<ContentRotation>
+					<RotationPercentage>100</RotationPercentage>
+				</ContentRotation>
+			</InstructionDetail>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3" stationId="7842">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Dayparts>
+							<StartDate>2013-05-06</StartDate>
+							<EndDate>2013-06-02</EndDate>
+						</Dayparts>
+					</NPCSchedule>
+				</PlacementMethod>
+			</InstructionDetail>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C1" stationId="7842" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D1"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C2" stationId="7842" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D1"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C2" stationId="7842" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C3" stationId="7842" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C4" stationId="7842" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C5" stationId="7842" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3"/>
+		</TrafficInstructions>
+	</BxfData>
+</BxfMessage>

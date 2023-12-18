@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:ABCCDDDD-6000-11D3-8CFE-0050048383C9" dateTime="2013-04-22T12:00:47Z" messageType="Information" origin="ECN" originType="Copy Instructions" userName="ECN"  xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+	<BxfData>
+		<JobDetail jobId="7614093_2175">
+			<JobType>Traffic Instructions</JobType>
+			<JobRequester>
+				<CompanyName>Grey Advertiser</CompanyName>
+				<CompanyType>Agency</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>3089_ECN2175</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+					<Locations>
+						<LocationName>Grey Advertiser</LocationName>
+						<Street1>200 Fifth Avenue</Street1>
+						<City>New York</City>
+						<StateProv>NY</StateProv>
+						<PostalCode>10010</PostalCode>
+					</Locations>
+					<Contacts>
+						<ContactFirstName>Kristine</ContactFirstName>
+						<ContactLastName>Majestic</ContactLastName>
+						<Phones>
+							<PhoneNumber>212-546-1657</PhoneNumber>
+							<PhoneType>Business</PhoneType>
+						</Phones>
+						<EMails>
+							<Email primaryFlag="true">kmajestic@grey.com</Email>
+						</EMails>
+					</Contacts>
+				</CompanyDetails>
+			</JobRequester>
+			<JobManager>
+				<CompanyName>Entertainment Communications Network, Inc.</CompanyName>
+				<CompanyType>Other</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>613</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+					<Locations>
+						<LocationName>ECN</LocationName>
+						<Street1>4370 Tujunga Ave., Suite 210</Street1>
+						<City>Studio City</City>
+						<StateProv>CA</StateProv>
+						<PostalCode>91604</PostalCode>
+					</Locations>
+				</CompanyDetails>
+			</JobManager>
+			<JobPerformers>
+				<CompanyName>Bloomberg</CompanyName>
+				<CompanyType>Cable Network</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>34706</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+				</CompanyDetails>
+				<Station>
+					<StationId>34706</StationId>
+					<StationName>Bloomberg Television</StationName>
+					<Contacts>
+						<ContactFirstName>Theresa</ContactFirstName>
+						<ContactLastName>Caruso</ContactLastName>
+						<ContactJobTitle>Traffic Manager</ContactJobTitle>
+						<Phones>
+							<PhoneNumber>212-617-1701</PhoneNumber>
+						</Phones>
+						<EMails>
+							<Email>tlucatorto@bloomberg.net</Email>
+						</EMails>
+					</Contacts>
+				</Station>
+			</JobPerformers>
+			<JobInstruction jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" instructionType="Traffic Instructions" instructionStartDate="2013-04-29" instructionEndDate="2013-06-16">
+				<JobReference>
+					<ReferenceType>String</ReferenceType>
+					<ReferenceName>String</ReferenceName>
+					<ReferenceCode>String</ReferenceCode>
+				</JobReference>
+				<Disclaimer>This does not constitute an order for time.  If you do not have an order from a Media Buyer, this is not an authorization to run advertising.  Questions regarding time purchased and/or product allocations should be directed to the buyer or your station representative.</Disclaimer>
+				<InstructionComment>Please schedule in accordance with your media contract for the period shown above.  Questions regarding materials should be directed to Kristine Majestic at 212-546-1647 or kmajestic@grey.com.  </InstructionComment>
+			</JobInstruction>
+		</JobDetail>
+		<TrafficInstructions action="read">
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C1">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0276-000</AlternateId>
+						</ContentId>
+						<Name>Poolside Rev 1</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:15,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C2">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0295-000</AlternateId>
+						</ContentId>
+						<Name>Your Guy</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:15,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C3">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0273-000</AlternateId>
+						</ContentId>
+						<Name>Your Guy</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C3">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0273-000</AlternateId>
+						</ContentId>
+						<Name>Runaway Baby Rev 1</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C4">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0268-000</AlternateId>
+						</ContentId>
+						<Name>Save It</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C5">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0188-000</AlternateId>
+						</ContentId>
+						<Name>Time Out Solitary</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C6">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0277-000</AlternateId>
+						</ContentId>
+						<Name>Poolside Rev 1</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C7">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0269-000</AlternateId>
+						</ContentId>
+						<Name>Your Guy</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Content timestamp="2013-04-22T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C8">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>ETRADE</AdvertiserName>
+						</Advertiser>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="ISCI" authoritativeSource="Agency">YETR-0275-000</AlternateId>
+						</ContentId>
+						<Name>Unbaised Rev 2</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D1">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Dayparts>
+							<StartDate>2013-04-29</StartDate>
+							<EndDate>2013-06-19</EndDate>
+						</Dayparts>
+					</NPCSchedule>
+				</PlacementMethod>
+				<ContentRotation>
+					<RotationPercentage>50</RotationPercentage>
+				</ContentRotation>
+			</InstructionDetail>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Dayparts>
+							<StartDate>2013-04-29</StartDate>
+							<EndDate>2013-06-19</EndDate>
+						</Dayparts>
+					</NPCSchedule>
+				</PlacementMethod>
+				<ContentRotation>
+					<RotationPercentage>15</RotationPercentage>
+				</ContentRotation>
+			</InstructionDetail>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Dayparts>
+							<StartDate>2013-04-29</StartDate>
+							<EndDate>2013-06-19</EndDate>
+						</Dayparts>
+					</NPCSchedule>
+				</PlacementMethod>
+				<ContentRotation>
+					<RotationPercentage>10</RotationPercentage>
+				</ContentRotation>
+			</InstructionDetail>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D4">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Dayparts>
+							<StartDate>2013-04-29</StartDate>
+							<EndDate>2013-06-19</EndDate>
+						</Dayparts>
+					</NPCSchedule>
+				</PlacementMethod>
+				<ContentRotation>
+					<RotationPercentage>30</RotationPercentage>
+				</ContentRotation>
+			</InstructionDetail>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C1" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061D1"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C2" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061D1"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C3" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C4" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C5" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C6" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C7" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038347061C8" stationId="34706" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D4"/>
+			<PrivateInformation/>
+		</TrafficInstructions>
+		<PrivateInformation/>
+	</BxfData>
+</BxfMessage>

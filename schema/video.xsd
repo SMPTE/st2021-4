@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="TSVideo">
 		<xs:annotation>
@@ -54,6 +55,11 @@
 				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AFDData" type="AFDData" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
@@ -110,10 +116,15 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:choice minOccurs="0">
-					<xs:element name="AFD-BarDataPresent" type="xs:boolean" minOccurs="0">
+					<xs:element name="AFD-BarDataPresent" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Indicates that active format description and bar data is used in the presentation of the video in order to convert the production image to the selected transmission aspect ratio.  The actual values for these items is incorporated into the video VANC.</xs:documentation>
 						</xs:annotation>
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="xs:boolean"/>
+							</xs:simpleContent>
+						</xs:complexType>
 					</xs:element>
 					<xs:element name="PanAndScanPresent" type="xs:boolean" minOccurs="0">
 						<xs:annotation>
@@ -124,6 +135,11 @@
 				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AFDData" type="AFDData" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
@@ -176,6 +192,162 @@
 				<xs:annotation>
 					<xs:documentation>Used to designate a specific end point for the transition relative to the active content</xs:documentation>
 				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="AFDDetails">
+		<xs:sequence>
+			<xs:element name="OriginalFrameType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="4:3"/>
+						<xs:enumeration value="14:9"/>
+						<xs:enumeration value="16:9"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AFDPosition">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Centered"/>
+						<xs:enumeration value="Full Frame"/>
+						<xs:enumeration value="Reserved"/>
+						<xs:enumeration value="Top"/>
+						<xs:enumeration value="Undefined"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AFDStyle">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Full Frame"/>
+						<xs:enumeration value="Letterbox"/>
+						<xs:enumeration value="Pillarbox"/>
+						<xs:enumeration value="Protected"/>
+						<xs:enumeration value="Reserved"/>
+						<xs:enumeration value="Undefined"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AFDData">
+		<xs:annotation>
+			<xs:documentation>Used to describe both Active Format Description Codes, Shorthand Text Descriptions and Bar Data options. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AFDCode">
+				<xs:annotation>
+					<xs:documentation>Four bits that indicate the code for the Active Format Description as referenced by SMPTE ST2016-1:2009.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:byte">
+						<xs:pattern value="[0,1][0,1][0,1][0,1]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AFDAnnotation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the AFD Code in textual form and indicates which coded frame type is being used as referenced by SMPTE ST2016-1:2009.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="AFDAnnotationIn4-3" type="AFDDetails">
+							<xs:annotation>
+								<xs:documentation>[0000]=Undefined
+[0001]=Reserved
+[0010]=16:9+Top+Letterbox
+[0011]=14:9+Top+Letterbox
+[0100]=Other+Centered+Letterbox
+[0101]=Reserved
+[0110]=Reserved
+[0111]=Reserved
+[1000]=4:3+Full Frame
+[1001]=4:3+Full Frame
+[1010]=16:9+Centered+Letterbox
+[1011]=14:9+Centered+Letterbox
+[1100]=Reserved
+[1101]=4:3+14:9 Centered+Full Frame
+[1110]=16:9+14:9 Centered+Letterbox
+[1111]=16:9+4:3 Centered+Letterbox</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AFDAnnotationIn16-9" type="AFDDetails">
+							<xs:annotation>
+								<xs:documentation>[0000]=Undefined
+[0001]=Reserved
+[0010]=16:9+Full Frame
+[0011]=14:9+Centered+Pillarbox
+[0100]=Other+Centered+Letterbox
+[0101]=Reserved
+[0110]=Reserved
+[0111]=Reserved
+[1000]=16:9+Full Frame
+[1001]=4:3+Centered+Pillarbox
+[1010]=16:9+Full Frame+Protected
+[1011]=14:9+Centered+Pillarbox
+[1100]=Reserved
+[1101]=4:3+14:9 Centered+Pillarbox
+[1110]=16:9+14:9 Centered+Full Frame
+[1111]=16:9+4:3 Centered+Full Frame</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:attribute name="CodedFrameType" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="4:3"/>
+								<xs:enumeration value="16:9"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BarData" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to define the structure of bar data in a video source as referenced by SMPTE ST2016-1:2009.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="topBarFlag" type="xs:boolean"/>
+					<xs:attribute name="bottomBarFlag" type="xs:boolean"/>
+					<xs:attribute name="leftBarFlag" type="xs:boolean"/>
+					<xs:attribute name="rightBarFlag" type="xs:boolean"/>
+					<xs:attribute name="lineNumberEndOfTopBar">
+						<xs:simpleType>
+							<xs:restriction base="xs:unsignedInt">
+								<xs:maxInclusive value="16383"/>
+								<xs:minInclusive value="0"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="lineNumberStartOfBottomBar">
+						<xs:simpleType>
+							<xs:restriction base="xs:unsignedInt">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="16383"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="pixelNumberEndOfLeftBar">
+						<xs:simpleType>
+							<xs:restriction base="xs:unsignedInt">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="16383"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="pixelNumberStartOfRightBar">
+						<xs:simpleType>
+							<xs:restriction base="xs:unsignedInt">
+								<xs:minInclusive value="0"/>
+								<xs:maxInclusive value="16383"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>

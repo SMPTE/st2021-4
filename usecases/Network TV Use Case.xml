@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:ABCCDDDD-6000-11D3-8CFE-0050048383C9" dateTime="2013-04-22T12:00:47Z" messageType="Information" origin="ECN" originType="Copy Instructions" userName="ECN"  xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+	<BxfData action="add">
+		<JobDetail jobId="7612823_1844">
+			<JobType>Traffic Instructions</JobType>
+			<JobRequester>
+				<CompanyName>Talent Partners</CompanyName>
+				<CompanyType>Agency</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>2639_ECN1844</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+					<Locations>
+						<LocationName>Talent Partners</LocationName>
+						<Street1>115 West 18th Street</Street1>
+						<Street2>5th Floor</Street2>
+						<City>New York</City>
+						<StateProv>NY</StateProv>
+						<PostalCode>10011</PostalCode>
+					</Locations>
+					<Contacts>
+						<ContactFirstName>Kate</ContactFirstName>
+						<ContactLastName>McGuire</ContactLastName>
+						<Phones>
+							<PhoneNumber>570-319-1161</PhoneNumber>
+							<PhoneType>Business</PhoneType>
+						</Phones>
+						<EMails>
+							<Email primaryFlag="true">cmcguire@talentpartners.com</Email>
+						</EMails>
+					</Contacts>
+				</CompanyDetails>
+			</JobRequester>
+			<JobManager>
+				<CompanyName>Entertainment Communications Network, Inc.</CompanyName>
+				<CompanyType>Other</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>613</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+					<Locations>
+						<LocationName>ECN</LocationName>
+						<Street1>4370 Tujunga Ave., Suite 210</Street1>
+						<City>Studio City</City>
+						<StateProv>CA</StateProv>
+						<PostalCode>91604</PostalCode>
+					</Locations>
+				</CompanyDetails>
+			</JobManager>
+			<JobPerformers>
+				<CompanyName>ABC Television Network</CompanyName>
+				<CompanyType>TV Network</CompanyType>
+				<CompanyDetails>
+					<Identifiers>
+						<Identifier>34505</Identifier>
+						<AuthoritativeIdSource>ECN</AuthoritativeIdSource>
+					</Identifiers>
+				</CompanyDetails>
+				<Station>
+					<StationId>34505</StationId>
+					<StationName>ABC</StationName>
+					<StationType>TV Network</StationType>
+					<Contacts>
+						<ContactFirstName>Jeff</ContactFirstName>
+						<ContactLastName>Bellofatto</ContactLastName>
+						<ContactJobTitle>Director Commercial Sales</ContactJobTitle>
+						<Phones>
+							<PhoneNumber>212-456-7836</PhoneNumber>
+						</Phones>
+						<EMails>
+							<Email>jeffrey.bellofatto@abc.com</Email>
+						</EMails>
+					</Contacts>
+				</Station>
+			</JobPerformers>
+			<JobInstruction jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" instructionType="Traffic Instructions" instructionStartDate="2013-04-20" instructionEndDate="2013-04-28" revisionNumber="2" revisionDateTime="2013-04-24T09:30:47Z" revisionReason="To update ABC Game 4 unit. Please see below.">
+				<JobReference>
+					<ReferenceType>AdvertiserName</ReferenceType>
+					<ReferenceName>Cree</ReferenceName>
+				</JobReference>
+				<Disclaimer>This does not constitute an order for time and it is not an authorization to run advertising.  Questions regarding time purchased and/or product allocations should be addressed to the media buying service or your station rep.  Questions regarding instructions or delivery of commercial material should be addressed to the traffic contact indicated on these instructions.</Disclaimer>
+				<InstructionComment>Spots arrived via DG Friday 4/12/13.</InstructionComment>
+			</JobInstruction>
+		</JobDetail>
+		<TrafficInstructions action="add">
+			<Content timestamp="2013-04-24T09:30:47Z" action="add" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C1">
+				<NonProgramContent action="add">
+					<Details action="add">
+						<AdType>General</AdType>
+						<SpotType>Standard</SpotType>
+						<Advertiser action="add">
+							<AdvertiserName>CREE</AdvertiserName>
+						</Advertiser>
+						<Agency action="read">
+							<AgencyName>Poh Media</AgencyName>
+						</Agency>
+					</Details>
+					<ContentMetaData action="add">
+						<ContentId action="add">
+							<AlternateId idType="Ad-ID" authoritativeSource="www.adid.org">CCRE0007000H</AlternateId>
+						</ContentId>
+						<Name>1879</Name>
+						<DefaultLength>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30,00</SmpteTimeCode>
+							</SmpteDuration>
+						</DefaultLength>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D1" action="add">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Programs>Program: First Round, Game1</Programs>
+						<Daypart action="add">
+							<DaypartDetail localTimeZoneFlag="true">
+								<DayOfWeek>0000010</DayOfWeek>
+								<StartTime>
+									<SmpteTimeCode>15:00:00,00</SmpteTimeCode>
+								</StartTime>
+								<EndTime>
+									<SmpteTimeCode>17:30:00,00</SmpteTimeCode>
+								</EndTime>
+							</DaypartDetail>
+							<StartDate>2013-04-20</StartDate>
+							<EndDate>2013-04-20</EndDate>
+						</Daypart>
+					</NPCSchedule>
+				</PlacementMethod>
+			</InstructionDetail>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2" action="add">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Programs>Program: First Round, Game1</Programs>
+						<Daypart action="add">
+							<DaypartDetail localTimeZoneFlag="true">
+								<DayOfWeek>0000001</DayOfWeek>
+								<StartTime>
+									<SmpteTimeCode>15:30:00,00</SmpteTimeCode>
+								</StartTime>
+								<EndTime>
+									<SmpteTimeCode>18:00:00,00</SmpteTimeCode>
+								</EndTime>
+							</DaypartDetail>
+							<StartDate>2013-04-21</StartDate>
+							<EndDate>2013-04-21</EndDate>
+						</Daypart>
+					</NPCSchedule>
+				</PlacementMethod>
+			</InstructionDetail>
+			<InstructionDetail actionType="Add" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3" action="add">
+				<PlacementMethod>
+					<NPCSchedule>
+						<Programs>Program: First Round, Game4</Programs>
+						<Daypart action="add">
+							<DaypartDetail localTimeZoneFlag="false">
+								<DayOfWeek>0000001</DayOfWeek>
+								<StartTime>
+									<SmpteTimeCode>15:30:00,00</SmpteTimeCode>
+								</StartTime>
+								<EndTime>
+									<SmpteTimeCode>18:00:00,00</SmpteTimeCode>
+								</EndTime>
+							</DaypartDetail>
+							<StartDate>2013-04-28</StartDate>
+							<EndDate>2013-04-28</EndDate>
+						</Daypart>
+					</NPCSchedule>
+				</PlacementMethod>
+			</InstructionDetail>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C1" stationId="34505" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D1"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C1" stationId="34505" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D2"/>
+			<InstructionMap jobInstructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051A1" contentMapId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051C1" stationId="34505" instructionId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038345051D3"/>
+		</TrafficInstructions>
+	</BxfData>
+</BxfMessage>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="Location">
 		<xs:annotation>
@@ -12,33 +12,110 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="SatelliteName" type="BxfText"/>
-							<xs:element name="Transponder">
+							<xs:element name="SatellitePosition" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Location of Satellite in degrees east or west relative to the prime meridian (0) -  negative values are west  (-123.0) and positive values are east (+123.0). (v3.0)</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:decimal">
+										<xs:pattern value="\-\+\ddd.d"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Transponders" maxOccurs="unbounded">
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="Polarity">
+									<xs:choice>
+										<xs:element name="TransponderName" type="xs:string">
 											<xs:annotation>
-												<xs:documentation>Left or Right for circularly polarized DBS satellites, Horizontal or Vertical for linearly polarized satellites</xs:documentation>
+												<xs:documentation>The designated name for a specific transponder as defined in the Receiver used as a shortcut to select a transponder. (v3.0)</xs:documentation>
 											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="xs:string">
-													<xs:enumeration value="Vertical"/>
-													<xs:enumeration value="Horizontal"/>
-													<xs:enumeration value="Right"/>
-													<xs:enumeration value="Left"/>
-												</xs:restriction>
-											</xs:simpleType>
 										</xs:element>
-										<xs:element name="TransponderNumber">
+										<xs:element name="TransponderDetail">
 											<xs:annotation>
-												<xs:documentation>Frequency of transponder in MHz</xs:documentation>
+												<xs:documentation>Detailed definition for each transponder including ability to name the transponder</xs:documentation>
 											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="xs:integer">
-													<xs:minInclusive value="0"/>
-												</xs:restriction>
-											</xs:simpleType>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="TransponderNumber">
+														<xs:annotation>
+															<xs:documentation>Transponder number
+1 or greater</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:integer">
+																<xs:minInclusive value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="TransponderFrequency">
+														<xs:annotation>
+															<xs:documentation>Frequency (MHz) assigned to the transponder number (12700.0 = 12.7000 GHz for DBS). (v3.0)</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:decimal">
+																<xs:minInclusive value="0"/>
+																<xs:pattern value="[0-9]{1,5}[.][0-9]"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Polarity">
+														<xs:annotation>
+															<xs:documentation>Left or Right for circularly polarized DBS satellites, Horizontal or Vertical for linearly polarized satellites</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="Vertical"/>
+																<xs:enumeration value="Horizontal"/>
+																<xs:enumeration value="Right"/>
+																<xs:enumeration value="Left"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="TransponderName" type="xs:string" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>The designated name for a specific transponder as defined in the Receiver. (v3.0)</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="SymbolRate" type="xs:integer" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Rate of transmission in Kilo Symbols/second. (v3.0)</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ForwardErrorCorrection" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Error correction used by the transponder 3/4, 5/6 or 7/8. (v3.0)</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:length value="2"/>
+																<xs:enumeration value="34"/>
+																<xs:enumeration value="56"/>
+																<xs:enumeration value="78"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="EncryptionSystem" type="xs:string" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>None or a specific encryption system. (v3.0)</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
 										</xs:element>
-									</xs:sequence>
+									</xs:choice>
+									<xs:attribute name="primaryAlternate" default="Primary">
+										<xs:annotation>
+											<xs:documentation>Allow designation of which transponder is the primary and which are alternates. (v3.0)</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Primary"/>
+												<xs:enumeration value="Alternate1"/>
+												<xs:enumeration value="Alternate2"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="Receiver" type="BxfText">
@@ -48,10 +125,20 @@
 							</xs:element>
 							<xs:element name="Encoder" type="BxfText">
 								<xs:annotation>
-									<xs:documentation>The desitination recording device for the media.</xs:documentation>
+									<xs:documentation>The destination recording device for the media.</xs:documentation>
 								</xs:annotation>
 							</xs:element>
 						</xs:sequence>
+						<xs:attribute name="numberOfTransponders">
+							<xs:annotation>
+								<xs:documentation>The total number of transponders available on the Satellite. (v3.0)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
 						<xs:attributeGroup ref="Action-ErrorGroup"/>
 					</xs:complexType>
 				</xs:element>

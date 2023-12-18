@@ -1,12 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:include schemaLocation="primaryevent.xsd"/>
 	<xs:include schemaLocation="nonprimaryevent.xsd"/>
 	<xs:include schemaLocation="macro.xsd"/>
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:include schemaLocation="video.xsd"/>
+	<xs:complexType name="SCTE-35DistributionRestrictions">
+		<xs:annotation>
+			<xs:documentation>Accommodates the 2012 revision to SCTE-35 that adds distribution bits. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="deliveryNotRestricted" type="xs:boolean" default="1">
+			<xs:annotation>
+				<xs:documentation>If set to zero then other attributes apply</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="webDeliveryAllowed" type="xs:boolean" default="0">
+			<xs:annotation>
+				<xs:documentation>If set to 1 there are no restrictions with respect to delivery of this event.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="noRegionalBlackout" type="xs:boolean" default="0">
+			<xs:annotation>
+				<xs:documentation>If set to 1 there is no regional blackout of this event.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="archiveAllowed" type="xs:boolean" default="0">
+			<xs:annotation>
+				<xs:documentation>If set to 1 there is no assertion about recording this event.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="deviceRestrictions">
+			<xs:annotation>
+				<xs:documentation>This node signals three groups of devices.  The populations of each group is independent and non-hierarchical.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:list>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Group0"/>
+							<xs:enumeration value="Group1"/>
+							<xs:enumeration value="Group2"/>
+							<xs:enumeration value="None"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:list>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:anyAttribute>
+			<xs:annotation>
+				<xs:documentation>Used to accommodate the five reserved bits in the standard.</xs:documentation>
+			</xs:annotation>
+		</xs:anyAttribute>
+	</xs:complexType>
 	<xs:complexType name="EventExtId">
 		<xs:sequence>
 			<xs:choice>
@@ -147,6 +194,17 @@
 					<xs:documentation>Some countries require an indication as to the original source of the content being aired.  The values will vary by country.  Examples are live, prerecorded, network, syndicated.  (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="FederalType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Some countries require further codification of the content such as the FCC Type or CRTC Code.  This is typically a specialized value limited by the countries regulatory body. (e.g. CM, PR, PSA, PRO, PRC) (See Configuration Section in BXF Protocol Documentation) (v3.0)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 			<xs:element name="EventDescription" type="BxfText" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Description of the event</xs:documentation>
@@ -185,6 +243,28 @@
 									<xs:maxLength value="255"/>
 								</xs:restriction>
 							</xs:simpleType>
+						</xs:element>
+						<xs:element name="SCTE-35DistributionRestrictions" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Accommodates the 2012 revision to SCTE-35 that adds distribution bits. (v3.0)</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="SCTE-35DistributionRestrictions">
+										<xs:attribute name="tierLevel">
+											<xs:annotation>
+												<xs:documentation>Signals receivers whether or not to pass the SCTE-35 message.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:nonNegativeInteger">
+													<xs:minInclusive value="0"/>
+													<xs:maxInclusive value="4096"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
 						</xs:element>
 					</xs:sequence>
 				</xs:complexType>

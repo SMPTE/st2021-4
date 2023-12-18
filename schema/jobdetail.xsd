@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2013 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2013/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.000">
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
+	<xs:include schemaLocation="bxfcontentid.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="content.xsd"/>
+	<xs:include schemaLocation="nonprogramdetail.xsd"/>
+	<xs:complexType name="InstructionMap">
+		<xs:annotation>
+			<xs:documentation>Used to map stations, content and traffic instructions in a many to many relationship. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="jobInstructionId" type="Uuid" use="required">
+			<xs:annotation>
+				<xs:documentation>A unique identifier for the job within the context of this message that is defined under JobDetail/JobInstructions</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="contentMapId" type="Uuid" use="required">
+			<xs:annotation>
+				<xs:documentation>A unique identifier for content within the context of this message that is defined under TrafficInstructions/Content</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="stationId" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>A unique identifier for the station within the context of this message that is defined under JobDetail/JobPerformers
+/Station/StationId element.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="instructionId" type="Uuid" use="required">
+			<xs:annotation>
+				<xs:documentation>A unique identifier for each instruction within the context of this message that is defined under TrafficInstruction/InstructionDetail.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="TrafficInstructions">
+		<xs:annotation>
+			<xs:documentation>Used to describe traffic instructions to a single or multiple stations for multiple content.  Requires stations to be defined under a Job. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Content" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to describe the content at a specific location</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="Content">
+							<xs:attribute name="contentMapId" type="Uuid" use="required">
+								<xs:annotation>
+									<xs:documentation>A unique identifier within the context of this message to be used in conjunction with the InstructionMap element.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="contentVideoFormat">
+								<xs:annotation>
+									<xs:documentation>Used to visually identify the format for the video at a high level.</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="SD"/>
+										<xs:enumeration value="HD"/>
+										<xs:enumeration value="3D"/>
+										<xs:enumeration value="2K"/>
+										<xs:enumeration value="4K"/>
+										<xs:enumeration value="Other"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InstructionDetail" type="InstructionDetail" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to provide specific copy instructions for the content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InstructionMap" type="InstructionMap" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Maps the job, content, station and instructions allowing many to many relationships to be created.  If only one of each entity, this is still required.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="InstructionDetail">
+		<xs:annotation>
+			<xs:documentation>Rules limiting where the NonProgramContent (NPC) can be used on a schedule. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PlacementMethod" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rules concerning the placement of NPC onto a linear schedule at a specific distribution location, station, network, or other operator</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NPCSchedule" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>NonProgramContent placement rules that either specify or restrict where a spot can be placed by time periods or specifically named programs</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:choice>
+									<xs:element name="Dayparts" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Time periods defined by days of the week and start and end times that either include or exclude the placement of the spot</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="BxfDaypart">
+													<xs:sequence>
+														<xs:element name="Programs" minOccurs="0" maxOccurs="unbounded">
+															<xs:annotation>
+																<xs:documentation>Option to list programs that would normally be excluded or included wuthin the description of the dayparts. (E.g. run in Primetime, but not in a specific news programs).</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:complexContent>
+																	<xs:extension base="BxfText">
+																		<xs:attribute name="excludeFlag" type="xs:boolean" default="0">
+																			<xs:annotation>
+																				<xs:documentation>If set to 1, treat defined daypart as a period to be excluded.  If set to 0 then treat as a period to be included. Default value is 0.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																	</xs:extension>
+																</xs:complexContent>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:extension>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:sequence maxOccurs="unbounded">
+										<xs:element name="Programs" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Programs which are specially being included or excluded from the order and placement of the spot.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="BxfText">
+														<xs:attribute name="excludeFlag" type="xs:boolean">
+															<xs:annotation>
+																<xs:documentation>If set to 1, treat program to be excluded.  If set to 0, set program to be included.</xs:documentation>
+															</xs:annotation>
+														</xs:attribute>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Daypart" type="BxfDaypart" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Option to designate dayparts to be included or excluded when considering the program placement.  (e.g. run in PrimeTime airing of program "A", but not the latenight rerun of same program).</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:element name="NamedRule" type="xs:string" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Used to pass a defined named rule for placement of content that is agreed to by both parties.  For example, a predefined rule like "ROS" to indicate run of schedule on the station.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+								<xs:attribute name="contentMapId">
+									<xs:annotation>
+										<xs:documentation>A unique identifier within the context of this message to be used in conjunction with the InstructionMap element.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="comments" type="xs:string">
+									<xs:annotation>
+										<xs:documentation>Schedule specific comments</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContentRotation" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Frequency" type="xs:integer" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Number of times the NPC can be aired in the flight period</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RotationPercentage" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If multiple NPC records, use this to designate the rotation percentage</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:integer">
+									<xs:minInclusive value="0"/>
+									<xs:maxInclusive value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="RotationPattern" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>String of comma separated numbers indicating content order of placement by traffic system.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RotationSequence" type="xs:integer" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If multiple NPC records, use this to designate the rotation sequence</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="contentMapId">
+						<xs:annotation>
+							<xs:documentation>A unique identifier within the context of this message to be used in conjunction with the InstructionMap element.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DRCallToAction" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Direct Response Information</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="DRCallToActionType">
+							<xs:annotation>
+								<xs:documentation>Select a type from valid enumerations such Phone Number, URL, SMS, etc.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Phone Number"/>
+									<xs:enumeration value="URL"/>
+									<xs:enumeration value="SMS"/>
+									<xs:enumeration value="Address"/>
+									<xs:enumeration value="Other"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="DRCallToActionValue" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Place actual value as a string in this field.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Disposal" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Instructions on the disposal of the NPC media once the contract period has ended</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InstructionComments" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specific comments concerning the instructions for the placement or use of the NPC on a schedule</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgencyDisclaimer" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Legal disclaimer provided by the buying agency that notifies the entity executing this contract of various limitations or other issues concerning the airing of the NPC material.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BuyingSystemDetails" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specific items that are referenced in the buying system, but are not part of the traffic instructions.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TargetDayparts" type="BxfDaypart" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Dayparts that are targeted for the purposes of this buy, but are not specifically purchased as part of the contract.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TargetPrograms" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Programs targeted for the purpose of this buy, but are not specifically purchased as part of the contract.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TargetCost" type="xs:decimal" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>An estimate of the average cost expected for the buy.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DistributionDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The date that the NPC media is expected to have been received by the entity airing the copy for this buy.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InstructionFiles" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Location to embed actual data files that would typically consist of the documentation for the traffic department to execute these instructions.  Can also be used to distribute small media files such as graphics and audio files, but not to be used for video.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="xs:anyType">
+							<xs:attribute name="fileName" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>Filename associated to the file.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="actionType" use="required">
+			<xs:annotation>
+				<xs:documentation>The type of action the receiving system could take with the delineated instructions for the specific schedule including adding new instructions, revising existing instructions or deleting previous instructions.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Add"/>
+					<xs:enumeration value="Delete"/>
+					<xs:enumeration value="Revision"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="instructionId" type="Uuid" use="required">
+			<xs:annotation>
+				<xs:documentation>A unique identifier within the context of this message to be used in conjunction with the InstructionMap element.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="stationId" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Instructions/rules can be applied to a single station as referenced in the JobDetails/Job Performers/Station element.  If multiple stations are to get the same instructions then do not use this and use InstructionMap instead.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="JobDetail">
+		<xs:annotation>
+			<xs:documentation>Allows the message to assign job information.  If more than one company or process is required for a job, enter multiple records and link using the jobId.  If one job is dependent on the completion of another, link the jobs using jobID and jobDependency. (v3.0)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="JobType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Type of job to be performed.  This is a specific list that the receiver of the message understands and can act on and would normally also be delineated in Configuration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JobRequester" type="BxfCompany">
+				<xs:annotation>
+					<xs:documentation>Company or person requesting the job to be performed</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JobManager" type="BxfCompany" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Company or person managing or coordinating the work across multiple companies</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JobPerformers" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The company that actually performs the work</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BxfCompany">
+							<xs:sequence>
+								<xs:element name="Station" type="BxfStation" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>The entities that will perform the job</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="JobResults" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Once the Performer works on a submitted job the results of that work would be available to indicate to the JobRequester and JobManager the status of the specific job, either accepted and performed or rejected.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="Accepted" type="xs:boolean">
+												<xs:annotation>
+													<xs:documentation>A flag to indicate that the job sent to the Performer has been accepted and either has been worked on or will be worked on.  If the flag is negated it indicates the job was rejected and will not be performed.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="UserName" type="xs:string">
+												<xs:annotation>
+													<xs:documentation>The user that was associated with the decision to accept or reject a job at the Performer company.  Usually linked to a specific user in the Performer's system.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="UserComment" type="xs:string" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>An optional comment to indicate what was done with a job.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="JobInstruction" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Instruction reference identifiers, codes and comments as well as start and end dates</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="JobReference" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Used to provide JobPerformer with additional information to lookup a specific job related to a separate ordering process (e.g. Advertiser Name/Estimate Number could be provided to help look up a specific order in a traffic system).</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence maxOccurs="unbounded">
+									<xs:element name="ReferenceType" type="xs:string">
+										<xs:annotation>
+											<xs:documentation>The type of reference being provided which can be designated in Configuration.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ReferenceName" type="xs:string"/>
+									<xs:element name="ReferenceCode" type="xs:string" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Disclaimer" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Disclaimer that applies to all instuctions associated to the job.  For example, if the job is for a single agency, but has multiple Traffic Instructions this can be used to inert the Agency's Disclaimer once rather than having to repeat it at the lower level.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="InstructionComment" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Comments for the full instructions</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="jobInstructionId" type="Uuid" use="required">
+						<xs:annotation>
+							<xs:documentation>A unique identifier for the job within the context of this message to be used in conjunction with the InstructionMap element.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="instructionType" use="required">
+						<xs:annotation>
+							<xs:documentation>Instruction type associated with this specific job.  (See Configuration Section in BXF Protocol Documentation)   </xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string"/>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="instructionStartDate" type="xs:date" use="required">
+						<xs:annotation>
+							<xs:documentation>The start date for the range of dates that the job covers.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="instructionEndDate" type="xs:date">
+						<xs:annotation>
+							<xs:documentation>The end date for the range of dates that the job covers.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="revisionNumber" type="xs:nonNegativeInteger">
+						<xs:annotation>
+							<xs:documentation>A non-negative integer that is assigned to the same job when revised in order to establish a hierarchy to multiple job revisions.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="revisionDateTime" type="xs:dateTime">
+						<xs:annotation>
+							<xs:documentation>The date a revision is issued for an existing job.  Note: recommended to be UTC.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="revisionReferenceId" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The original reference identifier for the job being revised.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="revisionReason" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>A textual reason for why the job is being revised to be presented to the job performers.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="acceptRejectFlag" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>A boolean flag indicating if the job manager or a job performer has accepted to work on the job or has rejected it.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="JobDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Text description of the job to be performed</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JobBilling" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Optional details concerning the way the job be billed or invoiced for the work performed.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="BillingReference" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>The billing reference identifier.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PONumber" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>A purchase order number related to the job request.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="LineNumber" type="xs:integer" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>A line reference value on the  purchase order or contract order that relates to the work for this specific job.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Quantity" type="xs:integer">
+							<xs:annotation>
+								<xs:documentation>The quantity of the item to be billed (units, hours, etc.)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Description" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>A textual description of the job completed, its purpose and status.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Cost" type="xs:decimal" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The value to be billed for the specific job.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="JobRelease" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date-Time when the job is expected to be completed and released, assuming it is held until this point in time.  Typically not used by the JobPerformer.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="jobId" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Sender's internal reference identifier for the work to be performed within the message.  Also used to reference items in the rest of the message when multiple jobs included in the message or if multiple jobs are sent in separate messages.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="subJobId" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>If multiple job messages for multiple parts of the same job, use this to identify the secondary job actions while still linking to the master job identifier.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="jobDependency" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Enter the jobId or subJobId that this job is dependent on and cannot be started until completed.  If left blank, assume job is not dependent and can be started as soon as received.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="orderId" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Receiver's reference identifier for the work to be performed within the message if known in advance - link to existing order sent earlier.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="serviceLevel" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Level of service priority to assign to the job as defined by the agreement between the JobRequester and JobPerformer and in Configuration.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

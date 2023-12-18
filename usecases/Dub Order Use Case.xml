@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BxfMessage id="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0048338391E1" messageType="Information" dateTime="2006-08-25T13:19:41.28" origin="Traffic System" originType="Traffic" destination="Automation" userName="Traffic System User" xmlns="http://smpte-ra.org/schemas/2021/2013/BXF" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://smpte-ra.org/schemas/2021/2013/BXF BxfSchema.xsd">
+	<BxfData action="add">
+		<ContentTransfer transferId="urn:uuid:ABCCDDDD-1111-22E3-9AFF-0038338391E1" transferType="Duplication" priority="Normal">
+			<Content>
+				<NonProgramContent>
+					<Details>
+						<AdType>Promo</AdType>
+						<SpotType>Standard</SpotType>
+					</Details>
+					<ContentMetaData>
+						<ContentId>
+							<HouseNumber>ITVS_HYP</HouseNumber>
+						</ContentId>
+						<Name>ITVS HYPERBOLE</Name>
+						<Description/>
+					</ContentMetaData>
+				</NonProgramContent>
+			</Content>
+			<Source>
+				<Media>
+					<BaseBand>
+						<Audio>
+							<DigitalAudio>
+								<Ac3Audio audioId="1"/>
+							</DigitalAudio>
+						</Audio>
+						<Video>
+							<Encoding>MPEG-2</Encoding>
+							<DigitalVideo>true</DigitalVideo>
+							<Format>720p</Format>
+							<AspectRatio>4:3</AspectRatio>
+						</Video>
+					</BaseBand>
+					<MediaLocation>
+						<Location>
+							<PhysicalAsset assetName="Tape">
+								<MediaReferenceName>31-109</MediaReferenceName>
+							</PhysicalAsset>
+						</Location>
+						<SOM>
+							<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+						</SOM>
+						<Duration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+							</SmpteDuration>
+						</Duration>
+					</MediaLocation>
+				</Media>
+			</Source>
+			<Destination>
+				<Media>
+					<BaseBand/>
+					<MediaLocation>
+						<Location>
+							<AssetServer playoutAllowed="true" fileTransferAllowed="true">
+								<PathName>C:\media\commercials</PathName>
+								<ReferenceName>AssetServerA</ReferenceName>
+							</AssetServer>
+						</Location>
+						<SOM>
+							<SmpteTimeCode>00:00:00:00</SmpteTimeCode>
+						</SOM>
+						<Duration>
+							<SmpteDuration>
+								<SmpteTimeCode>00:00:30:00</SmpteTimeCode>
+							</SmpteDuration>
+						</Duration>
+						<ArchiveGroup>
+							<ArchiveName>Interstitial</ArchiveName>
+						</ArchiveGroup>
+					</MediaLocation>
+				</Media>
+				<UsagePolicy>
+					<PurgeDate>9999-12-31T00:00:00.00</PurgeDate>
+				</UsagePolicy>
+			</Destination>
+		</ContentTransfer>
+	</BxfData>
+</BxfMessage>
