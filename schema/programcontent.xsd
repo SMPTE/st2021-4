@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxfparentalrating.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="contentmetadata.xsd"/>
+	<xs:include schemaLocation="contract.xsd"/>
+	<xs:include schemaLocation="element.xsd"/>
+	<xs:include schemaLocation="scheduledevent.xsd"/>
+	<xs:complexType name="ProgramContent">
+		<xs:sequence>
+			<xs:element name="ContentMetaData" type="ContentMetaData">
+				<xs:annotation>
+					<xs:documentation>Content identification and other details</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Elements" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the program is being delivered in segmented form this describes each segment's content, position and offset from the start of the program as well as other embedded content such as inserted barter content</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Element" type="Element" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Series" type="Series" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the content is part of a series this allows the entry of the episodic information</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProgramContract" type="ProgramContract" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>If the program is purchased, it may be linked to a rights contract</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ParentalRating" type="BxfParentalRating" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Parental rating for the show for one region (PMCP)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

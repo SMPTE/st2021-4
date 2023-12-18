@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:complexType name="NonProgramDetail">
+		<xs:sequence>
+			<xs:element name="SpotType">
+				<xs:annotation>
+					<xs:documentation>Used to describe the type of spot or other interstitial (eg. BarterSpot; LocalAvail; Promo; PSA; ID; comments) (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:anyAttribute namespace="##any"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AdvertiserName" type="BxfText" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of advertisers associated to the spot</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Agency" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Agency of record for the spot</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AgencyName" type="BxfText">
+							<xs:annotation>
+								<xs:documentation>Name of advertising agency (buying agency)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EstimateNumber" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Refers to the contract identifier in the agency system</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AgencyCode" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Recommended to use TVB EDI Value or see Configuration Section in BXF Protocol Documentation</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="Action-ErrorGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Product" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Allow multiple product codes for a single spot</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Name" type="BxfText">
+							<xs:annotation>
+								<xs:documentation>Product name for commercial spot content</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProductCode" type="xs:string" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Recommend use of TVB EDI Value that indicates the category of product (eg "Alcoholic Beverages") or see Configuration Section in BXF Protocol Documentation</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="Action-ErrorGroup"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

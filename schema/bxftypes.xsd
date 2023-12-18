@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
+	<xs:complexType name="BxfDateTime">
+		<xs:annotation>
+			<xs:documentation>Allows either SMPTE or UTC based date-time notation</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="SmpteDateTime" type="BxfSmpteDateTime"/>
+			<xs:element name="UtcDateTime" type="BxfUtcDateTime"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="BxfDuration">
+		<xs:annotation>
+			<xs:documentation>Duration can be expressed using either SMPTE time code or xs:duration</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="SmpteDuration" type="BxfSmpteTime"/>
+			<xs:element name="UtcDuration" type="xs:duration"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="BxfPrivateInformation">
+		<xs:annotation>
+			<xs:documentation>Any sequence of well-formed private XML elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BxfSmpteTime">
+		<xs:annotation>
+			<xs:documentation>Used for time duration or offset</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SmpteTimeCode" type="Smpte258MTimeCode">
+				<xs:annotation>
+					<xs:documentation>Specifies duration in the format HH:MM:SSpFF where "p" can be either a ":" ";" "," or "." to indicate drop frame or non-drop frame.  For details refer to SMPTE 258M, section 8.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="frameRate" type="xs:decimal">
+			<xs:annotation>
+				<xs:documentation>Specifies the number of frames per second and should always be provided if known</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="framecount" type="xs:integer"/>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BxfSmpteDateTime">
+		<xs:annotation>
+			<xs:documentation>Used for date-time entry in the schema</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BxfSmpteTime">
+				<xs:attribute name="broadcastDate" type="xs:date" use="required">
+					<xs:annotation>
+						<xs:documentation>Date relative to the broadcast day of the schedule.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="utcStartofBroadcastDay" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>Conversion of the start of the broadcast day to UTC.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BxfText">
+		<xs:annotation>
+			<xs:documentation>Used for all free text entry elements in the schema</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="lang" type="pmcp:languageType"/>
+				<xs:attribute name="size" type="xs:positiveInteger"/>
+				<xs:attribute name="type" type="xs:string"/>
+				<xs:attributeGroup ref="Action-ErrorGroup"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="BxfUtcDateTime">
+		<xs:annotation>
+			<xs:documentation>Standard UTC Date-Time</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:dateTime">
+				<xs:attributeGroup ref="Action-ErrorGroup"/>
+				<xs:attribute name="localTimeZone" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>This can be used to display the name of the time zone or  the time zone code as designated by the Naval Observatory at http://aa.usno.navy.mil</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="EventNotes">
+		<xs:annotation>
+			<xs:documentation>Operator notes used to annotate the event with reference to the person that created the note.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EventNote" type="BxfText" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:attributeGroup name="Action-ErrorGroup">
+		<xs:annotation>
+			<xs:documentation>Used to set an action or report an error and add attribute extensibility</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="action" type="pmcp:actionType" use="optional"/>
+		<xs:attribute name="error" type="BxfError" use="optional"/>
+		<xs:attribute name="errorDescription" type="xs:string" use="optional"/>
+		<xs:anyAttribute namespace="##any" processContents="lax"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="PmcpActionErrorExtensionGroup">
+		<xs:annotation>
+			<xs:documentation>Used to set an action or report an error and add attribute extensibility</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="errorDescription" type="xs:string" use="optional"/>
+		<xs:anyAttribute namespace="##any" processContents="lax"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="AsRunStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Aired Without Discrepancy"/>
+			<xs:enumeration value="Technical Difficulty"/>
+			<xs:enumeration value="Did not air"/>
+			<xs:enumeration value="Aired with Duration Discrepancy"/>
+			<xs:enumeration value="Aired with Content Discrepancy"/>
+			<xs:enumeration value="Preempted"/>
+			<xs:enumeration value="Joined in Progress"/>
+			<xs:enumeration value="Inserted by Operator"/>
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Missing Content"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BxfShortName">
+		<xs:restriction base="pmcp:shortNameType"/>
+	</xs:simpleType>
+	<xs:simpleType name="BxfElementaryErrorExt">
+		<xs:annotation>
+			<xs:documentation>Type for an elementary error</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(system_unavailable|not_supported|duplicate_message|processing_exception)(:.*)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BxfElementaryError">
+		<xs:annotation>
+			<xs:documentation>Type for an elementary error</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="pmcp:elementaryErrorType BxfElementaryErrorExt"/>
+	</xs:simpleType>
+	<xs:simpleType name="BxfError">
+		<xs:list itemType="BxfElementaryError"/>
+	</xs:simpleType>
+	<xs:simpleType name="BxfStatus">
+		<xs:annotation>
+			<xs:documentation>Status of a reply message</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="pmcp:statusType BxfStatusExtType"/>
+	</xs:simpleType>
+	<xs:simpleType name="BxfStatusExtType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="warning"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BxfUri">
+		<xs:annotation>
+			<xs:documentation>Used to denote a universal file location</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:anyURI"/>
+	</xs:simpleType>
+	<xs:simpleType name="DayPattern">
+		<xs:annotation>
+			<xs:documentation>A binary representation of the days of the week with Monday in the left-most position (eg - "1111100" = M-F)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="7"/>
+			<xs:pattern value="[0,1]{7}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DestinationType">
+		<xs:annotation>
+			<xs:documentation>Type of the destination system (see ATSC code point registry - www.atsc.org/standards/Code_Point_Registry.pdf)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="EiCode">
+		<xs:annotation>
+			<xs:documentation>FCC Children's and Information Codes</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="7"/>
+			<xs:maxLength value="9"/>
+			<xs:pattern value="E-I [0-9]{0,1}[0-9]-[0-9]{0,1}[0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EndModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Duration"/>
+			<xs:enumeration value="Manual"/>
+			<xs:enumeration value="External"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MessageType">
+		<xs:annotation>
+			<xs:documentation>Allowed types of messages in this schema</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Acknowledgement">
+				<xs:annotation>
+					<xs:documentation>An acknowledgement that a message was received.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Heartbeat">
+				<xs:annotation>
+					<xs:documentation>A message for checking connectivity.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Information">
+				<xs:annotation>
+					<xs:documentation>A notification of changes or request to do something that does not warrant a reply.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Message Status Request">
+				<xs:annotation>
+					<xs:documentation>A request for the status of a message that was previously sent.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Request">
+				<xs:annotation>
+					<xs:documentation>A request to do something that requires a reply.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Reply">
+				<xs:annotation>
+					<xs:documentation>A reply to a request message.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OperationalModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Normal"/>
+			<xs:enumeration value="JIP"/>
+			<xs:enumeration value="Expendable"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OriginType">
+		<xs:annotation>
+			<xs:documentation>Type of the origin system (see ATSC code point registry - www.atsc.org/standards/Code_Point_Registry.pdf)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="QueryStringIdentifier">
+		<xs:annotation>
+			<xs:documentation>Restricts Query ReturnStrucutre based on a pattern that would restrict the return structure to follow the “camel back” style used in the Schema</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z][a-zA-Z0-9]*(/[A-Z][a-zA-Z0-9]*)*(/\*){0,1}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="QueryString">
+		<xs:annotation>
+			<xs:documentation>Restricts the Query where clause based on a pattern.  Note that negation requests are not supported.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z][a-zA-Z0-9]*(/[A-Z][a-zA-Z0-9]*)*(/@[a-z][a-zA-Z0-9]*){0,1}(\s)*(=|&gt;=|&lt;|&lt;=|!=)\s*[&quot;][^&quot;]*[&quot;](\s+(AND|and|or|OR)\s+[A-Z][a-zA-Z0-9]*(/[A-Z][a-zA-Z0-9]*)*(/@[a-z][a-zA-Z0-9]*){0,1}\s*(=|&gt;=|&lt;|&lt;=|!=)\s*[&quot;][^&quot;]*[&quot;]\s*)*"/>
+			<xs:pattern value="\*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ScheduleEventType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Primary"/>
+			<xs:enumeration value="NonPrimary"/>
+			<xs:enumeration value="Auxillary"/>
+			<xs:enumeration value="Comment"/>
+			<xs:enumeration value="ProgramHeader"/>
+			<xs:enumeration value="BreakHeader"/>
+			<xs:enumeration value="Macro"/>
+			<xs:enumeration value="Data"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ScheduleType">
+		<xs:annotation>
+			<xs:documentation>A type of schedule</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Primary"/>
+			<xs:enumeration value="Alternate"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Smpte258MTimeCode">
+		<xs:annotation>
+			<xs:documentation>Reference SMPTE 258M, section 8</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:pattern value="(([0-1][0-9])|([2][0-3])):[0-5][0-9]:[0-5][0-9](([.,])|([:;]))[0-2][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StartModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Follow"/>
+			<xs:enumeration value="Fixed"/>
+			<xs:enumeration value="Manual"/>
+			<xs:enumeration value="External"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Uuid">
+		<xs:annotation>
+			<xs:documentation xml:lang="en-US">A universal unique identifier, as described by RFC 4122.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:anyURI">
+			<xs:length value="45"/>
+			<xs:pattern value="urn:uuid:[a-fA-F0-9]{8}(\-[a-fA-F0-9]{4}){3}\-[a-fA-F0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

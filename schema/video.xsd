@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:complexType name="TSVideo">
+		<xs:annotation>
+			<xs:documentation>Enumerates the various values relating to the presentation of video in a transport stream</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Null">
+				<xs:annotation>
+					<xs:documentation>No Information provided for Video</xs:documentation>
+				</xs:annotation>
+				<xs:complexType/>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="Encoding" type="TSVideoEncodingType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If NTSC or PAL this should be set to uncompressed.  The other options are various compression utilities that are used to store or transmit video.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DigitalVideo" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Required to be true if video format is 1080p, 1080i, 720p, 480p, optional for 576i and 480i</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Format" type="VideoFormatType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The number of lines of video and either an "i" for interlaced or "p" for progressive.  Note that NTSC = 480i; PAL = 576i; and the rest are digital ATSC/DVB options.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Only 4:3 or 16:9 values allowed</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:choice minOccurs="0">
+					<xs:element name="AFD-BarDataPresent" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that active format description and bar data is used in the presentation of the video in order to convert the production image to the selected transmission aspect ration.  The actual values for these items is incorporated into the video VANC.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PanAndScanPresent" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that pan and scan techniques are being used to adjust the production image to fit the transmission aspect ratio.  Note that each frame's values may be different and the actual data to determine the values are carried in the video VANC.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+			</xs:sequence>
+		</xs:choice>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="Video">
+		<xs:annotation>
+			<xs:documentation>Enumerates the various values relating to the presentation of video</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Null">
+				<xs:annotation>
+					<xs:documentation>No Information provided for Video</xs:documentation>
+				</xs:annotation>
+				<xs:complexType/>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="Encoding" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If NTSC or PAL this should be set to uncompressed.  The other options are various compression utilities that are used to store or transmit video.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="VideoEncodingType">
+								<xs:attribute name="EncodingReference" type="xs:string">
+									<xs:annotation>
+										<xs:documentation>Allows the user to annotate the type of encoding method used</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DigitalVideo" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Required to be true if video format is 1080p, 1080i, 720p, 480p, optional for 576i and 480i</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Format" type="VideoFormatType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The number of lines of video and either an "i" for interlaced or "p" for progressive.  Note that NTSC = 480i; PAL = 576i; and the rest are digital ATSC/DVB options.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The horizontal:vertical ratio of the complete video display including AFD-BarData (A/53)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:choice minOccurs="0">
+					<xs:element name="AFD-BarDataPresent" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that active format description and bar data is used in the presentation of the video in order to convert the production image to the selected transmission aspect ratio.  The actual values for these items is incorporated into the video VANC.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PanAndScanPresent" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates that pan and scan techniques are being used to adjust the production image to fit the transmission aspect ratio.  Note that each frame's values may be different and the actual data to determine the values are carried in the video VANC.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="CaptionsInVANC" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>If set to true indicates that captioning is embedded in the video VANC.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+			</xs:sequence>
+		</xs:choice>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="VideoTransition">
+		<xs:annotation>
+			<xs:documentation>Allows the user to specify specific actions to be used by the automation system to transition the video from one event to another</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TransitionInType" type="VideoTransitionEnumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type of transition to perform between the previous event and this event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionPattern" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the transition is a wipe the pattern to be used for the wipe. (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TransitionInRate" type="VideoRateType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The rate of transition between the previous event and this event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionOutType" type="VideoTransitionEnumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type of transition to before between this event and the next event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionOutRate" type="VideoRateType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The rate of transition between this event and the next event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionSom" type="BxfSmpteTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to designate a specific start point for the transition relative to the active content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionEom" type="BxfSmpteTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to designate a specific end point for the transition relative to the active content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:simpleType name="AspectRatioType">
+		<xs:annotation>
+			<xs:documentation>Enumerates either 4:3 or 16:9 video presentation formats</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="16:9"/>
+			<xs:enumeration value="4:3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TSVideoEncodingType">
+		<xs:annotation>
+			<xs:documentation>Enumerates various methids used to compress video in a transport stream</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MPEG-2"/>
+			<xs:enumeration value="MPEG-4 AVC"/>
+			<xs:enumeration value="SMPTE VC-1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VideoEncodingType">
+		<xs:annotation>
+			<xs:documentation>Enumerates various methods of compressing video</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Uncompressed"/>
+			<xs:enumeration value="MPEG-2"/>
+			<xs:enumeration value="MPEG-4 AVC"/>
+			<xs:enumeration value="SMPTE VC-1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VideoFormatType">
+		<xs:annotation>
+			<xs:documentation>Enumerates the different video presentation formats</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1080p"/>
+			<xs:enumeration value="1080i"/>
+			<xs:enumeration value="720p"/>
+			<xs:enumeration value="576i"/>
+			<xs:enumeration value="480p"/>
+			<xs:enumeration value="480i"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VideoRateType">
+		<xs:annotation>
+			<xs:documentation>Enumerates the speed of a video transition</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Fast"/>
+			<xs:enumeration value="Medium"/>
+			<xs:enumeration value="Slow"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VideoTransitionEnumType">
+		<xs:annotation>
+			<xs:documentation>Enumerates various transition options</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Cut"/>
+			<xs:enumeration value="Fade-Cut"/>
+			<xs:enumeration value="Cut-Fade"/>
+			<xs:enumeration value="CrossFade"/>
+			<xs:enumeration value="Mix"/>
+			<xs:enumeration value="Wipe"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

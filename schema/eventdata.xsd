@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="primaryevent.xsd"/>
+	<xs:include schemaLocation="nonprimaryevent.xsd"/>
+	<xs:include schemaLocation="macro.xsd"/>
+	<xs:include schemaLocation="audio.xsd"/>
+	<xs:include schemaLocation="video.xsd"/>
+	<xs:complexType name="EventExtId">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Null"/>
+				<xs:element name="EventId" type="Uuid">
+					<xs:annotation>
+						<xs:documentation>Unique within a schedule reference for each event required to be a UUID.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="BillingReferenceCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to link an event back to its billing record</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EventData">
+		<xs:sequence>
+			<xs:element name="EventId" type="EventExtId">
+				<xs:annotation>
+					<xs:documentation>Unique identifier for each event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EventTitle" type="BxfText" minOccurs="0"/>
+			<xs:element name="InsertAfterEventId" type="Uuid" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A pointer to the event prior to the position used to insert a new event in an existing list.  Required to be a UUID.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="PrimaryEvent" type="PrimaryEvent"/>
+				<xs:element name="NonPrimaryEvent" type="NonPrimaryEvent"/>
+				<xs:element name="MacroEvent" type="Macro"/>
+			</xs:choice>
+			<xs:element name="StartDateTime">
+				<xs:annotation>
+					<xs:documentation>The date and time of the beginning of the event</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BxfDateTime">
+							<xs:attribute name="nominalFlag">
+								<xs:annotation>
+									<xs:documentation>Used to indicate that the start time is not an exact value and may be variable.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LengthOption">
+				<xs:annotation>
+					<xs:documentation>Duration or end time of the event</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="Duration">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="BxfDuration">
+										<xs:sequence>
+											<xs:element name="EstimatedDurationOffset" type="xs:unsignedInt" minOccurs="0" maxOccurs="2">
+												<xs:annotation>
+													<xs:documentation>Used to indicate the amount of time in plus or minus total minutes that the duration may be adjusted</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:attribute name="nominalFlag" type="xs:boolean">
+											<xs:annotation>
+												<xs:documentation>Used to indicate that the duration is not an exact value and may be variable.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="EndDateTime">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="BxfDateTime">
+										<xs:sequence>
+											<xs:element name="EstimatedDurationOffset" type="xs:unsignedInt" minOccurs="0" maxOccurs="2">
+												<xs:annotation>
+													<xs:documentation>Used to indicate the amount of time in plus or minus total minutes that the end time may be adjusted</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:attribute name="nominalFlag" type="xs:boolean">
+											<xs:annotation>
+												<xs:documentation>Used to indicate that the end time is not an exact value and may be variable.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="StartMode" type="StartModeType" default="Follow">
+				<xs:annotation>
+					<xs:documentation>The way the event will start relative to the previous event or time</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndMode" type="EndModeType" default="Duration">
+				<xs:annotation>
+					<xs:documentation>The way an event will end relative to its duration or other events</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Transitions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AudioTransitions" type="AudioTransition" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="VideoTransitions" type="VideoTransition" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="FederalId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Some countries require a content identifier to be attached to indicate that the content has been cleared or reviewed.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FederalSource" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Some countries require an indication as to the original source of the content being aired.  The values will vary by country.  Examples are live, prerecorded, network, syndicated.  (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EventDescription" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EventNotes" type="EventNotes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Operator notes used to annotate the event with reference to the person that created the note.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="JipFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If the event is joined in progress set to true</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Expendable" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If event can be preempted then set to true </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Protection" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ProtectionSourceRequested" type="xs:boolean" default="0">
+							<xs:annotation>
+								<xs:documentation>If set to true then type is required.  Default is false.  Indicates that the event should have a protected source (ie backup) that can be used if the primary source is unavailable or fails.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ProtectionSourceName" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Name of the type of protection source to be used.  This must be configured within the system. (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="255"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="eventType">
+			<xs:annotation>
+				<xs:documentation>Indicates the type of event to be described</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Primary"/>
+					<xs:enumeration value="Primary-ProgramHeader"/>
+					<xs:enumeration value="Primary-BreakHeader"/>
+					<xs:enumeration value="NonPrimary"/>
+					<xs:enumeration value="Comment"/>
+					<xs:enumeration value="Macro"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

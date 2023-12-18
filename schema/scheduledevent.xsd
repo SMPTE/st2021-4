@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxfparentalrating.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="contentmetadata.xsd"/>
+	<xs:include schemaLocation="eventdata.xsd"/>
+	<xs:include schemaLocation="format.xsd"/>
+	<xs:complexType name="ScheduledEvent">
+		<xs:sequence>
+			<xs:element name="EventData" type="EventData" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specifies the data for the complete show or a single event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Content" type="ContentMetaData" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is not expected to be present for comments, program headers and break headers, but is expected in all other cases.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AlternateAudioContent" type="AlternateAudioContent" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>If audio not directly associated with the primary video content is scheduled to run with the video a separate content for just this audio must be indicated.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContentType" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to describe the type of content (eg. network, local, entertainment, news) (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Format" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="Formats" type="Format">
+							<xs:annotation>
+								<xs:documentation>The definition of the empty structure of a program as used by the traffic system to construct a schedule grid.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FormatId" type="Uuid">
+							<xs:annotation>
+								<xs:documentation>The unique identifier for a format</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ScheduleElements" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Specifies the elemental structure of the show</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EventData" type="EventData" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Specifies the data for the complete show or a single event</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Content" type="ContentMetaData" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>This is not expected to be present for comments, program headers and break headers, but is expected in all other cases.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AlternateAudioContent" type="AlternateAudioContent" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>If audio not directly associated with the primary video content is scheduled to run with the video a separate content for just this audio must be indicated.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Series" type="Series" minOccurs="0"/>
+			<xs:element name="ParentalRating" type="BxfParentalRating" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Parental rating for the show for one region (PMCP)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EiCode" type="EiCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used for FCC Education/Information Children's code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContentPlayNumber" type="xs:positiveInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The play number value relative to the contract used to authorize the content or the total times the content has been used on the schedule.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PremiereFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to indicate that this is the first airing of the content on this schedule.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LastPlayFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to indicate that this is the last airing of the content on this schedule.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransformationOutput" type="BaseMedia" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to create a transformation of the video from its current stored value to a different transmission value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="Series">
+		<xs:sequence>
+			<xs:element name="SeriesName" type="BxfText">
+				<xs:annotation>
+					<xs:documentation>The name assigned to represent a related group of produced content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EpisodeName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A distinct name (within the series) assigned by the producer of the content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EpisodeCode" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The identifier that uniquely specifies a title in a series</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Season" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A date range that indicates the period of time in which the episode was originally produced</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SeasonName" type="BxfText">
+							<xs:annotation>
+								<xs:documentation>The name used to reference the season period</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="StartDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Start date of the season</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EndDate" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>End date of the season</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

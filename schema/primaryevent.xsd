@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="nonprogramevent.xsd"/>
+	<xs:include schemaLocation="programevent.xsd"/>
+	<xs:complexType name="PrimaryEvent">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ProgramEvent" type="ProgramEvent"/>
+				<xs:element name="NonProgramEvent" type="NonProgramEvent"/>
+			</xs:choice>
+			<xs:element name="PrimaryElementId" type="Uuid" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Uses a UUID to link to the format structure element</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

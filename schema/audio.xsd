@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:complexType name="Audios">
+		<xs:annotation>
+			<xs:documentation>Extends PMCP AudiosType</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="pmcp:AudiosType">
+				<xs:attributeGroup ref="PmcpActionErrorExtensionGroup"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Ac3AudioExt">
+		<xs:annotation>
+			<xs:documentation>Extends PMCP Ac3Audio</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="pmcp:Ac3AudioType">
+				<xs:attributeGroup ref="PmcpActionErrorExtensionGroup"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AnalogAudio">
+		<xs:annotation>
+			<xs:documentation>Enumerates the settings of audio included in analog content</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="audioReference" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>Used to reference specific channel or channels for transitions</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="audioType">
+			<xs:annotation>
+				<xs:documentation>Mono or stereo left or right</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Mono"/>
+					<xs:enumeration value="Stereo-Left"/>
+					<xs:enumeration value="Stereo-Right"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="audioLevel" type="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Reference level in dbu</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="audioChannel" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>(1,2,3,4...)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lang" type="xs:language" use="optional"/>
+		<xs:attribute name="secondaryAudioProgram" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>Flags if the analog audio channel is used as an SAP source</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="sapMode" default="Active">
+			<xs:annotation>
+				<xs:documentation>Used in older analog configurations to indicate when the SAP channel is active</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Active"/>
+					<xs:enumeration value="Silent"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="Audio">
+		<xs:annotation>
+			<xs:documentation>The base for all audio definitions</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Null">
+				<xs:annotation>
+					<xs:documentation>No audio is associated to the media</xs:documentation>
+				</xs:annotation>
+				<xs:complexType/>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="AnalogAudio" type="AnalogAudio" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="DigitalAudio" type="DigitalAudio" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:choice>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="AudioTransition">
+		<xs:annotation>
+			<xs:documentation>Enumerates the settings to transition from one audio to another</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--			<xs:element name="AudioContentId" type="ContentIdType" minOccurs="0" /> -->
+			<xs:element name="AudioMode" type="AudioModeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates whether the audio should go over, under or is a breakaway </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionType" type="AudioTransitionEnumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates if the transition is a cut or a mix (crossfade)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TransitionRate" type="AudioRateType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The speed of the transition, fast, medium or slow</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AudioSwap" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If set to True then the analog audio channels left and right are swapped.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="DigitalAudio">
+		<xs:annotation>
+			<xs:documentation>Enumerates the different types of digital audio streams</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Ac3Audio" type="Ac3AudioExt"/>
+			<xs:element name="DEAudio" type="DigitalAudioAttribute"/>
+			<xs:element name="MPEGAACAudio" type="DigitalAudioAttribute"/>
+			<xs:element name="MPEGLayerIIAudio" type="DigitalAudioAttribute"/>
+			<xs:element name="PCMAudio">
+				<xs:complexType>
+					<xs:attribute name="exactBitRate" type="xs:boolean" use="optional">
+						<xs:annotation>
+							<xs:documentation>Indicates if bitRateKbps is an exact value or an upper bound (A/65)</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="audioReference" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>Used to reference specific channel or channels for transitions</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="DigitalAudioAttribute">
+		<xs:annotation>
+			<xs:documentation>Enumerates the parameters of a digital audio stream</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="audioId" type="pmcp:audioIdType" use="required">
+			<xs:annotation>
+				<xs:documentation>ID of the audio service in the virtual channel. Links to an elementary stream.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lang" type="pmcp:languageType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Language of the audio stream carried in the ISO_639_language_descriptor</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="numChannels" type="pmcp:numChannelsType" use="optional" default="2/0">
+			<xs:annotation>
+				<xs:documentation>Number of audio channels in the elementary stream (A/65)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="bitRateKbps" type="pmcp:bitRateKbpsType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Bit rate of the elementary stream in kbps (A/65)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="exactBitRate" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates if bitRateKbps is an exact value or an upper bound (A/65)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="surround" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates if the audio service is surround (A/65)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="TSAudio">
+		<xs:annotation>
+			<xs:documentation>Enumerates the parameters of digital audio in a transport stream</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Null">
+				<xs:annotation>
+					<xs:documentation>No audio is associated to the media</xs:documentation>
+				</xs:annotation>
+				<xs:complexType/>
+			</xs:element>
+			<xs:sequence>
+				<xs:element name="DigitalAudio" type="DigitalAudio" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="AudioModeType">
+		<xs:annotation>
+			<xs:documentation>Defines the way audio is transitioned</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Breakaway"/>
+			<xs:enumeration value="Over"/>
+			<xs:enumeration value="Under"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AudioRateType">
+		<xs:annotation>
+			<xs:documentation>Defines the speed of an audio transition</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Fast"/>
+			<xs:enumeration value="Medium"/>
+			<xs:enumeration value="Slow"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AudioTransitionEnumType">
+		<xs:annotation>
+			<xs:documentation>Indicates if an audio transition is to be mixed or a cut</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Cut"/>
+			<xs:enumeration value="Mix"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

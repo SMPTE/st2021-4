@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="macro.xsd"/>
+	<xs:include schemaLocation="nonprogramevent.xsd"/>
+	<xs:complexType name="NonPrimaryEvent">
+		<xs:sequence>
+			<xs:element name="NonPrimaryEventName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Used to define the type of event (eg. Key, GPI, Tone, Audio or Video Effects) (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OptionalFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional event, will not air unless triggered</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrimaryEventId" type="Uuid" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Linkage to the primary event id.  Not required for auxillary events.  Required to be a UUID.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NonPrimaryElementId" type="Uuid" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A UUID that is used to link to the format structure's non-primary element definition</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Offset" minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>The definition of how a non-primary event should run relative to the primary event either using the start or end points of either event.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="OffsetTime" type="BxfSmpteTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The time to start the event relative to the start time of the primary event</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="offsetFrom">
+						<xs:annotation>
+							<xs:documentation>Defines the point of the primary event from which the offset is applied either start or end</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="BeginningofEvent"/>
+								<xs:enumeration value="EndofEvent"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="offsetType">
+						<xs:annotation>
+							<xs:documentation>This describes whether the start or end point of the non-primary event should be used when the offset is applied</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Start"/>
+								<xs:enumeration value="End"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="direction">
+						<xs:annotation>
+							<xs:documentation>Defines whether the offset value is applied as a positive or negative value</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="Positive"/>
+								<xs:enumeration value="Negative"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Macros" type="Macro" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="NonProgramEvents" type="NonProgramEvent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to specify non-primary events that use speciific interstitial content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="auxillary" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>Boolean flag to indicate that the non-primary event is an auxillary event which is time based and does not link to a primary event</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

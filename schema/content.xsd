@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="programcontent.xsd"/>
+	<xs:include schemaLocation="nonprogramcontent.xsd"/>
+	<xs:complexType name="Content">
+		<xs:choice>
+			<xs:element name="ProgramContent" type="ProgramContent">
+				<xs:annotation>
+					<xs:documentation>Content that is in the form of full length titles, epsiodes, movies, sports, newscasts, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NonProgramContent" type="NonProgramContent">
+				<xs:annotation>
+					<xs:documentation>Content that is typically short in nature and is scheduled in breaks between the segments of a program such as commercials, promos, ids, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="timestamp" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>specifies the current date and time that is associated to the content at a specific location</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="user">
+			<xs:annotation>
+				<xs:documentation>the name of the user or computer associated to the content</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="255"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="sourceName">
+			<xs:annotation>
+				<xs:documentation>The name of the entity that originally provided the content</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="255"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="contentExists" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Indicates whether the content exists at the location of the query: 1=Exists, 0=Does Not Exist</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version">
+			<xs:annotation>
+				<xs:documentation>A label to designate the content based on use or purpose</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="255"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="revisionId">
+			<xs:annotation>
+				<xs:documentation>Used to indicate what revision value the content has</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="255"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

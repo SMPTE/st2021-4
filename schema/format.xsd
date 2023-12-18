@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="macro.xsd"/>
+	<xs:complexType name="Format">
+		<xs:sequence>
+			<xs:element name="FormatId" type="Uuid">
+				<xs:annotation>
+					<xs:documentation>The unique identifier for a format</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FormatLength" type="BxfDuration">
+				<xs:annotation>
+					<xs:documentation>The duration of the complete format</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FormatName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A human readable name for the format</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FormatNotes" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional descriptive information about the format</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FormatUsage" type="FormatUsage" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes which channels and what dates a format can be used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FormatStructure" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A detailed definition of each of the individual elements of the format that include segments, breaks, secondary events and comments.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="FormatElements" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PrimaryElementId" type="Uuid">
+										<xs:annotation>
+											<xs:documentation>A UUID representing a unique identifier for this element</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="FormatElementType">
+										<xs:annotation>
+											<xs:documentation>The type of strucutre for the element such as segment or break</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Break"/>
+												<xs:enumeration value="Comment"/>
+												<xs:enumeration value="ID"/>
+												<xs:enumeration value="Non-commercial Break"/>
+												<xs:enumeration value="Segment"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="FormatOrderSequence" type="xs:positiveInteger" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicates the order of each of the format elements (allows placement of comments without indicating an offset time).</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="AvailNumber" type="xs:positiveInteger" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicates the position of a break element inside the format structure.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TotalAvails" type="xs:positiveInteger" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicates the total number of break elements inside the format structure</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="AuthorizationList" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Locations that are allowed to use the avail. </xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AuthorizedName" type="BxfText" maxOccurs="unbounded"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="IgnoreAvail" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Describes those avails that can be ignored during playback by certain locations</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:boolean"/>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:choice>
+										<xs:sequence>
+											<xs:annotation>
+												<xs:documentation>If the FormatElementType is not a Comment then the offset and duration fields are required</xs:documentation>
+											</xs:annotation>
+											<xs:element name="PrimaryOffset" type="BxfSmpteTime">
+												<xs:annotation>
+													<xs:documentation>Offset from the start of the show</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="PrimaryDuration">
+												<xs:complexType>
+													<xs:complexContent>
+														<xs:extension base="BxfDuration">
+															<xs:attribute name="variable">
+																<xs:annotation>
+																	<xs:documentation>Used to indicate if the duration can be changed based on the contents added to the format element.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:extension>
+													</xs:complexContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="NonPrimaryElements" minOccurs="0" maxOccurs="unbounded">
+												<xs:annotation>
+													<xs:documentation>It is possible to add secondary events to a primary event such that one or more events occur at the same time or in overlapping sequence.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="NonPrimaryElementId" type="Uuid">
+															<xs:annotation>
+																<xs:documentation>A UUID representing a unique identification of the element</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="NonPrimaryOffset" maxOccurs="2">
+															<xs:annotation>
+																<xs:documentation>The definition of how a non-primary event should run relative to the primary event either using the start or end points of either event.</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="OffsetTime" type="BxfSmpteTime" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation>The time to start the event relative to the start time of the primary event</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+																<xs:attribute name="OffsetFrom">
+																	<xs:annotation>
+																		<xs:documentation>Defines the point of the primary event from which the offset is applied either start or end</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:enumeration value="BeginningofEvent"/>
+																			<xs:enumeration value="EndofEvent"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:attribute>
+																<xs:attribute name="OffsetType">
+																	<xs:annotation>
+																		<xs:documentation>This describes whether the start or end point of the non-primary event should be used when the offset is applied</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:enumeration value="Start"/>
+																			<xs:enumeration value="End"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:attribute>
+																<xs:attribute name="Direction">
+																	<xs:annotation>
+																		<xs:documentation>Defines whether the offset value is applied as a positive or negative value</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string">
+																			<xs:enumeration value="Positive"/>
+																			<xs:enumeration value="Negative"/>
+																		</xs:restriction>
+																	</xs:simpleType>
+																</xs:attribute>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="NonPrimaryDuration" type="BxfDuration"/>
+														<xs:element name="NonPrimaryDescription" type="BxfText" minOccurs="0"/>
+														<xs:element name="Macros" type="Macro" minOccurs="0" maxOccurs="unbounded"/>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="Description" type="BxfText" minOccurs="0"/>
+											<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+										</xs:sequence>
+										<xs:element name="Description" type="BxfText">
+											<xs:annotation>
+												<xs:documentation>If the FormatElementType is a Comment then this field is required</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+								<xs:attributeGroup ref="Action-ErrorGroup"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="FormatUsage">
+		<xs:annotation>
+			<xs:documentation>Describes for a format which channels it can be used on</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AllowedChannels" type="BxfShortName" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Channels that a format can be used on</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EmbargoDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>First date the format can be used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExpirationDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Last date the format can be used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

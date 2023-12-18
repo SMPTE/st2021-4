@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="contract.xsd"/>
+	<xs:include schemaLocation="nonprogramdetail.xsd"/>
+	<xs:complexType name="Constraint">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Rules" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RuleName" type="BxfText">
+							<xs:annotation>
+								<xs:documentation>A name to reference the rule</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="StartTimeLimit" type="xs:time" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The earliest permitted start time for this event under the terms of the contract</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EndTimeLimit" type="xs:time" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The latest permitted start time for this event under the terms of the contract</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="StartDateLimit" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>First date that this event can be aired on.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EndDateLimit" type="xs:date" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Last date that this event can be aired on.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DaysOfWeekAllowed" type="DayPattern" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Assumes start of week is Monday.  Indicates the days of the week that the content can be aired.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Classification" type="BxfText" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>(See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="ruleId" type="Uuid" use="required">
+						<xs:annotation>
+							<xs:documentation>Unique identifier for each rule</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="negation" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>True = negation of the stated rule</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attributeGroup ref="Action-ErrorGroup"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NonProgramEvent">
+		<xs:sequence>
+			<xs:element name="Details" type="NonProgramDetail"/>
+			<xs:element name="SalesContract" type="SalesContract" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Originating sales contract for the spot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Constraints" type="Constraint" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rules that restrict the movement of the spot to another time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrafficCautionFlag" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Warning indicating that the operator should think twice before preempting or changing the spot.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpotSalesClassification" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rate section or priority code for the spot (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PreemptionWarning" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Do not preempt the spot</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

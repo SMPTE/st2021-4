@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="content.xsd"/>
+	<xs:include schemaLocation="contentmetadata.xsd"/>
+	<xs:complexType name="ContentTransfer">
+		<xs:annotation>
+			<xs:documentation>Transfer content from a source to a destination</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Content" type="Content">
+				<xs:annotation>
+					<xs:documentation>The meta-data associated with each transfer event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Source" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A description of the location and essence and any rules associated with its use</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Media" type="Media">
+							<xs:annotation>
+								<xs:documentation>Describes the essence and the location of the content</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="UsagePolicy" type="UsagePolicy" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Business rules expected to be applied when the content is used at this location</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Destination" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A description of the location to be transfered to and optionally the transcoding of the content at this new location.  Note that new policies may be applied</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Media" type="Media">
+							<xs:annotation>
+								<xs:documentation>Describes the essence and the new location of the content once transfered</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="UsagePolicy" type="UsagePolicy" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Business rules expected to be applied when the content is used at this location</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="DestinationContentId" type="BxfContentId" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>If know, the system can specific the new contentId for the transfered content at the new location</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="transferId" type="Uuid" use="required">
+			<xs:annotation>
+				<xs:documentation>Required to be a UUID</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="transferType" type="TransferType" use="required">
+			<xs:annotation>
+				<xs:documentation>The purpose of the transfer order</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="conditionalSource" type="xs:positiveInteger" default="1">
+			<xs:annotation>
+				<xs:documentation>If set to 1 then primary source.  Numbers greater than 1 indicate backup sources that are used in value order only if primary fails.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="priority" type="PriorityType" default="Normal">
+			<xs:annotation>
+				<xs:documentation>The order in which the receiving system will attempt to receive the transfer of content</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="parentTransferId" type="Uuid">
+			<xs:annotation>
+				<xs:documentation>Used to link transfers as a group.  Required to be a UUID.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="status" type="TransferStatusType">
+			<xs:annotation>
+				<xs:documentation>Ennumerated list of possible conditions for each transfer particularly used for long running content transfers</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="statusDescription" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Detail description relating to the status of the transfer</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="percentComplete">
+			<xs:annotation>
+				<xs:documentation>Used with in-progress status</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:short">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="100"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="recordEventStart" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Used to specify a specific start date and time to record a transfer of content</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="recordEventEnd" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Used to specify a specific end date and time to record a transfer of content</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dayPattern" type="DayPattern">
+			<xs:annotation>
+				<xs:documentation>Used to specify which days of the week a record event should take place</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:simpleType name="TransferType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Recording"/>
+			<xs:enumeration value="Duplication"/>
+			<xs:enumeration value="File transfer"/>
+			<xs:enumeration value="Purge"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PriorityType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Deferred"/>
+			<xs:enumeration value="Urgent"/>
+			<xs:enumeration value="High"/>
+			<xs:enumeration value="Normal"/>
+			<xs:enumeration value="Low"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TransferStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Unknown"/>
+			<xs:enumeration value="Failed"/>
+			<xs:enumeration value="Completed"/>
+			<xs:enumeration value="Inprogress"/>
+			<xs:enumeration value="Pending"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

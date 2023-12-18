@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="scheduledevent.xsd"/>
+	<xs:complexType name="AsRunDetail">
+		<xs:sequence>
+			<xs:element name="Status" type="AsRunStatusType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>How the event was processed by the automation system</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Type" type="ScheduleEventType">
+				<xs:annotation>
+					<xs:documentation>Enumerates the various types of asrun events.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StartDateTime" type="BxfDateTime">
+				<xs:annotation>
+					<xs:documentation>The actual time the event started.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Duration" type="BxfDuration">
+				<xs:annotation>
+					<xs:documentation>The actual duration of the event as aired.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EventNotes" type="EventNotes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used by the operator to indicate what may have happened to an event.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BasicAsRun">
+		<xs:sequence>
+			<xs:element name="AsRunEventId" type="EventExtId">
+				<xs:annotation>
+					<xs:documentation>References the scheduled event ID unless the event was added manually in which case this the Null value should be used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Content" type="ContentMetaData" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Option specific reference to the content that aired used specifically when operator inserts content not originally scheduled.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AsRunDetail" type="AsRunDetail"/>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="CompleteAsRun">
+		<xs:complexContent>
+			<xs:extension base="ScheduledEvent">
+				<xs:sequence>
+					<xs:element name="AsRunDetail" type="AsRunDetail"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

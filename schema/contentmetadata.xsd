@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="audio.xsd"/>
+	<xs:include schemaLocation="bxfcaptions.xsd"/>
+	<xs:include schemaLocation="bxfcontentid.xsd"/>
+	<xs:include schemaLocation="datacontent.xsd"/>
+	<xs:include schemaLocation="location.xsd"/>
+	<xs:include schemaLocation="video.xsd"/>
+	<xs:include schemaLocation="macro.xsd"/>
+	<xs:complexType name="AlternateAudioContent">
+		<xs:annotation>
+			<xs:documentation>Used to provide alternate audio only media information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContentId" type="BxfContentId"/>
+			<xs:element name="Name" type="BxfText" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Genre" type="BxfText" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Description" type="BxfText" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="UsagePolicy" type="UsagePolicy" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Business rules expected to be applied when the content is used at this location</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Audio" type="Audio" minOccurs="0"/>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="BaseMedia">
+		<xs:annotation>
+			<xs:documentation>Enumerates the way content is stored or the method used to transmit</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="BaseBand">
+					<xs:annotation>
+						<xs:documentation>Used to describe the attributes of media that is still in the process of production prior to transmission or release for final viewing.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Audio" type="Audio" minOccurs="0"/>
+							<xs:element name="Video" type="Video" minOccurs="0"/>
+							<xs:element name="Captions" type="BxfCaptions" minOccurs="0"/>
+							<xs:element name="VerticalIntervalData" type="VerticalIntervalData" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="compressionBitRate" type="xs:decimal">
+							<xs:annotation>
+								<xs:documentation>megabits per second</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PrecompressedTS">
+					<xs:annotation>
+						<xs:documentation>Used to describe the attributes of the media that is to be transmitted or delivered for viewing as a complete package.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TSAudio" type="TSAudio" minOccurs="0"/>
+							<xs:element name="TSVideo" type="TSVideo" minOccurs="0"/>
+							<xs:element name="TSCaptioning" type="xs:boolean" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>If true indicates that CEA-708-C captioning is present.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="TSData" minOccurs="0">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="Null"/>
+										<xs:element name="SeparatePID">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="DataPIDValue" type="xs:integer"/>
+													<xs:element name="DataEncapsulation">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:enumeration value="ETSIpamsampling"/>
+																<xs:enumeration value="ETSIteletext"/>
+																<xs:enumeration value="ETSIvps"/>
+																<xs:enumeration value="ETSIwss"/>
+																<xs:enumeration value="SCTEamol"/>
+																<xs:enumeration value="SCTEtvguide"/>
+																<xs:enumeration value="SCTEvitc"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DataContent" type="DataContent"/>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="compressionBitRate" type="xs:decimal">
+							<xs:annotation>
+								<xs:documentation>megabits per second</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ProfileMacro" type="Macro">
+					<xs:annotation>
+						<xs:documentation>Used to describe a macro event in place of normal audio/video.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="ContentMetaData">
+		<xs:annotation>
+			<xs:documentation>Used to describe all the metadata for a single instance of content</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContentId" type="BxfContentId"/>
+			<xs:element name="Name" type="BxfText" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="DefaultLength" type="BxfDuration" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to indicate the default length of the content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Genre" type="BxfText" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Description" type="BxfText" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="UsagePolicy" type="UsagePolicy" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Business rules expected to be applied when the content is used at this location</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Media" type="Media" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="Media">
+		<xs:annotation>
+			<xs:documentation>Base Media combined with Media Location</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseMedia">
+				<xs:sequence>
+					<xs:element name="MediaLocation" type="MediaLocation"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MediaLocation">
+		<xs:annotation>
+			<xs:documentation>Used to designate the physical location of a media essence</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Location" type="Location">
+				<xs:annotation>
+					<xs:documentation>Identification of where the media is stored. Used by systems to notify locations of essence instance</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SOM" type="BxfSmpteTime">
+				<xs:annotation>
+					<xs:documentation>The start of message location of the content on the media it is stored.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Duration" type="BxfDuration">
+				<xs:annotation>
+					<xs:documentation>The length of the content specified.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ArchiveGroup" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An identifier to allow assignment to a specific archive group or repository</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ArchiveName" type="BxfText">
+							<xs:annotation>
+								<xs:documentation>Name of the archive</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PhysicalLocation" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Location of the archive</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Dimension" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="sourceType" default="Primary">
+			<xs:annotation>
+				<xs:documentation>Indicate either primary or backup as the source for the media</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Primary"/>
+					<xs:enumeration value="Backup"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="UsagePolicy">
+		<xs:sequence>
+			<xs:element name="AssignedChannels" type="BxfShortName" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of Channels on which this content can be aired</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EmbargoDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The first date the content may be used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FirstAirDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>First planned schedule date for this content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExpirationDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date after which content should not be aired</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PurgeDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date after which content can be purged</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HiatusDateRange" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used to indicate a date range when the content should not be shown.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="HiatusStartDate" type="xs:dateTime"/>
+						<xs:element name="HiatusEndDate" type="xs:dateTime" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

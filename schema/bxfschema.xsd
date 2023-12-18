@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="bxfchannel.xsd"/>
+	<xs:include schemaLocation="schedule.xsd"/>
+	<xs:include schemaLocation="contenttransfer.xsd"/>
+	<xs:include schemaLocation="configuration.xsd"/>
+	<xs:element name="BxfMessage">
+		<xs:annotation>
+			<xs:documentation>The root for all BXF messages.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Optional only for heartbeat and acknowledgment messagetypes.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="BxfData">
+					<xs:annotation>
+						<xs:documentation>Used to perform actions or supply information to another system.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:choice minOccurs="0">
+								<xs:element name="ContentTransfer" type="ContentTransfer" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Used to transfer or transcode media from one location to another location</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Schedule" type="Schedule" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Used to describe a specific list of content in a linear playout sequence</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Format" type="Format" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>The definition of the empty structure of a program as used by the traffic system to construct a schedule grid.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Content" type="Content" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Used to describe the content at a specific location</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="Configuration" type="Configuration" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Used to describe the configuration values of a system</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BxfQuery">
+					<xs:annotation>
+						<xs:documentation>Used to describe a SQL statement which when applied to another system's database returns data for the structure designated by the ReturnStructure into BxfQueryResponse.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="WhereClause" type="QueryString">
+								<xs:annotation>
+									<xs:documentation>Simple SQL statements using BxfData elements and restricted by the format specified by QueryStringType (see BxfTypes). </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ReturnStructure" type="QueryStringIdentifier" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Describes the form of data you want returned into the BxfQueryResponse based on the format specified by QueryStringIdentifierType (see BxfTypes).</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="requestChunking" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Indicates that the response to the query should be sent in multiple messages not to exceed the value set in memoryLimit.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="memoryLimit" type="xs:integer">
+							<xs:annotation>
+								<xs:documentation>Maximum XML file size to return for a BxfQueryResponse.  Integer value expressed in total KB (value=1000 same as 1MB).</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BxfQueryResponse">
+					<xs:annotation>
+						<xs:documentation>Used to respond to a BxfQuery request using the structure specified in ReturnStructure and the elemental definitions under BxfData.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:any namespace="##any" processContents="lax" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The return message contains the data in the same constuct as BxfData based on the ReturnStrucutre definition and the appropriate level of the return data.</xs:documentation>
+								</xs:annotation>
+							</xs:any>
+						</xs:sequence>
+						<xs:attribute name="chunkingFlag" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Indicates that the response message is in multiple parts (chunked) with itemNumber and totalItems indicating the organization of each segment.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="itemNumber" type="xs:positiveInteger">
+							<xs:annotation>
+								<xs:documentation>If a message is chunked, this indicates the position of each message relative to the total messages.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="totalItems" type="xs:positiveInteger">
+							<xs:annotation>
+								<xs:documentation>If a message is chunked, this indicates the total number of messages that need to be reassembled to create the complete message.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="id" use="required">
+				<xs:annotation>
+					<xs:documentation>Required to be a unique identifier</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="Uuid"/>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="dateTime" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>Date and time of generation of the message</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="messageType" type="MessageType" use="required">
+				<xs:annotation>
+					<xs:documentation>Required as an indication of the purpose of the message including the ability to ping another system to see if it active</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="origin" use="required">
+				<xs:annotation>
+					<xs:documentation>Device name of the originating system of the message (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="originType" type="OriginType" use="required">
+				<xs:annotation>
+					<xs:documentation>Type of the originating system (see ATSC code point registry - www.atsc.org/standards/Code_Point_Registry.pdf)</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="userName" use="required">
+				<xs:annotation>
+					<xs:documentation>identifies the sender of the message in a string format</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="destination" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Device name of the intended destination for the message (See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="destinationId" type="Uuid">
+				<xs:annotation>
+					<xs:documentation>a UUID to globally identify the destination system</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="destinationType" type="DestinationType">
+				<xs:annotation>
+					<xs:documentation>Type of the destination system (see ATSC code point registry - www.atsc.org/standards/Code_Point_Registry.pdf)</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="originId" type="Uuid">
+				<xs:annotation>
+					<xs:documentation>a UUID to globally identify the originating system</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="originMessageId" type="Uuid">
+				<xs:annotation>
+					<xs:documentation>A UUID used in response messages that refers to the origin message ID</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="status" type="BxfStatus">
+				<xs:annotation>
+					<xs:documentation>Indicates the result of processing the request</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="Action-ErrorGroup"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

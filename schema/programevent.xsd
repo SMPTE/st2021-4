@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="contract.xsd"/>
+	<xs:include schemaLocation="nonprogramevent.xsd"/>
+	<xs:complexType name="ProgramEvent">
+		<xs:sequence>
+			<xs:element name="SegmentNumber" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>The ordering of the segments within the show</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProgramName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the show</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Constraints" type="Constraint" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rules that constrain the scheduling of a program in order to validate a show move.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProgramContract" type="ProgramContract" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference to the originating program rights contract and the date window that the content can be aired in.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

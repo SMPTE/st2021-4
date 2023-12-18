@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:complexType name="Location">
+		<xs:annotation>
+			<xs:documentation>Identification of where the media is stored. Used by systems to notify locations of essence instance</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Satellite">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SatelliteName" type="BxfText"/>
+							<xs:element name="Transponder">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Polarity">
+											<xs:annotation>
+												<xs:documentation>Left or Right for circularly polarized DBS satellites, Horizontal or Vertical for linearly polarized satellites</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="Vertical"/>
+													<xs:enumeration value="Horizontal"/>
+													<xs:enumeration value="Right"/>
+													<xs:enumeration value="Left"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="TransponderNumber">
+											<xs:annotation>
+												<xs:documentation>Frequency of transponder in MHz</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:integer">
+													<xs:minInclusive value="0"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Receiver" type="BxfText">
+								<xs:annotation>
+									<xs:documentation>A physical device that is used to tune a signal from the satellite and provides an output for media.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Encoder" type="BxfText">
+								<xs:annotation>
+									<xs:documentation>The desitination recording device for the media.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AssetServer">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PathName" type="BxfUri">
+								<xs:annotation>
+									<xs:documentation>Shall include a fully qualified filename</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ReferenceName" type="BxfText" minOccurs="0"/>
+							<xs:element name="UserName" type="BxfText" minOccurs="0"/>
+							<xs:element name="Password" type="BxfText" minOccurs="0"/>
+							<xs:element name="Description" type="BxfText" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="playoutAllowed" type="xs:boolean" use="required"/>
+						<xs:attribute name="fileTransferAllowed" type="xs:boolean" use="required"/>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RouterSource">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Name" type="BxfText">
+								<xs:annotation>
+									<xs:documentation>(See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="CrossPoint" type="BxfText" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PhysicalAsset">
+					<xs:annotation>
+						<xs:documentation>A means of storing essence that can be easily transported</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MediaReferenceName" type="BxfText"/>
+							<xs:element name="PhysicalLocation" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Dimension" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="name">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="255"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="value">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="255"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="assetName" use="required">
+							<xs:annotation>
+								<xs:documentation>(See Configuration Section in BXF Protocol Documentation)</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="255"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="asrun.xsd"/>
+	<xs:include schemaLocation="bxfchannel.xsd"/>
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:include schemaLocation="scheduledevent.xsd"/>
+	<xs:complexType name="Schedule">
+		<xs:annotation>
+			<xs:documentation>A schedule</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Channel" type="Channel" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ATSC Channel Defninition used in PMCP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ScheduleName" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A name to describe the schedule</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="ScheduledEvent" type="ScheduledEvent" maxOccurs="unbounded"/>
+				<xs:element name="AsRun" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="CompleteAsRun" type="CompleteAsRun"/>
+							<xs:element name="BasicAsRun" type="BasicAsRun"/>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type" type="ScheduleType" use="required">
+			<xs:annotation>
+				<xs:documentation>Primary or Alternate Schedule</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="scheduleId" type="Uuid" use="required">
+			<xs:annotation>
+				<xs:documentation>A unique identifier for the schedule</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dayPattern" type="DayPattern">
+			<xs:annotation>
+				<xs:documentation>A binary representation of the days of the week with Monday in the left-most position (eg - "1111100" = M-F)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="scheduleStart" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation>Date and Time of the start of a schedule</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="scheduleEnd" type="xs:dateTime" use="optional">
+			<xs:annotation>
+				<xs:documentation>Date and Time of the End of the schedule</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="invokeSchedule" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Used to remotely invoke an alternate schedule to become active</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>

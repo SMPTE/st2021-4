@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+	<xs:include schemaLocation="bxftypes.xsd"/>
+	<xs:complexType name="ProgramContract">
+		<xs:sequence>
+			<xs:element name="ContractId" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Reference value to identify the contract assigned by distributor or entity</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference name associated to the contract by the entity</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Distributor" type="BxfText" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Owner or rights holder of the content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContractStartDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Earliest date that any content under this contract can be used by the entity</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContractEndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Last date that any content under this contract can be used by the entity</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TotalTitleCost" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value associated with playing or using the content</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+	<xs:complexType name="SalesContract">
+		<xs:sequence>
+			<xs:element name="ContractNumber" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Traffic system contract number related to this event</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ContractStartDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date before which content should not air</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContractEndDate" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date after which content should not air</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LineNumber" type="xs:positiveInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Traffic system contract line number related to this event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpotNumber" type="xs:positiveInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Traffic system spot serial number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="Action-ErrorGroup"/>
+	</xs:complexType>
+</xs:schema>
