@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxfisan.xsd"/>
 	<xs:complexType name="BxfAlternateId">
@@ -16,11 +16,37 @@
 		</xs:simpleContent>
 	</xs:complexType>
 	<xs:complexType name="BxfHouseNumber">
-		<xs:simpleContent>
+		<xs:annotation>
+			<xs:documentation>Generally user defined at a specific site and will only be consistent within the defined group of users  There is no guarantee of transportability or uniqueness.  The endOfDay and uniqueFor attributes are included for consistency under the ATSC  A-57B definition for HouseNumber.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
 			<xs:extension base="pmcp:HouseNumberType">
 				<xs:attributeGroup ref="PmcpActionErrorExtensionGroup"/>
+				<xs:attribute name="dayPattern" type="DayPattern"/>
+				<xs:attribute name="endOfDay" fixed="5">
+					<xs:annotation>
+						<xs:documentation>This 5-bit unsigned integer shall be set to the hour of the day in UTC in which the broadcast day ends and the instant after which the content_id values may be re-used according to unique_for. The value of this field shall be in the range of 0–23. The values 24–31 are reserved. Note that thevalue of this field is expected to be static per broadcaster.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:unsignedInt">
+							<xs:minInclusive value="0"/>
+							<xs:maxInclusive value="23"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="uniqueFor" fixed="9">
+					<xs:annotation>
+						<xs:documentation>This 9-bit unsigned integer shall be set to the number of days, rounded up, measured relative to the hour indicated by end_of_day (endOfDay), during which the content_id value is not reassigned to different content. The value shall be in the range 1 to 511. The value zero shall be forbidden. The value 511 shall have the special meaning of “indefinitely”. Note that the value of this field is expected to be essentially static per broadcaster, only changing when the method of house numbering is changed. Note also that decoders can treat stored content_id values as unique until the unique_for uniqueFor) fields expire, which can be implemented by decrementing all stored unique_for (uniqueFor) fields by one every day at the end_of_day (endOfDay) until they reach zero.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:unsignedInt">
+							<xs:minInclusive value="1"/>
+							<xs:maxInclusive value="511"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
 			</xs:extension>
-		</xs:simpleContent>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="BxfContentId">
 		<xs:annotation>
@@ -33,8 +59,16 @@
 						<xs:documentation>V-ISAN, as defined by ISO.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="HouseNumber" type="BxfHouseNumber" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="HouseNumber" type="BxfHouseNumber" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Legacy string used to identify the material locally to a station</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Any proprietary string other than the house number used to identify the material locally or globally</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 			</xs:sequence>
 			<xs:sequence>
 				<xs:element name="HouseNumber" type="BxfHouseNumber">
@@ -42,7 +76,11 @@
 						<xs:documentation>Legacy string used to identify the material locally to a station</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="AlternateId" type="BxfAlternateId" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Any proprietary string other than the house number used to identify the material locally or globally</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 			</xs:sequence>
 			<xs:element name="AlternateId" type="BxfAlternateId" maxOccurs="unbounded">
 				<xs:annotation>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
 	<xs:include schemaLocation="asrun.xsd"/>
 	<xs:include schemaLocation="bxfchannel.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
@@ -31,6 +31,28 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:choice>
+			<xs:element name="RealTimeDetail" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="EventId" type="EventExtId">
+							<xs:annotation>
+								<xs:documentation>Links to the events as described in ScheduledEvent if in the future or in the AsRun if current or in the past. Can be null if the event was added manually.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RealTimeSequence" type="xs:integer">
+							<xs:annotation>
+								<xs:documentation>If zero, indicates the current airing event; if negative, indicates that the event was in the past and has aired; if positive, indicates an event that will air.  The integer number indicates the sequence order going forward or backward in time. </xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EventStartTime" type="BxfDateTime" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Either the actual start time if the event already aired or is airing or the expected start time if in the future.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="type" type="ScheduleType" use="required">

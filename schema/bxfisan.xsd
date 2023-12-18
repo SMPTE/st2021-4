@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2008 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2008/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2008/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.000">
+<!-- Copyright 2012 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2012/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2012/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.000">
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="BxfIsan">
