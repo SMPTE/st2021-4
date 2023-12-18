@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2019 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2019/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2019/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.000">
+<!-- Copyright 2022 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2022/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2022/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="Advertiser">
 		<xs:sequence maxOccurs="unbounded">
@@ -53,16 +53,19 @@
 		<xs:sequence>
 			<xs:element name="AdType">
 				<xs:annotation>
-					<xs:documentation>Used to describe the type of advertisement being placed (e.g. Commercial, General, Promo, PSA, etc.).  Note: added “Commercial” as an additional enumeration to be explicit from the General option. (v6.0)</xs:documentation>
+					<xs:documentation>Used to describe the type of advertisement being placed (e.g. Commercial, General, Promo, PSA, etc.).  Note: added “Commercial” as an additional enumeration to be explicit from the General option. (v6.0) Added Fee Spot, Double Barter and Optional Barter (v8.0)</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:enumeration value="Commercial"/>
 						<xs:enumeration value="Direct Response"/>
+						<xs:enumeration value="Double Barter"/>
+						<xs:enumeration value="Fee Spot"/>
 						<xs:enumeration value="General"/>
 						<xs:enumeration value="Paid Program"/>
 						<xs:enumeration value="Promo"/>
 						<xs:enumeration value="PSA"/>
+						<xs:enumeration value="Optional Barter"/>
 						<xs:enumeration value="Trade/Barter"/>
 						<xs:enumeration value="Other"/>
 					</xs:restriction>
@@ -83,10 +86,15 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="Advertiser" type="Advertiser" minOccurs="0">
+			<xs:element name="Advertiser" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation> List of advertisers associated to the spot. (v3.0)</xs:documentation>
 				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="Advertiser"/>
+					</xs:complexContent>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="Agency" type="Agency" minOccurs="0">
 				<xs:annotation>
@@ -159,7 +167,7 @@
 				</xs:annotation>
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="DRPhonetNumber" type="xs:string" minOccurs="0"/>
+						<xs:element name="DRPhoneNumber" type="xs:string" minOccurs="0"/>
 						<xs:element name="DRCode" type="xs:string" minOccurs="0"/>
 						<xs:element name="DR_URL" type="xs:anyURI" minOccurs="0"/>
 						<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
-<!-- Copyright 2019 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2019/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2019/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.000">
+<!-- Copyright 2022 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2022/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2022/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.000">
 	<xs:include schemaLocation="audio.xsd"/>
 	<xs:include schemaLocation="bxfcaptions.xsd"/>
 	<xs:include schemaLocation="bxfcontentid.xsd"/>
@@ -531,10 +530,22 @@
 					<xs:documentation>The first date the content may be used</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="FirstAirDate" type="xs:dateTime" minOccurs="0">
+			<xs:element name="FirstAirDate" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>First planned schedule date for this content</xs:documentation>
 				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:dateTime">
+							<xs:attribute name="dayOfWeek" type="DayPattern">
+								<xs:annotation>
+									<xs:documentation>Used to specify the actual day of week for the first airdate. Eg. A 7 element binary representation of the days of the week in Monday-Sunday order where a 1 includes the day and a 0 excludes the day 
+(e.g. 1 0 0 0 0 0 0 = Monday) (v8.0)</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="ExpirationDate" type="xs:dateTime" minOccurs="0">
 				<xs:annotation>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
-<!-- Copyright 2019 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2019/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2019/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.000">
+<!-- Copyright 2022 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2022/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2022/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.000">
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="AFDData">
 		<xs:annotation>
@@ -1534,6 +1533,16 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 					<xs:annotation>
 						<xs:documentation>Used to indicate whether the video content has either a standard dynamic range (SDR) or a hign dynamic range (HDR). (v7.0)</xs:documentation>
 					</xs:annotation>
+				</xs:element>
+				<xs:element name="Watermarking" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Indicates the type(s) of watermarking applied to the video. (v8.0)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Other"/>
+						</xs:restriction>
+					</xs:simpleType>
 				</xs:element>
 				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 			</xs:sequence>
