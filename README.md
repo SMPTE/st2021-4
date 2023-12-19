@@ -1,4 +1,4 @@
-# {Project or document title}
+# BXF Schema Collection
 
 ## General
 
@@ -9,14 +9,7 @@ Please consult [CONTRIBUTING.md](./CONTRIBUTING.md), [CONFIDENTIALITY.md](./CONF
 
 Your feedback is welcome at _link to GitHub issue tracker_ or at _TC chair email address_.
 
-## Public Committee Draft (PCD) Notice
+## Notice
 
-The following elements are made available for a public review period ending no earlier than {YYYY-MM-DD}, and no later than {YYYY-MM-DD}:
+The schema found here are made available to implementers of the BXF standard, under the controlling document SMPTE ST2021-4. A collection of schema is included for each version, identifiable by tags.
 
-* [{prose element}]({link to prose element})
-* [{element #1}]({link to element #1})
-* ...
-
-## Details
-
-{PCD announcement}
