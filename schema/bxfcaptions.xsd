@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2022 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2022/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2022/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2023 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2023/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2023/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.100">
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="PMCP/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="AccessServices">
@@ -59,6 +60,11 @@
 			<xs:documentation>Additional caption and subtitle options as used worldwide as well as the ability to extend to other customized types. (v6.0)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
+			<xs:element name="LMTLanguage" type="LMTLanguageType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Language used for the caption service, more specific than captionLanguage attribute. (v8.1)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="captionID" type="Uuid">
@@ -76,6 +82,7 @@
 					<xs:enumeration value="EBU-TT"/>
 					<xs:enumeration value="IMSC"/>
 					<xs:enumeration value="SAMI"/>
+					<xs:enumeration value="SMPTE-TT"/>
 					<xs:enumeration value="SRT"/>
 					<xs:enumeration value="WebVTT"/>
 					<xs:enumeration value="Other"/>
@@ -198,25 +205,64 @@
 				<xs:complexType/>
 			</xs:element>
 			<xs:sequence minOccurs="0">
-				<xs:element name="Caption608" type="BxfCaption608" minOccurs="0">
+				<xs:element name="Caption608" minOccurs="0" maxOccurs="4">
 					<xs:annotation>
-						<xs:documentation>Indicates that analog captions are present</xs:documentation>
+						<xs:documentation>Indicates that analog captions present with the option to indicate which channel is being used.  If not designated, CC-1 is assumed. (v8.1)</xs:documentation>
 					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="BxfCaption608">
+								<xs:sequence minOccurs="0">
+									<xs:element name="CaptionChannel" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Indicates which caption channel is being used for the caption (1-4). (v8.1)</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="CC-1"/>
+												<xs:enumeration value="CC-2"/>
+												<xs:enumeration value="CC-3"/>
+												<xs:enumeration value="CC-4"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="LMTLangauge" type="LMTLanguageType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Language used for the caption service, more specific than lang attribute. (v8.1)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
 				</xs:element>
-				<xs:element name="Caption708" type="BxfCaption708" minOccurs="0" maxOccurs="16">
+				<xs:element name="Caption708" minOccurs="0" maxOccurs="16">
 					<xs:annotation>
 						<xs:documentation>Describe digital captions services.  Note that when used, DigitalVideo and CaptionsInVANC should both be set to True in VideoType.</xs:documentation>
 					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="BxfCaption708">
+								<xs:sequence minOccurs="0">
+									<xs:element name="LMTLanguage" type="LMTLanguageType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Language used for the caption service, more specific than lang attribute. (v8.1)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
 				</xs:element>
 				<xs:element name="CaptionOP42" type="BXFCaptionOP42" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Austarlia OP 42. (v6.0)
+						<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Australia OP 42. (v6.0)
 </xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="CaptionOP47" type="BXFCaptionOP47" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Austarlia OP 47 Note that when used, DigitalVideo and CaptionsInVANC should both be set to True in VideoType. (v6.0)
+						<xs:documentation>Describes Teletext Based Closed Captions According FreeTv Australia OP 47 Note that when used, DigitalVideo and CaptionsInVANC should both be set to True in VideoType. (v8.1) *Typo Fixed*
 </xs:documentation>
 					</xs:annotation>
 				</xs:element>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2022 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2022/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2022/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2023 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2023/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2023/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.100">
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="PMCP/pmcp31.xsd"/>
 	<xs:complexType name="BxfAddress">
@@ -327,7 +328,7 @@
 		<xs:sequence>
 			<xs:element name="SmpteTimeCode" type="Smpte258MTimeCode">
 				<xs:annotation>
-					<xs:documentation>Specifies duration in the format HH:MM:SSpFF where "p" can be either a ":" ";" "," or "." to indicate drop frame or non-drop frame.  For details refer to SMPTE 258M, section 8.</xs:documentation>
+					<xs:documentation>Specifies duration in the format HH:MM:SSpFF where "p" can be either a ":" ";" "," or "." to indicate drop frame or non-drop frame.  For details refer to SMPTE 258M, clause 8.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -718,6 +719,286 @@
 			<xs:enumeration value="External"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="LMTLanguageType">
+		<xs:annotation>
+			<xs:documentation>List of Languages.  For more information, go to https://www.mesaonline.org/lmt. (v8.1)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ab"/>
+			<xs:enumeration value="af"/>
+			<xs:enumeration value="ak"/>
+			<xs:enumeration value="tw"/>
+			<xs:enumeration value="sq"/>
+			<xs:enumeration value="arp"/>
+			<xs:enumeration value="am"/>
+			<xs:enumeration value="ar"/>
+			<xs:enumeration value="arq"/>
+			<xs:enumeration value="ar-BH"/>
+			<xs:enumeration value="ar-KM"/>
+			<xs:enumeration value="ar-DJ"/>
+			<xs:enumeration value="ar-ER"/>
+			<xs:enumeration value="ar-IQ"/>
+			<xs:enumeration value="ar-IL"/>
+			<xs:enumeration value="ar-JO"/>
+			<xs:enumeration value="ar-KW"/>
+			<xs:enumeration value="apc"/>
+			<xs:enumeration value="ar-LY"/>
+			<xs:enumeration value="ar-MR"/>
+			<xs:enumeration value="ary"/>
+			<xs:enumeration value="ar-OM"/>
+			<xs:enumeration value="ar-PS"/>
+			<xs:enumeration value="ar-QA"/>
+			<xs:enumeration value="ar-SA"/>
+			<xs:enumeration value="ar-SD"/>
+			<xs:enumeration value="ar-SY"/>
+			<xs:enumeration value="ar-AE"/>
+			<xs:enumeration value="aeb"/>
+			<xs:enumeration value="ar-EH"/>
+			<xs:enumeration value="ar-YE"/>
+			<xs:enumeration value="arz"/>
+			<xs:enumeration value="arb"/>
+			<xs:enumeration value="hy"/>
+			<xs:enumeration value="hyw"/>
+			<xs:enumeration value="as"/>
+			<xs:enumeration value="ay"/>
+			<xs:enumeration value="az-Latn"/>
+			<xs:enumeration value="bgq"/>
+			<xs:enumeration value="bm"/>
+			<xs:enumeration value="bnt"/>
+			<xs:enumeration value="hz"/>
+			<xs:enumeration value="ki"/>
+			<xs:enumeration value="tog"/>
+			<xs:enumeration value="toi"/>
+			<xs:enumeration value="eu"/>
+			<xs:enumeration value="be"/>
+			<xs:enumeration value="bn"/>
+			<xs:enumeration value="ber"/>
+			<xs:enumeration value="bho"/>
+			<xs:enumeration value="bi"/>
+			<xs:enumeration value="bs"/>
+			<xs:enumeration value="bg"/>
+			<xs:enumeration value="my"/>
+			<xs:enumeration value="ca"/>
+			<xs:enumeration value="ca-FR"/>
+			<xs:enumeration value="ca-ES"/>
+			<xs:enumeration value="chr"/>
+			<xs:enumeration value="zh-Hans"/>
+			<xs:enumeration value="zh-Hans"/>
+			<xs:enumeration value="zh-Hant"/>
+			<xs:enumeration value="zh-Hant-HK"/>
+			<xs:enumeration value="zh-Hant"/>
+			<xs:enumeration value="co"/>
+			<xs:enumeration value="cs"/>
+			<xs:enumeration value="da"/>
+			<xs:enumeration value="nl"/>
+			<xs:enumeration value="nl-NL"/>
+			<xs:enumeration value="vls"/>
+			<xs:enumeration value="dz"/>
+			<xs:enumeration value="en"/>
+			<xs:enumeration value="en-AU"/>
+			<xs:enumeration value="en-CA"/>
+			<xs:enumeration value="en-HK"/>
+			<xs:enumeration value="en-IE"/>
+			<xs:enumeration value="en-MY"/>
+			<xs:enumeration value="en-MS"/>
+			<xs:enumeration value="en-NZ"/>
+			<xs:enumeration value="en-CN"/>
+			<xs:enumeration value="en-SG"/>
+			<xs:enumeration value="en-ZA"/>
+			<xs:enumeration value="en-PH"/>
+			<xs:enumeration value="en-GB"/>
+			<xs:enumeration value="en-US"/>
+			<xs:enumeration value="en-001"/>
+			<xs:enumeration value="eo"/>
+			<xs:enumeration value="ekk"/>
+			<xs:enumeration value="fo"/>
+			<xs:enumeration value="fj"/>
+			<xs:enumeration value="fil"/>
+			<xs:enumeration value="fi"/>
+			<xs:enumeration value="fr"/>
+			<xs:enumeration value="fr-BE"/>
+			<xs:enumeration value="fr-CA"/>
+			<xs:enumeration value="fr-FR"/>
+			<xs:enumeration value="fr-CH"/>
+			<xs:enumeration value="fr-001"/>
+			<xs:enumeration value="frs"/>
+			<xs:enumeration value="frr"/>
+			<xs:enumeration value="fy"/>
+			<xs:enumeration value="gd"/>
+			<xs:enumeration value="gl"/>
+			<xs:enumeration value="lg"/>
+			<xs:enumeration value="ka"/>
+			<xs:enumeration value="de"/>
+			<xs:enumeration value="de-AT"/>
+			<xs:enumeration value="de-DE"/>
+			<xs:enumeration value="de-CH"/>
+			<xs:enumeration value="gsw"/>
+			<xs:enumeration value="grc"/>
+			<xs:enumeration value="el-CY"/>
+			<xs:enumeration value="el"/>
+			<xs:enumeration value="gn"/>
+			<xs:enumeration value="gu"/>
+			<xs:enumeration value="saz"/>
+			<xs:enumeration value="ha"/>
+			<xs:enumeration value="haw"/>
+			<xs:enumeration value="hwc"/>
+			<xs:enumeration value="he"/>
+			<xs:enumeration value="hi"/>
+			<xs:enumeration value="awa"/>
+			<xs:enumeration value="bra"/>
+			<xs:enumeration value="bns"/>
+			<xs:enumeration value="bgc"/>
+			<xs:enumeration value="hif"/>
+			<xs:enumeration value="hu"/>
+			<xs:enumeration value="is"/>
+			<xs:enumeration value="ig"/>
+			<xs:enumeration value="id"/>
+			<xs:enumeration value="iu"/>
+			<xs:enumeration value="ik"/>
+			<xs:enumeration value="ga"/>
+			<xs:enumeration value="it"/>
+			<xs:enumeration value="nap"/>
+			<xs:enumeration value="it-CH"/>
+			<xs:enumeration value="jam"/>
+			<xs:enumeration value="ja"/>
+			<xs:enumeration value="ja-Jpan-JP"/>
+			<xs:enumeration value="ja-Hira-JP"/>
+			<xs:enumeration value="ja-Kata-JP"/>
+			<xs:enumeration value="kl"/>
+			<xs:enumeration value="kn"/>
+			<xs:enumeration value="kfa"/>
+			<xs:enumeration value="kr"/>
+			<xs:enumeration value="kk"/>
+			<xs:enumeration value="rw"/>
+			<xs:enumeration value="ky-Cyrl"/>
+			<xs:enumeration value="tlh"/>
+			<xs:enumeration value="ko"/>
+			<xs:enumeration value="ku"/>
+			<xs:enumeration value="lbj"/>
+			<xs:enumeration value="lad-Latn"/>
+			<xs:enumeration value="lo"/>
+			<xs:enumeration value="la"/>
+			<xs:enumeration value="lv"/>
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="lb"/>
+			<xs:enumeration value="mk"/>
+			<xs:enumeration value="mg"/>
+			<xs:enumeration value="ms"/>
+			<xs:enumeration value="ml"/>
+			<xs:enumeration value="pcg"/>
+			<xs:enumeration value="mt"/>
+			<xs:enumeration value="mi"/>
+			<xs:enumeration value="mr"/>
+			<xs:enumeration value="ahr"/>
+			<xs:enumeration value="moh"/>
+			<xs:enumeration value="myn"/>
+			<xs:enumeration value="km"/>
+			<xs:enumeration value="mn-Cyrl"/>
+			<xs:enumeration value="khk-Cyrl"/>
+			<xs:enumeration value="mos"/>
+			<xs:enumeration value="meu"/>
+			<xs:enumeration value="na"/>
+			<xs:enumeration value="nv"/>
+			<xs:enumeration value="ne"/>
+			<xs:enumeration value="nso"/>
+			<xs:enumeration value="no"/>
+			<xs:enumeration value="nn"/>
+			<xs:enumeration value="nb"/>
+			<xs:enumeration value="ny"/>
+			<xs:enumeration value="or"/>
+			<xs:enumeration value="dso"/>
+			<xs:enumeration value="pau"/>
+			<xs:enumeration value="ps"/>
+			<xs:enumeration value="fa"/>
+			<xs:enumeration value="prs"/>
+			<xs:enumeration value="pih"/>
+			<xs:enumeration value="pl"/>
+			<xs:enumeration value="pt"/>
+			<xs:enumeration value="pt-BR"/>
+			<xs:enumeration value="pt-PT"/>
+			<xs:enumeration value="pa"/>
+			<xs:enumeration value="ro"/>
+			<xs:enumeration value="rm"/>
+			<xs:enumeration value="rn"/>
+			<xs:enumeration value="ru"/>
+			<xs:enumeration value="sm"/>
+			<xs:enumeration value="sa"/>
+			<xs:enumeration value="sh-Latn"/>
+			<xs:enumeration value="hr"/>
+			<xs:enumeration value="cnr-Latn"/>
+			<xs:enumeration value="sr-Latn"/>
+			<xs:enumeration value="crs"/>
+			<xs:enumeration value="ase"/>
+			<xs:enumeration value="asf"/>
+			<xs:enumeration value="bzs"/>
+			<xs:enumeration value="sgn-bfi"/>
+			<xs:enumeration value="fsl"/>
+			<xs:enumeration value="ins"/>
+			<xs:enumeration value="rsl"/>
+			<xs:enumeration value="si"/>
+			<xs:enumeration value="sk"/>
+			<xs:enumeration value="sl"/>
+			<xs:enumeration value="so"/>
+			<xs:enumeration value="st"/>
+			<xs:enumeration value="es"/>
+			<xs:enumeration value="es-ES"/>
+			<xs:enumeration value="es-001"/>
+			<xs:enumeration value="es-AR"/>
+			<xs:enumeration value="es-BO"/>
+			<xs:enumeration value="es-CL"/>
+			<xs:enumeration value="es-CO"/>
+			<xs:enumeration value="es-CR"/>
+			<xs:enumeration value="es-CU"/>
+			<xs:enumeration value="es-EC"/>
+			<xs:enumeration value="es-SV"/>
+			<xs:enumeration value="es-HN"/>
+			<xs:enumeration value="es-419"/>
+			<xs:enumeration value="es-MX"/>
+			<xs:enumeration value="es-NI"/>
+			<xs:enumeration value="es-PA"/>
+			<xs:enumeration value="es-PY"/>
+			<xs:enumeration value="es-PE"/>
+			<xs:enumeration value="es-PR"/>
+			<xs:enumeration value="es-US"/>
+			<xs:enumeration value="es-UY"/>
+			<xs:enumeration value="zxx"/>
+			<xs:enumeration value="und"/>
+			<xs:enumeration value="srn"/>
+			<xs:enumeration value="sw"/>
+			<xs:enumeration value="ss"/>
+			<xs:enumeration value="sv"/>
+			<xs:enumeration value="tl"/>
+			<xs:enumeration value="ty"/>
+			<xs:enumeration value="tg-Cyrl"/>
+			<xs:enumeration value="ta"/>
+			<xs:enumeration value="bfq"/>
+			<xs:enumeration value="iru"/>
+			<xs:enumeration value="te"/>
+			<xs:enumeration value="th"/>
+			<xs:enumeration value="tts"/>
+			<xs:enumeration value="bo"/>
+			<xs:enumeration value="ti"/>
+			<xs:enumeration value="tpi"/>
+			<xs:enumeration value="to"/>
+			<xs:enumeration value="ts"/>
+			<xs:enumeration value="tn"/>
+			<xs:enumeration value="tcy"/>
+			<xs:enumeration value="tr"/>
+			<xs:enumeration value="tk"/>
+			<xs:enumeration value="tvl"/>
+			<xs:enumeration value="uk"/>
+			<xs:enumeration value="ur"/>
+			<xs:enumeration value="com"/>
+			<xs:enumeration value="uz"/>
+			<xs:enumeration value="vi"/>
+			<xs:enumeration value="cy"/>
+			<xs:enumeration value="wo"/>
+			<xs:enumeration value="xh"/>
+			<xs:enumeration value="yi"/>
+			<xs:enumeration value="yo"/>
+			<xs:enumeration value="zu"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="MessageType">
 		<xs:annotation>
 			<xs:documentation>Allowed types of messages in this schema</xs:documentation>
@@ -808,7 +1089,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="Smpte258MTimeCode">
 		<xs:annotation>
-			<xs:documentation>Reference SMPTE 258M, section 8 that supports 60 frames per second (v5.0)
+			<xs:documentation>Reference SMPTE 258M, clause 8 that supports 60 frames per second (v5.0)
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">

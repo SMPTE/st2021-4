@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2022 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2022/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2022/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2023 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2023/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2023/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.100">
+	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="PMCP/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="AFDData">
 		<xs:annotation>
@@ -323,7 +325,7 @@
 	</xs:complexType>
 	<xs:complexType name="DynamicRange">
 		<xs:annotation>
-			<xs:documentation>Used to indicate whether the video content has either a standard dynamic range (SDR) or a hign dynamic range (HDR). (v7.0)</xs:documentation>
+			<xs:documentation>Used to indicate whether the video content has either a standard dynamic range (SDR) or a high dynamic range (HDR). (v7.0)</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:element name="SDR">
@@ -757,7 +759,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 	</xs:complexType>
 	<xs:complexType name="IMFImageEssenceApp2e">
 		<xs:annotation>
-			<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework.  All references are taken from SMPTE ST 2067-21:2016 Section 5.1 and reference Table 3. (v6.0).</xs:documentation>
+			<xs:documentation>Description of the video image essence for IMF Applications as a specialization of the IMF Framework.  All references are taken from SMPTE ST 2067-21:2016 Clause 5.1 and reference Table 3. (v6.0).</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ImageFrameWidth">
@@ -1399,7 +1401,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 				</xs:element>
 				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
+						<xs:documentation>Width of the active video image divided by its height</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
@@ -1479,7 +1481,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 				</xs:element>
 				<xs:element name="ActiveImageAspectRatio" type="xs:float" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Width of the active video image divided by it's height</xs:documentation>
+						<xs:documentation>Width of the active video image divided by its height</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="AspectRatio" type="AspectRatioType" minOccurs="0">
@@ -1531,7 +1533,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 				</xs:element>
 				<xs:element name="DynamicRange" type="DynamicRange" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Used to indicate whether the video content has either a standard dynamic range (SDR) or a hign dynamic range (HDR). (v7.0)</xs:documentation>
+						<xs:documentation>Used to indicate whether the video content has either a standard dynamic range (SDR) or a high dynamic range (HDR). (v7.0)</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="Watermarking" minOccurs="0" maxOccurs="unbounded">
@@ -1543,6 +1545,26 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 							<xs:enumeration value="Other"/>
 						</xs:restriction>
 					</xs:simpleType>
+				</xs:element>
+				<xs:element name="BurnedInText" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Indicates the presence of text that is burned into the video in order to comply with accessibility requirements. (v8.1)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence minOccurs="0">
+							<xs:element name="LMTLanguage" type="LMTLanguageType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Language used for the Burned In Text, more specific than lang attribute. </xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="lang" type="pmcp:languageType">
+							<xs:annotation>
+								<xs:documentation>Language of the Burned In Text.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attributeGroup ref="Action-ErrorGroup"/>
+					</xs:complexType>
 				</xs:element>
 				<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
 			</xs:sequence>
@@ -1625,7 +1647,7 @@ Mapped as specified in Section 1 of Part 2 of Recommendation ITU-R BT.709</xs:do
 	</xs:simpleType>
 	<xs:simpleType name="TSVideoEncodingType">
 		<xs:annotation>
-			<xs:documentation>Enumerates various methids used to compress video in a transport stream</xs:documentation>
+			<xs:documentation>Enumerates various methods used to compress video in a transport stream</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="MPEG-2"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2022 Society of Motion Picture and Television Engineers. All rights reserved. -->
-<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2022/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2022/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.000">
+<!-- edited with XMLSpy v2013 sp1 (x64) (http://www.altova.com) by Peter Storer (Storer Management LLC) -->
+<!-- Copyright 2023 Society of Motion Picture and Television Engineers. All rights reserved. -->
+<xs:schema xmlns="http://smpte-ra.org/schemas/2021/2023/BXF" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:pmcp="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" targetNamespace="http://smpte-ra.org/schemas/2021/2023/BXF" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.100">
 	<xs:import namespace="http://www.atsc.org/XMLSchemas/pmcp/2007/3.1" schemaLocation="PMCP/pmcp31.xsd"/>
 	<xs:include schemaLocation="bxftypes.xsd"/>
 	<xs:complexType name="AudioChannel">
@@ -390,7 +391,7 @@
 		<xs:sequence>
 			<xs:element name="GroupContent" type="BxfText" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Information about the content in the Group, which is common for all SoundfieldsGroups in the Group of SoundfieldGroups.</xs:documentation>
+					<xs:documentation>Information about the content in the Group, which is common for all SoundfieldGroups in the Group of SoundfieldGroups. (V8.1)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
@@ -409,7 +410,7 @@
 		<xs:sequence>
 			<xs:element name="MeasuredLoudness" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The mesured loudness value of the SoundfieldGroup. Can be programm loudness, maximum short-term loudness or maximum momentary loudness expressed by the measurementType attribute. The unit attribute allows for various mesurement units. </xs:documentation>
+					<xs:documentation>The measured loudness value of the SoundfieldGroup. Can be program loudness, maximum short-term loudness or maximum momentary loudness expressed by the measurement Type attribute. The unit attribute allows for various measurement units. (v8.1)</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:attribute name="loudnessValue">
@@ -470,7 +471,7 @@
 	</xs:complexType>
 	<xs:complexType name="MultiChannelAudioStreams">
 		<xs:annotation>
-			<xs:documentation>A collection of one or more audio streams with the same encoding method that further incorporate groups of audio channels in a specific format as defined in ST 377-4.  If a data stream (MXF audio essence track) contains multiple encodeing (e.g. PCM and Dolby E) than multiple MultiChannelAudioStreams must be used. (v6.0)</xs:documentation>
+			<xs:documentation>A collection of one or more audio streams with the same encoding method that further incorporates groups of audio channels in a specific format as defined in ST 377-4. If a data stream (MXF audio essence track) contains multiple encodings (e.g., PCM and Dolby E), then multiple MultiChannelAudioStreams must be used. (v8.1)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="GroupofSoundfieldGroups" minOccurs="0" maxOccurs="unbounded">
@@ -485,11 +486,11 @@
 			</xs:element>
 			<xs:element name="SoundfieldGroup" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Used to organize a group of multiple audio channels that conprise the complete audio structure for the program.  For example, Stereo, or Stereo-Spanish, or 5.1.  It may be comprised of a single audio stream using a specific encoding or multiple channels (Left, Right, Center LFE, etc.)  It can also be multiple complete streams assigned to various channels. (v6.0)</xs:documentation>
+					<xs:documentation>Used to organize a group of multiple audio channels that comprise the complete audio structure for the program, for example, Stereo, or Stereo-Spanish, or 5.1.  It may comprise a single audio stream using a specific encoding or multiple channels (Left, Right, Center LFE, etc.)  It can also comprise multiple complete streams assigned to various channels. (v8.1)</xs:documentation>
 				</xs:annotation>
 				<xs:complexType>
 					<xs:complexContent>
-						<xs:extension base="SoundFieldGroup"/>
+						<xs:extension base="SoundfieldGroup"/>
 					</xs:complexContent>
 				</xs:complexType>
 			</xs:element>
@@ -505,7 +506,7 @@
 			</xs:element>
 			<xs:element name="AudioEncoding" type="DigitalAudio" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The single audio encoding method  used within this MCA across all AudioChannels included.  It can be either indicated at this level or alternatively referenced using the encodingReferenceID. </xs:documentation>
+					<xs:documentation>The single audio encoding method used within this MCA across all AudioChannels included.  It can be either indicated at this level or alternatively referenced using the encodingReferenceID. </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PrivateInformation" type="BxfPrivateInformation" minOccurs="0"/>
@@ -520,9 +521,9 @@
 				<xs:documentation>Used to reference and link to the audio encoding option used for the stream. (v6.0)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="numberOfSoundFieldGroups" type="xs:positiveInteger">
+		<xs:attribute name="numberOfSoundfieldGroups" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>The number of Soundfield groups contained in the stream,</xs:documentation>
+				<xs:documentation>The number of SoundfieldGroups contained in the stream. (V8.1)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="firstTrack" type="xs:positiveInteger">
@@ -547,19 +548,19 @@
 		</xs:attribute>
 		<xs:attributeGroup ref="Action-ErrorGroup"/>
 	</xs:complexType>
-	<xs:complexType name="SoundFieldGroup">
+	<xs:complexType name="SoundfieldGroup">
 		<xs:annotation>
-			<xs:documentation>Used to organize a group of multiple audio channels that conprise the complete audio structure for the program.  For example, Stereo, or Stereo-Spanish, or 5.1.  It may be comprised of a single audio stream using a specific encoding or multiple channels (Left, Right, Center LFE, etc.)  It can also be multiple complete streams assigned to various channels. (v6.0)</xs:documentation>
+			<xs:documentation>Used to organize a group of multiple audio channels that comprise the complete audio structure for the program, for example, Stereo, or Stereo-Spanish, or 5.1.  It may comprise a single audio stream using a specific encoding or multiple channels (Left, Right, Center LFE, etc.)  It can also comprise multiple complete streams assigned to various channels. (v8.1)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="GroupofSounfieldGroupLinkID" type="Uuid" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="GroupofSoundfieldGroupsLinkID" type="Uuid" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Used to link a SoundfieldGroup to a specific Group of SoundfieldGroups.</xs:documentation>
+					<xs:documentation>Used to link a SoundfieldGroup to a specific Group of SoundfieldGroups. (v8.1)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="MultichannelType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Describes the multichannel type of SoundfieldGroup.  For example MONO, STEREO, 5.1, etc. Can be sourced from MXF MCATagname of a SoundfieldGroup (e.g.AS-11 X1 MXF) if it contains this information.
+					<xs:documentation>Describes the multichannel type of SoundfieldGroup.  For example MONO, STEREO, 5.1, etc. Can be sourced from MXF MCATagname of a SoundfieldGroup (e.g., AS-11 X1 MXF), if it contains this information.
 (ST 428-12:2013 and ST2067-8:2013)</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
